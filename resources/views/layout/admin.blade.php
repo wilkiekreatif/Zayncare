@@ -110,9 +110,9 @@
 
     <footer class="main-footer">
       <div class="float-right d-none d-sm-block">
-        Developed by <a href="https://instagram.com/w.auliaabdillah"><i class="fab fa-instagram" aria-hidden="true"></i><b>  @w.auliaabdillah</b></a> | <b>Version</b> 1.0
+        <b>We play</b> with creativity | <b>Version</b> 1.0
       </div>
-      <strong>Copyright &copy; 2023</strong>. All rights reserved.
+      <strong>Copyright &copy; <a href="https://instagram.com/w.auliaabdillah"><i class="fab fa-instagram" aria-hidden="true"></i><b>  @w.auliaabdillah</b></a> 2023</strong>. All rights reserved.
     </footer>
 
   </div>
@@ -131,6 +131,25 @@
   <script src="{{asset('adminlte')}}/wildan/backtotop.js"></script>
   <!-- Toastr -->
   <script src="{{asset('adminlte')}}/plugins/toastr/toastr.min.js"></script>
+
+  <script>
+    toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": true,
+      "positionClass": "toast-bottom-right",
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "15000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+    }
+    // $('.toastrDefaultError').click(function() {
+    //     toastr.error('Belum berfungsi yaa. Sabar masih proses develop..')
+    //   });
+  </script>
 
   <!-- jS--------------------------------------------------------------------------------------------------------------------------------- -->
   @yield('js')

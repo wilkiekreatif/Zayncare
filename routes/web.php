@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\gdgController;
+use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\obatalkesController;
+use App\Http\Controllers\supplierController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,10 +20,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard.index');
-});
+Route::resource('/dashboard',dashboardController::class);
 
-Route::controller(gdgController::class)->group(function(){
-    Route::get('gudang','index')->name('gudang.index');
+Route::controller(obatalkesController::class)->group(function(){
+    Route::get('gudang/obatalkes','index')->name('obatalkes.index');
+    Route::get('gudang/obatalkes/stok','stok')->name('obatalkes.stok');
+    Route::get('gudang/obatalkes/create','create')->name('obatalkes.create');
+    
+});
+Route::controller(supplierController::class)->group(function(){
+    Route::get('gudang/supplier','index')->name('supplier.index');
+    Route::get('gudang/supplier/create','create')->name('supplier.create');
+    Route::post('gudang/supplier/store','store')->name('supplier.store');
+    Route::put('gudang/supplier/update/{id}','update')->name('supplier.update');
+    Route::get('gudang/supplier/{id}/edit','edit')->name('supplier.edit');
+    Route::get('gudang/supplier/{id}/nonaktif','nonaktif')->name('supplier.nonaktif');
+    Route::get('gudang/supplier/{id}/aktif','aktif')->name('supplier.aktif');
+    Route::get('gudang/supplier/{id}/delete','delete')->name('supplier.delete');
 });

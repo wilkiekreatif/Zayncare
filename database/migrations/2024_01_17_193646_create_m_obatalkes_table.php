@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('m_obatalkes', function (Blueprint $table) {
             $table->id();
             $table->string('obatalkes_id')->unique();
+            $table->boolean('obatalkes_jenis')->default(0); //0: Obat, 1: Alkes
             $table->string('obatalkes_nama');
             $table->integer('supplier1_id');
             $table->integer('supplier2_id')->nullable();
@@ -25,8 +26,8 @@ return new class extends Migration
             $table->integer('margin3')->nullable();
             // $table->integer('margin4')->nullable();
             // $table->integer('margin5')->nullable();
-            $table->boolean('is_active')->default(1);
-            $table->foreignId('user_id')->constrained('users');
+            $table->enum('is_active',[0,1,99])->default(1)->comment('0: nonaktif, 1:aktif, 99:deleted');
+            $table->foreignId('user_id')->constrained('users')->default('1');
             $table->timestamps();
         });
     }

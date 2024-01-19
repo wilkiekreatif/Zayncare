@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\m_obatalkes;
+use App\Models\m_supplier;
 use Illuminate\Http\Request;
 
-class gdgController extends Controller
+class obatalkesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +19,17 @@ class gdgController extends Controller
                                     // ->where('is_active','1')
                                     ->get();
         //dd($obatalkess);
-        return view('gudangfarmasi.index',[ 'obatalkess' => $obatalkess]);
+        return view('gudangfarmasi.obatalkes.index',[ 'obatalkess' => $obatalkess]);
+    }
+    public function stok()
+    {
+        $obatalkess = m_obatalkes::with('supplier1')
+                                    ->with('supplier2')
+                                    ->with('supplier3')
+                                    // ->where('is_active','1')
+                                    ->get();
+        //dd($obatalkess);
+        return view('gudangfarmasi.obatalkes.stok',[ 'obatalkess' => $obatalkess]);
     }
 
     /**
@@ -26,7 +37,7 @@ class gdgController extends Controller
      */
     public function create()
     {
-        //
+        return view('gudangfarmasi.obatalkes.create');
     }
 
     /**
@@ -68,4 +79,6 @@ class gdgController extends Controller
     {
         //
     }
+
+
 }

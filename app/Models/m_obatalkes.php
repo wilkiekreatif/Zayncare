@@ -13,6 +13,7 @@ class m_obatalkes extends Model
 
     protected $fillable = [
         'obatalkes_id',
+        'obatalkes_jenis',
         'obatalkes_nama',
         'supplier1_id',
         'supplier2_id',
@@ -25,8 +26,26 @@ class m_obatalkes extends Model
         'margin4',
         'margin5',
         'is_active',
-        'user_id',
+        // 'user_id',
     ];
+
+    //membuat supplier_ID otomatis  dengan format S-00001 (S= Supplier)
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $latestObatalkesId = static::latest('obatalkes_id')->value('obatalkes_id');
+
+            if ($latestObatalkesId) {
+                $number = (int)substr($latestObatalkesId, 2) + 1;
+            } else {
+                $number = 1;
+            }
+
+            $model->obatalkes_id = 'OA-' . str_pad($number, 5, '0', STR_PAD_LEFT);
+        });
+    }
 
     public function supplier1()
     {

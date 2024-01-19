@@ -23,5 +23,15 @@ class ObatalkesSeeder extends Seeder
             'margin1'           => '10',
             'user_id'           => '1',
         ]);
+        
+        m_obatalkes::create([
+            'obatalkes_id'      => 'O-00002',
+            'obatalkes_nama'    => 'Sanmol',
+            'supplier1_id'      => '2',
+            'satuan'            => 'Tablet',
+            'hargabeliterakhir' => '300',
+            'margin1'           => '10',
+            'user_id'           => '1',
+        ]);
     }
 }

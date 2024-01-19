@@ -21,6 +21,7 @@
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
             <li class="breadcrumb-item">Gudang Farmasi</li>
+            <li class="breadcrumb-item">Obat Alkes</li>
             <li class="breadcrumb-item active">@yield('title')</li>
           </ol>
         </div>
@@ -37,7 +38,7 @@
                     Tabel @yield('title')
                   </h3>
                   <div>
-                    <a href="{{ url('/barang/create') }}" class="btn btn-success btn-sm"> <i class="fas fa-upload"> </i> Tambah @yield('title') Baru</a>
+                    <a href="{{ route('obatalkes.create') }}" class="btn btn-success btn-sm"> <i class="fas fa-upload"> </i> Tambah @yield('title') Baru</a>
                   </div>
               </div>
           </div>
@@ -83,7 +84,11 @@
                         </li>
                       </ul>
                     </td>
-                    <td>Rp. {{$obatalkes->hargabeliterakhir}} / {{$obatalkes->satuan}}</td>
+                    <td>Rp. <b>@php
+                                  $hargabeli = $obatalkes->hargabeliterakhir;
+                                  $hargabeliformated = number_format($hargabeli, 0, ',', '.');
+                                  echo $hargabeliformated;
+                                @endphp</b> / {{$obatalkes->satuan}}</td>
                     <td>
                       <div style="width: 50%; float: left;">
                         <ul class="nav nav-pills flex-column">
@@ -123,34 +128,55 @@
                       <div style="width: 50%; float: left;">
                         <ul class="nav nav-pills flex-column">
                           <li class="nav-item">
-                              Harga Jual 1: <b> Rp. {{ ($obatalkes->hargabeliterakhir * $obatalkes->margin1/100) + $obatalkes->hargabeliterakhir }}</b>
+                              Harga Jual 1: <b> Rp. @php
+                                  $hargajual = ($obatalkes->hargabeliterakhir * $obatalkes->margin1/100) + $obatalkes->hargabeliterakhir;
+                                  $hargajualformated = number_format($hargajual, 0, ',', '.');
+                                  echo $hargajualformated;
+                                @endphp
+                              </b>
                           </li>
                           <li class="nav-item">
                               Harga Jual 2: @if ($obatalkes->margin2==null)
                                           -
                                         @else
-                                          <b>Rp. {{ ($obatalkes->hargabeliterakhir * $obatalkes->margin2/100) + $obatalkes->hargabeliterakhir }}</b>
+                                          <b>Rp. @php
+                                  $hargajual = ($obatalkes->hargabeliterakhir * $obatalkes->margin2/100) + $obatalkes->hargabeliterakhir;
+                                  $hargajualformated = number_format($hargajual, 0, ',', '.');
+                                  echo $hargajualformated;
+                                @endphp</b>
                                         @endif
                           </li>
                           <li class="nav-item">
                               Harga Jual 3: @if ($obatalkes->margin3==null)
                                           -
                                         @else
-                                          <b>Rp. {{ ($obatalkes->hargabeliterakhir * $obatalkes->margin3/100) + $obatalkes->hargabeliterakhir }}</b>
+                                          <b>Rp. @php
+                                  $hargajual = ($obatalkes->hargabeliterakhir * $obatalkes->margin3/100) + $obatalkes->hargabeliterakhir;
+                                  $hargajualformated = number_format($hargajual, 0, ',', '.');
+                                  echo $hargajualformated;
+                                @endphp</b>
                                         @endif
                           </li>
                           {{-- <li class="nav-item">
                               Harga Jual 4: @if ($obatalkes->margin4==null)
                                           -
                                         @else
-                                          <b>Rp. {{ ($obatalkes->hargabeliterakhir * $obatalkes->margin4/100) + $obatalkes->hargabeliterakhir }}</b>
+                                          <b>Rp. @php
+                                  $hargajual = ($obatalkes->hargabeliterakhir * $obatalkes->margin4/100) + $obatalkes->hargabeliterakhir;
+                                  $hargajualformated = number_format($hargajual, 0, ',', '.');
+                                  echo $hargajualformated;
+                                @endphp</b>
                                         @endif
                           </li>
                           <li class="nav-item">
                               Harga Jual 5: @if ($obatalkes->margin5==null)
                                           -
                                         @else
-                                          <b>Rp. {{ ($obatalkes->hargabeliterakhir * $obatalkes->margin5/100) + $obatalkes->hargabeliterakhir }}</b>
+                                          <b>Rp. @php
+                                  $hargajual = ($obatalkes->hargabeliterakhir * $obatalkes->margin5/100) + $obatalkes->hargabeliterakhir;
+                                  $hargajualformated = number_format($hargajual, 0, ',', '.');
+                                  echo $hargajualformated;
+                                @endphp</b>
                                         @endif
                           </li> --}}
                         </ul>
@@ -220,4 +246,12 @@
       }).buttons().container().appendTo('#datatable1_wrapper .col-md-6:eq(0)');
     });
 </script>
+@if (Session::has('success'))
+    <script>
+      toastr.success("{{Session::get('success')}}","Success!");
+      // toastr.info("{{Session::get('success')}}","Success!");
+      // toastr.warning("{{Session::get('success')}}","Success!");
+      // toastr.error("{{Session::get('success')}}","Success!");
+    </script>
+  @endif
 @endsection

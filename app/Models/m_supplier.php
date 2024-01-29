@@ -15,7 +15,7 @@ class m_supplier extends Model
         'supplier_nama',
         'supplier_alamat',
         'supplier_telp',
-        // 'user_id',
+        'user_id',
         'is_active'
     ];
 

@@ -43,7 +43,8 @@ class supplierController extends Controller
         $newSupplier = [
             'supplier_nama'     => $request->suppliernama,
             'supplier_alamat'   => $request->supplieralamat,
-            'supplier_telp'     => $request->suppliertelp
+            'supplier_telp'     => $request->suppliertelp,
+            'user_id'           => 1,
         ];
 
         m_supplier::create($newSupplier);
@@ -73,7 +74,7 @@ class supplierController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validator = $request->validate([
+        $request->validate([
             'suppliernama'      => 'required|string|max:30',
             'supplieralamat'    => 'required|string',
             'suppliertelp'      => 'required|string',
@@ -88,11 +89,11 @@ class supplierController extends Controller
         $supplier = [
             'supplier_nama'     => $request->suppliernama,
             'supplier_alamat'   => $request->supplieralamat,
-            'supplier_telp'     => $request->suppliertelp
+            'supplier_telp'     => '62'.$request->suppliertelp
         ];
 
         m_supplier::where('id',$id)->update($supplier);
-        return redirect()->route('supplier.index')->with('success','Supplier telah berhasil di Update');
+        return redirect()->route('supplier.index')->with('success','Supplier '.$request->suppliernama.'telah berhasil di Update');
     }
 
     /**

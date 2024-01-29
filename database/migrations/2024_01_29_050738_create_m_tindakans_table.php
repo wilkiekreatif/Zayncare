@@ -11,21 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('m_obatalkes', function (Blueprint $table) {
+        Schema::create('m_tindakans', function (Blueprint $table) {
             $table->id();
-            $table->string('obatalkes_id')->unique();
-            $table->boolean('obatalkes_jenis')->default(0)->comment('0: Obat, 1:Alkes');
-            $table->string('obatalkes_nama');
-            $table->integer('supplier1_id');
-            $table->integer('supplier2_id')->nullable();
-            $table->integer('supplier3_id')->nullable();
-            $table->string('satuan');
-            $table->float('hargabeliterakhir');
+            $table->string('tindakan_nama')->unique();
+            $table->enum('jenis',[0,1])->comment('0: Pemeriksaan, 1: Tindakan');
+            $table->float('tarifdasar');
             $table->integer('margin1');
             $table->integer('margin2')->nullable();
             $table->integer('margin3')->nullable();
-            $table->float('stok')->default(0);
-            // $table->integer('margin5')->nullable();
             $table->enum('is_active',[0,1,99])->default(1)->comment('0: nonaktif, 1:aktif, 99:deleted');
             $table->foreignId('user_id')->constrained('users')->default(1);
             $table->timestamps();
@@ -37,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('m_obatalkes');
+        Schema::dropIfExists('m_tindakans');
     }
 };

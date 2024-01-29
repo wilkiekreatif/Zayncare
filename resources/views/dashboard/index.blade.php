@@ -28,61 +28,63 @@
   </section>
   <section class="content text-sm">
     <div class="container-fluid">
-      <div class="card card-default">
-          <div class="card-header">
-              <div class="d-flex justify-content-between align-items-center">
-                  <h3 class="card-title">
-                    <i class="fas fa-archive"></i>
-                    Table Barang
-                  </h3>
-                  <div>
-                    {{-- <a href="{{ url('/barang/create') }}" class="btn btn-success btn-sm"> <i class="fas fa-upload"> </i> Tambah Barang Baru</a> --}}
-                  </div>
+      <div class="row">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>50 <sup style="font-size: 20px">Pasien</sup></h3>
+                <p>Pasien hari ini</p>
               </div>
+              <div class="icon">
+                <i class="ion ion-bag"></i>
+              </div>
+            </div>
           </div>
-          <div class="card-body">
-            <table id="datatable1" class="table table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th>Rendering engine</th>
-                  <th>Browser</th>
-                  <th>Platform(s)</th>
-                  <th>Engine version</th>
-                  <th>CSS grade</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 4.0
-                  </td>
-                  <td>Win 95+</td>
-                  <td> 4</td>
-                  <td>X</td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 4.0
-                  </td>
-                  <td>Win 95+</td>
-                  <td> 4</td>
-                  <td>X</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Rendering engine</th>
-                  <th>Browser</th>
-                  <th>Platform(s)</th>
-                  <th>Engine version</th>
-                  <th>CSS grade</th>
-                </tr>
-              </tfoot>
-            </table>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>39 <sup style="font-size: 20px">Resep</sup></h3>
+
+                <p>Resep hari ini</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+            </div>
           </div>
-      </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>500 <sup style="font-size: 20px">Pasien</sup></h3>
+
+                <p>Pasien bulan ini</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>65 <sup style="font-size: 20px">Resep</sup></h3>
+
+                <p>Resep bulan ini</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
     </div>
   </section>
 

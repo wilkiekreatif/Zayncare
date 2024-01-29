@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title','Tambah Master Obat Alkes Baru')
+@section('title','Edit Master Obat Alkes Baru')
 
 @section('konten')
   <!-- Content Header (Page header) -->
@@ -47,28 +47,29 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <form action="{{ route('obatalkes.store') }}" method="POST">
+              <form action="{{route('obatalkes.update',$obatalkes->id)}}" method="POST">
                 @csrf
+                @method('PUT')
                 <div class="row">
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label for="jenis">Jenis Obat Alkes <a style="color:red">*</a></label>
                       <select id="jenis" name="jenis" class="form-control select2bs4 {{ $errors->has('jenis') ? 'is-invalid' : '' }}" style="width: 100%;">
                         <option disabled selected="selected">-- Pilih salah satu --</option>
-                        <option value="0" {{ old('jenis') == '0' ? 'selected' : '' }}>Obat</option>
-                        <option value="1" {{ old('jenis') == '1' ? 'selected' : '' }}>Alkes</option>
+                        <option value="0" {{ ($obatalkes->obatalkes_jenis) == '0' ? 'selected' : '' }}>Obat</option>
+                        <option value="1" {{ ($obatalkes->obatalkes_jenis) == '1' ? 'selected' : '' }}>Alkes</option>
                       </select>
                     </div>
                     <div class="form-group">
                       <label for="obatalkesnama">Nama Obat Alkes <a style="color:red">*</a></label>
-                      <input required id="obatalkesnama" name="obatalkesnama" type="text" class="form-control {{ $errors->has('obatalkesnama') ? 'is-invalid' : '' }}" placeholder="Nama Obat Alkes..." maxlength="30" value="{{old('obatalkesnama')}}">
+                      <input required id="obatalkesnama" name="obatalkesnama" type="text" class="form-control {{ $errors->has('obatalkesnama') ? 'is-invalid' : '' }}" placeholder="Nama Obat Alkes..." maxlength="30" value="{{$obatalkes->obatalkes_nama}} ">
                     </div>
                     <div class="form-group">
                       <label for="supplier1">Supplier 1 <a style="color:red">*</a></label>
                       <select id="supplier1" name="supplier1" class="form-control select2bs4 {{ $errors->has('supplier1') ? 'is-invalid' : '' }}" style="width: 100%;" required>
                         <option disabled selected="selected">-- Pilih salah satu --</option>
                         @foreach ($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}" {{ old('supplier1') == $supplier->id ? 'selected' : '' }}>{{ $supplier->supplier_nama }}</option>
+                        <option value="{{ $supplier->id }}" {{ $obatalkes->supplier1_id == $supplier->id ? 'selected' : '' }}>{{ $supplier->supplier_nama }}</option>
                         @endforeach
                       </select>
                     </div>
@@ -77,7 +78,7 @@
                       <select id="supplier2" name="supplier2" class="form-control select2bs4" style="width: 100%;">
                         <option disabled selected="selected">-- Pilih salah satu --</option>
                         @foreach ($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}" {{ old('supplier2') == $supplier->id ? 'selected' : '' }}>{{ $supplier->supplier_nama }}</option>
+                        <option value="{{ $supplier->id }}" {{ $obatalkes->supplier2_id == $supplier->id ? 'selected' : '' }}>{{ $supplier->supplier_nama }}</option>
                         @endforeach
                       </select>
                     </div>
@@ -86,7 +87,7 @@
                       <select id="supplier3" name="supplier3" class="form-control select2bs4" style="width: 100%;">
                         <option disabled selected="selected">-- Pilih salah satu --</option>
                         @foreach ($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}" {{ old('supplier3') == $supplier->id ? 'selected' : '' }}>{{ $supplier->supplier_nama }}</option>
+                        <option value="{{ $supplier->id }}" {{ $obatalkes->supplier3_id == $supplier->id ? 'selected' : '' }}>{{ $supplier->supplier_nama }}</option>
                         @endforeach
                       </select>
                     </div>
@@ -94,29 +95,29 @@
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label for="satuan">Satuan <a style="color:red">*</a></label>
-                      <input required id="satuan" name="satuan" type="text" class="form-control {{ $errors->has('satuan') ? 'is-invalid' : '' }}" placeholder="Satuan..." maxlength="15" value="{{old('satuan')}}">
+                      <input required id="satuan" name="satuan" type="text" class="form-control {{ $errors->has('satuan') ? 'is-invalid' : '' }}" placeholder="Satuan..." maxlength="15" value="{{$obatalkes->satuan}}">
                     </div>
                     <div class="form-group">
-                      <label for="hargabeli">Perkiraan Harga Beli <a style="color:red">*</a></label>
-                      <input required id="hargabeli" name="hargabeli" type="text" class="form-control {{ $errors->has('hargabeli') ? 'is-invalid' : '' }}" placeholder="hargabeli..." maxlength="15" value="{{old('hargabeli')}}">
+                      <label for="hargabeli">Harga Beli Terakhir<a style="color:red">*</a></label>
+                      <input required id="hargabeli" name="hargabeli" type="text" class="form-control {{ $errors->has('hargabeli') ? 'is-invalid' : '' }}" placeholder="hargabeli..." maxlength="15" value="{{$obatalkes->hargabeliterakhir}}">
                     </div>
                     <div class="row">
                       <div class="col-sm-4">
                         <div class="form-group">
                           <label for="margin1">Margin 1 <a style="color:red">*</a></label>
-                          <input required id="margin1" name="margin1" type="number" class="form-control {{ $errors->has('margin1') ? 'is-invalid' : '' }}" placeholder="margin 1..." maxlength="3" value="{{old('margin1')}}">
+                          <input required id="margin1" name="margin1" type="number" class="form-control {{ $errors->has('margin1') ? 'is-invalid' : '' }}" placeholder="margin 1..." maxlength="3" value="{{$obatalkes->margin1}}">
                         </div>
                       </div>
                       <div class="col-sm-4">
                         <div class="form-group">
                           <label for="margin2">Margin 2</label>
-                          <input id="margin2" name="margin2" type="number" class="form-control" placeholder="margin 2..." maxlength="3" value="{{old('margin2')}}">
+                          <input id="margin2" name="margin2" type="number" class="form-control" placeholder="margin 2..." maxlength="3" value="{{$obatalkes->margin2}}">
                         </div>
                       </div>
                       <div class="col-sm-4">
                         <div class="form-group">
                           <label for="margin3">Margin 3</label>
-                          <input id="margin3" name="margin3" type="number" class="form-control" placeholder="margin 3..." maxlength="3" value="{{old('margin3')}}">
+                          <input id="margin3" name="margin3" type="number" class="form-control" placeholder="margin 3..." maxlength="3" value="{{$obatalkes->margin3}}">
                         </div>
                       </div>
                     </div>

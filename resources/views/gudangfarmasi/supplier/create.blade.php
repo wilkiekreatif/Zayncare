@@ -67,7 +67,12 @@
                     </div>
                     <div class="form-group">
                       <label class="col-form-label" for="suppliertelp"> No Telepon Supplier <a style="color:red">*</a></label>
-                      <input type="text" class="form-control {{ $errors->has('suppliertelp') ? 'is-invalid' : '' }}" name="suppliertelp" id="suppliertelp" placeholder="Silahkan isi ..." maxlength="16" value="{{old('suppliertelp')}}">
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">+62</span>
+                        </div>
+                        <input type="text" class="form-control {{ $errors->has('suppliertelp') ? 'is-invalid' : '' }}" name="suppliertelp" id="suppliertelp" placeholder="Silahkan isi ..." maxlength="16" value="{{old('suppliertelp')}}">
+                      </div>
                     </div>
                   </div>
                 </div>

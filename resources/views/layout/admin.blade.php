@@ -18,6 +18,10 @@
     <link rel="stylesheet" href="{{asset('adminlte')}}/plugins/toastr/toastr.min.css">
     <!-- Wildan -->
     <link rel="stylesheet" href="{{asset('adminlte')}}/wildan/color.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{asset('adminlte')}}/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="{{asset('adminlte')}}/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link href="{{asset('adminlte')}}/src/icon.png" rel="shortcut icon">
     
 
     <!-- CSS--------------------------------------------------------------------------------------------------------------------------------- -->
@@ -112,7 +116,7 @@
       <div class="float-right d-none d-sm-block">
         <b>We play</b> with creativity | <b>Version</b> 1.0
       </div>
-      <strong>Copyright &copy; <a href="https://instagram.com/w.auliaabdillah"><i class="fab fa-instagram" aria-hidden="true"></i><b>  @w.auliaabdillah</b></a> 2023</strong>. All rights reserved.
+      <strong>Developed by <a href="https://instagram.com/w.auliaabdillah"><b>  @w.auliaabdillah</b></a> 2024</strong>. All rights reserved.
     </footer>
 
   </div>
@@ -131,6 +135,20 @@
   <script src="{{asset('adminlte')}}/wildan/backtotop.js"></script>
   <!-- Toastr -->
   <script src="{{asset('adminlte')}}/plugins/toastr/toastr.min.js"></script>
+
+  <!-- Select2 -->
+  <script src="{{asset('adminlte')}}/plugins/select2/js/select2.full.min.js"></script>
+
+  <script>
+    $(function () {
+      //Initialize Select2 Elements
+      $('.select2bs4').select2({
+        width: '100%',
+        // height: '100%',
+        theme: 'bootstrap4'
+      })
+    });
+  </script>
 
   <script>
     toastr.options = {

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\obatalkesController;
+use App\Http\Controllers\poliController;
+use App\Http\Controllers\registerController;
 use App\Http\Controllers\supplierController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,16 +19,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard.index');
 });
 
 Route::resource('/dashboard',dashboardController::class);
 
 Route::controller(obatalkesController::class)->group(function(){
     Route::get('gudang/obatalkes','index')->name('obatalkes.index');
+    Route::get('gudang/obatalkes/defekta','defekta')->name('obatalkes.defekta');
+    Route::get('gudang/obatalkes/stokopname','stokopname')->name('obatalkes.stokopname');
+    Route::get('gudang/obatalkes/defektabaru','defektabaru')->name('obatalkes.defektabaru');
     Route::get('gudang/obatalkes/stok','stok')->name('obatalkes.stok');
     Route::get('gudang/obatalkes/create','create')->name('obatalkes.create');
-    
+    Route::post('gudang/obatalkes/store','store')->name('obatalkes.store');
+    Route::put('gudang/obatalkes/update/{id}','update')->name('obatalkes.update');
+    Route::get('gudang/obatalkes/{id}/edit','edit')->name('obatalkes.edit');
+    Route::get('gudang/obatalkes/{id}/nonaktif','nonaktif')->name('obatalkes.nonaktif');
+    Route::get('gudang/obatalkes/{id}/aktif','aktif')->name('obatalkes.aktif');
+    Route::get('gudang/obatalkes/{id}/delete','delete')->name('obatalkes.delete');
 });
 Route::controller(supplierController::class)->group(function(){
     Route::get('gudang/supplier','index')->name('supplier.index');
@@ -37,4 +47,22 @@ Route::controller(supplierController::class)->group(function(){
     Route::get('gudang/supplier/{id}/nonaktif','nonaktif')->name('supplier.nonaktif');
     Route::get('gudang/supplier/{id}/aktif','aktif')->name('supplier.aktif');
     Route::get('gudang/supplier/{id}/delete','delete')->name('supplier.delete');
+});
+Route::controller(registerController::class)->group(function(){
+    Route::get('register','index')->name('register.index');
+    Route::get('register/create','create')->name('register.create');
+    Route::post('register/store','store')->name('register.store');
+    Route::post('register/regist','registpasien')->name('register.registpasien');
+    Route::get('register/registered','registered')->name('register.registered');
+    Route::get('register/{id}/pulangkan','pulangkan')->name('register.pulangkan');
+    Route::get('register/{id}/batalperiksa','batalperiksa')->name('register.batalperiksa');
+});
+Route::controller(poliController::class)->group(function(){
+    Route::get('poliklinik','index')->name('poliklinik.index');
+    Route::get('poliklinik/{id}/periksa','periksa')->name('poliklinik.periksa');
+    Route::put('poliklinik/{id}/anamnesa','anamnesa')->name('poliklinik.anamnesa');
+    Route::put('poliklinik/{id}/tindakan','tindakan')->name('poliklinik.tindakan');
+});
+Route::get('/construction', function () {
+    return view('construction.index');
 });

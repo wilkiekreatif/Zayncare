@@ -13,6 +13,7 @@ class m_obatalkes extends Model
 
     protected $fillable = [
         'obatalkes_id',
+        'obatalkes_jenis',
         'obatalkes_nama',
         'supplier1_id',
         'supplier2_id',

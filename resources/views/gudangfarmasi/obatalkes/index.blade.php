@@ -21,6 +21,7 @@
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
             <li class="breadcrumb-item">Gudang Farmasi</li>
+            <li class="breadcrumb-item">Obat Alkes</li>
             <li class="breadcrumb-item active">@yield('title')</li>
           </ol>
         </div>
@@ -37,7 +38,7 @@
                     Tabel @yield('title')
                   </h3>
                   <div>
-                    <a href="{{ url('/barang/create') }}" class="btn btn-success btn-sm"> <i class="fas fa-upload"> </i> Tambah @yield('title') Baru</a>
+                    <a href="{{ route('obatalkes.create') }}" class="btn btn-success btn-sm"> <i class="fas fa-upload"> </i> Tambah @yield('title') Baru</a>
                   </div>
               </div>
           </div>
@@ -45,24 +46,33 @@
             <table id="datatable1" class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <th width="2%">No</th>
-                  <th>ID OBAT ALKES</th>
-                  <th>NAMA OBAT ALKES</th>
-                  <th>SUPPLIER</th>
-                  <th>HARGA BELI TERAKHIR</th>
-                  <th>MARGIN KEUNTUNGAN</th>
-                  <th width="2%">STATUS</th>
-                  <th width="2%">ACTION</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="6%">ID</th>
+                  <th style="background-color: rgb(120, 186, 196)">NAMA OBAT ALKES</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="12%">SUPPLIER</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="10%">HARGA BELI TERAKHIR</th>
+                  <th style="background-color: rgb(120, 186, 196)">MARGIN KEUNTUNGAN</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="6%">STOK</th>
+                  <th style="background-color: rgb(120, 186, 196)"width="2%">STATUS</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="2%">ACTION</th>
                 </tr>
               </thead>
               <tbody>
                 <?php $no=1 ?>
                 @foreach ($obatalkess as $obatalkes)
                   <tr>
-                    <td>{{ $no }}</td>
-                    <td>{{$obatalkes->obatalkes_id}}</td>
-                    <td><b>{{$obatalkes->obatalkes_nama}}</b></td>
-                    <td>
+                    <td @if ($obatalkes->is_active==0)
+                        style="background-color: rgb(255, 225, 0)"
+                    @endif>{{ $no }}</td>
+                    <td @if ($obatalkes->is_active==0)
+                        style="background-color: rgb(255, 225, 0)"
+                    @endif>{{$obatalkes->obatalkes_id}}</td>
+                    <td @if ($obatalkes->is_active==0)
+                        style="background-color: rgb(255, 225, 0)"
+                    @endif><b>{{$obatalkes->obatalkes_nama}}</b></td>
+                    <td @if ($obatalkes->is_active==0)
+                        style="background-color: rgb(255, 225, 0)"
+                    @endif>
                       <ul class="nav nav-pills flex-column">
                         <li class="nav-item">
                             <i class="fa fa-store-alt"></i> {{$obatalkes->supplier1->supplier_nama}}
@@ -82,9 +92,19 @@
                                                             @endif
                         </li>
                       </ul>
-                    </td>
-                    <td>Rp. {{$obatalkes->hargabeliterakhir}} / {{$obatalkes->satuan}}</td>
-                    <td>
+                    </td @if ($obatalkes->is_active==0)
+                        style="background-color: rgb(255, 225, 0)"
+                    @endif>
+                    <td @if ($obatalkes->is_active==0)
+                        style="background-color: rgb(255, 225, 0)"
+                    @endif>Rp. <b>@php
+                                  $hargabeli = $obatalkes->hargabeliterakhir;
+                                  $hargabeliformated = number_format($hargabeli, 0, ',', '.');
+                                  echo $hargabeliformated;
+                                @endphp</b> / {{$obatalkes->satuan}}</td>
+                    <td @if ($obatalkes->is_active==0)
+                        style="background-color: rgb(255, 225, 0)"
+                    @endif>
                       <div style="width: 50%; float: left;">
                         <ul class="nav nav-pills flex-column">
                           <li class="nav-item">
@@ -104,59 +124,59 @@
                                           <b>{{$obatalkes->margin3}} %</b>
                                         @endif
                           </li>
-                          {{-- <li class="nav-item">
-                              Margin 4: @if ($obatalkes->margin4==null)
-                                          -
-                                        @else
-                                          <b>{{$obatalkes->margin4}} %</b>
-                                        @endif
-                          </li>
-                          <li class="nav-item">
-                              Margin 5: @if ($obatalkes->margin5==null)
-                                          -
-                                        @else
-                                          <b>{{$obatalkes->margin5}} %</b>
-                                        @endif
-                          </li> --}}
                         </ul>
                       </div>
                       <div style="width: 50%; float: left;">
                         <ul class="nav nav-pills flex-column">
                           <li class="nav-item">
-                              Harga Jual 1: <b> Rp. {{ ($obatalkes->hargabeliterakhir * $obatalkes->margin1/100) + $obatalkes->hargabeliterakhir }}</b>
+                              Harga Jual 1: <b> Rp. @php
+                                  $hargajual = ($obatalkes->hargabeliterakhir * $obatalkes->margin1/100) + $obatalkes->hargabeliterakhir;
+                                  $hargajualformated = number_format($hargajual, 0, ',', '.');
+                                  echo $hargajualformated;
+                                @endphp
+                              </b>
                           </li>
                           <li class="nav-item">
                               Harga Jual 2: @if ($obatalkes->margin2==null)
                                           -
                                         @else
-                                          <b>Rp. {{ ($obatalkes->hargabeliterakhir * $obatalkes->margin2/100) + $obatalkes->hargabeliterakhir }}</b>
+                                          <b>Rp. @php
+                                  $hargajual = ($obatalkes->hargabeliterakhir * $obatalkes->margin2/100) + $obatalkes->hargabeliterakhir;
+                                  $hargajualformated = number_format($hargajual, 0, ',', '.');
+                                  echo $hargajualformated;
+                                @endphp</b>
                                         @endif
                           </li>
                           <li class="nav-item">
                               Harga Jual 3: @if ($obatalkes->margin3==null)
                                           -
                                         @else
-                                          <b>Rp. {{ ($obatalkes->hargabeliterakhir * $obatalkes->margin3/100) + $obatalkes->hargabeliterakhir }}</b>
+                                          <b>Rp. @php
+                                  $hargajual = ($obatalkes->hargabeliterakhir * $obatalkes->margin3/100) + $obatalkes->hargabeliterakhir;
+                                  $hargajualformated = number_format($hargajual, 0, ',', '.');
+                                  echo $hargajualformated;
+                                @endphp</b>
                                         @endif
                           </li>
-                          {{-- <li class="nav-item">
-                              Harga Jual 4: @if ($obatalkes->margin4==null)
-                                          -
-                                        @else
-                                          <b>Rp. {{ ($obatalkes->hargabeliterakhir * $obatalkes->margin4/100) + $obatalkes->hargabeliterakhir }}</b>
-                                        @endif
-                          </li>
-                          <li class="nav-item">
-                              Harga Jual 5: @if ($obatalkes->margin5==null)
-                                          -
-                                        @else
-                                          <b>Rp. {{ ($obatalkes->hargabeliterakhir * $obatalkes->margin5/100) + $obatalkes->hargabeliterakhir }}</b>
-                                        @endif
-                          </li> --}}
                         </ul>
                       </div>
                     </td>
-                    <td style="text-align: center">
+                    <td @if ($obatalkes->is_active==0)
+                        style="background-color: rgb(255, 225, 0)"
+                      @else
+                        style="background-color: rgb(203, 250, 190)"
+                        @endif
+                    ><b>
+                      @if (($obatalkes->stok < 1))
+                        0
+                      @else
+                        {{$obatalkes->stok}}
+                      @endif</b> {{$obatalkes->satuan}}</td>
+                    <td  @if ($obatalkes->is_active==0)
+                        style="background-color: rgb(255, 225, 0)"
+                    @endif
+                    style="text-align: center">
+                    
                     @if ($obatalkes->is_active==0)
                       <i class="fa fa-times"></i> Nonaktif
                     @else
@@ -165,13 +185,14 @@
                     </td>
                     <td>
                       <div class="btn-group">
-                        <a href="#" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Edit bed: #"><i class="fas fa-edit"></i></a>
+                        <a href="#" type="button" class="btn btn-success toastrDefaultError" data-toggle="tooltip" data-placement="bottom" title="Kartu Stok" ><i class="fas fa-list"></i></a>
+                        <a href="{{ route('obatalkes.edit',$obatalkes->id)}}" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Edit Master Obat Alkes" ><i class="fas fa-edit"></i></a>
                         @if ($obatalkes->is_active==1)
-                          <a href="{#" type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Nonaktifkan bed: #"><i class="fas fa-times-circle"></i></a>
+                          <a href="{{ route('obatalkes.nonaktif',$obatalkes->id)}}" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="Nonaktifkan Master Obat Alkes" onclick="return confirm('Apakah anda yakin ingin menonaktifkan Obat alkes ini?')"><i class="fas fa-times-circle"></i></a>
                           @else
-                          <a href="#" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Aktifkan bed: #"><i class="fas fa-check"></i></a>
+                          <a href="{{ route('obatalkes.aktif',$obatalkes->id)}}" type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Aktifkan Master Obat Alkes" onclick="return confirm('Apakah anda yakin ingin mengaktifkan Obat alkes ini?')"><i class="fas fa-check"></i></a>
                         @endif
-                        <a href="#" type="button" class="btn btn-danger" data-placement="bottom" title="Hapus bed: #"><i class="fas fa-trash-alt"></i></a>
+                        <a href="{{ route('obatalkes.delete',$obatalkes->id)}}" type="button" class="btn btn-danger" data-placement="bottom" onclick="return confirm('Apakah anda yakin ingin menghapus Master Obat Alkes ini? Data tidak bisa dikembalikan dan STOK akan dianggap HILANG.')" title="Hapus Master Obat Alkes"><i class="fas fa-trash-alt"></i></a>
                       </div>
                     </td>
                   </tr>
@@ -181,11 +202,12 @@
               <tfoot>
                 <tr>
                   <th>No</th>
-                  <th>ID OBAT ALKES</th>
+                  <th>ID</th>
                   <th>NAMA OBAT ALKES</th>
                   <th>SUPPLIER</th>
                   <th>HARGA BELI TERAKHIR</th>
                   <th>MARGIN KEUNTUNGAN</th>
+                  <th>STOK </th>
                   <th>STATUS</th>
                   <th>ACTION</th>
                 </tr>
@@ -219,5 +241,16 @@
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#datatable1_wrapper .col-md-6:eq(0)');
     });
+    $('.toastrDefaultError').click(function() {
+        toastr.error('Belum berfungsi yaa. Sabar masih proses develop..')
+      });
 </script>
+@if (Session::has('success'))
+    <script>
+      toastr.success("{{Session::get('success')}}","Success!");
+      // toastr.info("{{Session::get('success')}}","Success!");
+      // toastr.warning("{{Session::get('success')}}","Success!");
+      // toastr.error("{{Session::get('success')}}","Success!");
+    </script>
+  @endif
 @endsection

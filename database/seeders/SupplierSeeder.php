@@ -17,14 +17,14 @@ class SupplierSeeder extends Seeder
             'supplier_id'       => 'S-00001',
             'supplier_nama'     => 'Wilkie Creativa Medika',
             'supplier_alamat'   => 'Perum Griya Harmoni Blok F8 Pamekarsari Banyuresmi Garut',
-            'supplier_telp'     => '081223766271',
+            'supplier_telp'     => '6281223766271',
             'user_id'           => '1',
         ]);
         m_supplier::create([
             'supplier_id'       => 'S-00002',
-            'supplier_nama'     => 'Enseval',
-            'supplier_alamat'   => '-',
-            'supplier_telp'     => '-',
+            'supplier_nama'     => 'Jacks Collections Medika',
+            'supplier_alamat'   => 'Kp. Maleer Sukasenang Banyuresmi Garut',
+            'supplier_telp'     => '6281223766271',
             'user_id'           => '1',
         ]);
     }

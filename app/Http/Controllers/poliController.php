@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\m_obatalkes;
+use App\Models\mTindakan;
+use App\Models\trxPasien;
 use Illuminate\Http\Request;
 
-class gdgController extends Controller
+class poliController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $obatalkess = m_obatalkes::with('supplier1')
-                                    ->with('supplier2')
-                                    ->with('supplier3')
-                                    // ->where('is_active','1')
-                                    ->get();
-        //dd($obatalkess);
-        return view('gudangfarmasi.index',[ 'obatalkess' => $obatalkess]);
+        $trxPasien  = trxPasien::with('mPasien')->with('mPoli')->where('status','!=',[0,4,5])->orderBy('status','ASC')->get();
+        $tindakan   = mTindakan::where('is_active','1')->get();
+        return view('poliklinik.index',[
+            'trxPasiens'=> $trxPasien,
+            'tindakans'  => $tindakan,
+        ]);
     }
 
     /**
@@ -67,5 +67,21 @@ class gdgController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function periksa(string $id)
+    {
+        $pasien     = trxPasien::with('mPasien')->where('trx_id',$id)->first();
+        $tindakan   = mTindakan::where('is_active','1')->get();
+        return view('poliklinik.pemeriksaan',['tindakans'=> $tindakan])->with('trxPasien',$pasien);
+    }
+
+    public function anamnesa(Request $request, string $id)
+    {
+        return 'anamnesa poli';
+    }
+    public function tindakan(Request $request, string $id)
+    {
+        return 'tindakan poli';
     }
 }

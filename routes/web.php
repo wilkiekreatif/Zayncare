@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\apotekController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\obatalkesController;
 use App\Http\Controllers\poliController;
@@ -71,6 +72,10 @@ Route::controller(poliController::class)->group(function(){
     Route::get('poliklinik/{id}','getTarifobat')->name('poliklinik.getTarifobat');
     Route::put('poliklinik/{id}/tambahobatalkes','tambahobatalkes')->name('poliklinik.tambahobatalkes');
     Route::put('poliklinik/{trx_id}/deleteobat','deleteobat')->name('poliklinik.deleteobat');
+
+Route::controller(apotekController::class)->group(function(){
+    Route::get('apotek','index')->name('apotek.index');
+});
 });
 Route::get('/construction', function () {
     return view('construction.index');

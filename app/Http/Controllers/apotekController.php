@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\trxObatalkes;
 use Illuminate\Http\Request;
 
 class apotekController extends Controller
@@ -11,7 +12,8 @@ class apotekController extends Controller
      */
     public function index()
     {
-        //
+        $trxResep = trxObatalkes::all();
+        return view('apotek.index',['trxReseps' => $trxResep]);
     }
 
     /**

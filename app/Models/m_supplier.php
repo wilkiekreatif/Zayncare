@@ -36,4 +36,9 @@ class m_supplier extends Model
             $model->supplier_id = 'S-' . str_pad($number, 5, '0', STR_PAD_LEFT);
         });
     }
+
+    public function supplierObatalkes()
+    {
+        return $this->hasMany(m_obatalkes::class,'id');
+    }
 }

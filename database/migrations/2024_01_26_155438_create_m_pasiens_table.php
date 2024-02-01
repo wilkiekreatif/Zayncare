@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('no_telp');
             $table->enum('agama',[0,1,2,3,4,5])->nullable()->comment('0: Islam, 1: Katolik, 2:Protestan, 3:Hindu, 4:Budha,5:Lainnya');
             $table->string('pendidikan')->nullable()->comment('0:dibawah SD, 1: SD Sederajat, 2: SMP Sederajat, 3: SMA Sederajat, 4: DIII Sederajat, 5: S1 Sederajat, 6: S2 Sederajat, 7: S3 Sederajat, 8: diatas S3');
+            $table->string('alergi')->nullable();
             $table->string('asuransi1');
             $table->string('asuransi2')->nullable();
             $table->string('asuransi3')->nullable();

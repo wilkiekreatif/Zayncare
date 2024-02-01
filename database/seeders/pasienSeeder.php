@@ -28,6 +28,7 @@ class pasienSeeder extends Seeder
             'no_telp'       => '6281223766271',
             'agama'         => '0',
             'pendidikan'    => '4',
+            'pendidikan'    => 'Alergi Paracetamol',
             'asuransi1'     => 'BPJS KESEHATAN',
             'asuransi2'     => 'UMUM',
             'user_id'       => '1',

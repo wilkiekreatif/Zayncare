@@ -45,96 +45,88 @@
               </div>
             </div>
             <!-- /.card-header -->
-            <form action="" method="POST">
-              @csrf
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-sm-4">
-                      <div class="form-group">
-                        <label class="col-form-label" for="norm">Nomor Rekam Medis</label>
-                        <input readonly class="form-control" name="norm" id="norm" maxlength="60" value="{{$trxPasien->mPasien->no_rm}}">
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label" for="trx_id">Id Transaksi</label>
-                        <input readonly class="form-control" name="trx_id" id="trx_id" maxlength="60" value="{{$trxPasien->trx_id}}">
-                      </div>
-                    </div>
-                    <div class="col-sm-4">
-                      <div class="form-group">
-                        <label class="col-form-label" for="pasiennama">Nama Pasien</label>
-                        <input readonly class="form-control" name="pasiennama" id="pasiennama" maxlength="60" value="{{$trxPasien->mPasien->pasien_nama}}">
-                      </div>
-                      <div class="form-group">
-                        @php
-                          $tanggallahir = date('d-m-Y', strtotime($trxPasien->mPasien->tgllahir));
-                          $usia = date_diff(date_create($trxPasien->mPasien->tgllahir),date_create(\Carbon\Carbon::now()))->y;
-                        @endphp
-                        <label class="col-form-label" for="usia">Usia</label>
-                        <input readonly class="form-control" name="usia" id="usia" maxlength="60" value="{{$usia}} Tahun">
-                      </div>
-                    </div>
-                    <div class="col-sm-4">
-                      <div class="form-group">
-                        <label class="col-form-label" for="poliklinik">Poliklinik</label>
-                        <input readonly class="form-control" name="poliklinik" id="poliklinik" maxlength="60" value="Poliklinik {{$trxPasien->mPoli->poli_nama}}">
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label" for="kelastarif">Kelas Tarif</label>
-                        <input readonly class="form-control" name="kelastarif" id="kelastarif" maxlength="60" value="Margin {{$trxPasien->kelastarif}}">
-                      </div>
-                    </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="col-form-label" for="norm">Nomor Rekam Medis</label>
+                    <input readonly class="form-control" name="norm" id="norm" maxlength="60" value="{{$trxPasien->mPasien->no_rm}}">
+                  </div>
+                  <div class="form-group">
+                    <label class="col-form-label" for="trx_id">Id Transaksi</label>
+                    <input readonly class="form-control" name="trx_id" id="trx_id" maxlength="60" value="{{$trxPasien->trx_id}}">
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="col-form-label" for="pasiennama">Nama Pasien</label>
+                    <input readonly class="form-control" name="pasiennama" id="pasiennama" maxlength="60" value="{{$trxPasien->mPasien->pasien_nama}}">
+                  </div>
+                  <div class="form-group">
+                    @php
+                      $tanggallahir = date('d-m-Y', strtotime($trxPasien->mPasien->tgllahir));
+                      $usia = date_diff(date_create($trxPasien->mPasien->tgllahir),date_create(\Carbon\Carbon::now()))->y;
+                    @endphp
+                    <label class="col-form-label" for="usia">Usia</label>
+                    <input readonly class="form-control" name="usia" id="usia" maxlength="60" value="{{$usia}} Tahun">
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label class="col-form-label" for="poliklinik">Poliklinik</label>
+                    <input readonly class="form-control" name="poliklinik" id="poliklinik" maxlength="60" value="Poliklinik {{$trxPasien->mPoli->poli_nama}}">
+                  </div>
+                  <div class="form-group">
+                    <label class="col-form-label" for="kelastarif">Kelas Tarif</label>
+                    <input readonly class="form-control" name="kelastarif" id="kelastarif" maxlength="60" value="Margin {{$trxPasien->kelastarif}}">
                   </div>
                 </div>
               </div>
-              <div class="card">
-                <div class="card-header d-flex p-0">
-                <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> form Input Pemeriksaan Pasien</h3>
-                <ul class="nav nav-pills ml-auto p-2">
-                  <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Anamnesa</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Tindakan</a></li>
-                </ul>
-                </div><!-- /.card-header -->
-                <div class="card-body">
-                  <div class="tab-content">
-                    <div class="tab-pane active" id="tab_1">
-                      {{-- FORM Anamnesa --}}
-                      @include('poliklinik.anamnesa')
-                    </div>
-                    <!-- /.tab-pane -->
-                    <div class="tab-pane" id="tab_2">
-                      The European languages are members of the same family. Their separate existence is a myth.
-                      For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ
-                      in their grammar, their pronunciation and their most common words. Everyone realizes why a
-                      new common language would be desirable: one could refuse to pay expensive translators. To
-                      achieve this, it would be necessary to have uniform grammar, pronunciation and more common
-                      words. If several languages coalesce, the grammar of the resulting language is more simple
-                      and regular than that of the individual languages.
-                    </div>
-                    <!-- /.tab-pane -->
-                  </div>
-                  <!-- /.tab-content -->
-                </div><!-- /.card-body -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-7">
+          <div class="card">
+            <div class="card-header d-flex p-0">
+              <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> form Input Pemeriksaan Pasien</h3>
+              <ul class="nav nav-pills ml-auto p-2">
+                <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab"><b>Tindakan</b></a></li>
+                <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab"><b>Anamnesa</b></a></li>
+              </ul>
+            </div><!-- /.card-header -->
+            <div class="card-body">
+              <div class="tab-content">
+                <div class="tab-pane active" id="tab_1">
+                  @include('poliklinik.tindakan')
+                </div>
+                <!-- /.tab-pane -->
+                <div class="tab-pane" id="tab_2">
+                  @include('poliklinik.anamnesa')
+                </div>
+                <!-- /.tab-pane -->
               </div>
-              <div class="card card-default">
-                <div class="card-header">
-                  <div class="d-flex justify-content-between align-items-center">
-                      <h3 class="card-title">
-                        <i class="fab fa-wpforms"></i>
-                        From @yield('title')
-                      </h3>
-                  </div>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                  {{-- Form inputan tindakan --}}
-                </div>
-                <div class="card-footer">
-                  <div class="text-right">
-                    <button type="submit" onclick="return  confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-success"> <i class="fas fa-save"> </i> SIMPAN</button>
-                    <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i> RESET</button>
-                  </div>
-                </div>
-            </form>
+              <!-- /.tab-content -->
+            </div><!-- /.card-body -->
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="card">
+            <div class="card-header d-flex p-0">
+              <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> form Input Pemeriksaan Pasien</h3>
+            </div><!-- /.card-header -->
+            <div class="card-body">
+              <table id="datatable1" class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
+                    <th style="background-color: rgb(120, 186, 196)">ID SUPPLIER</th>
+                    <th style="background-color: rgb(120, 186, 196)">NAMA SUPPLIER</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -161,6 +153,13 @@
 
   {{-- Menampilkan Message menggunakan library Toastr --}}
   <script>
+    $(function () {
+      $("#datatable1").DataTable({
+        "responsive": true, "lengthChange": true, "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#datatable1_wrapper .col-md-6:eq(0)');
+    });
+
     toastr.options = {
       "closeButton": true,
       "debug": false,

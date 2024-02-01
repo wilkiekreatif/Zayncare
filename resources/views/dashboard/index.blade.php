@@ -85,6 +85,25 @@
           </div>
           <!-- ./col -->
         </div>
+        <div class="row">
+          <div class="col-lg-12 col-12">
+            <div class="card card-info card-outline">
+              <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="card-title">
+                      <i class="fa fa-hospital"></i>
+                      Info lainnya
+                    </h3>
+                </div>
+              </div>
+              <div class="card-body">
+                
+              </div>
+              <div class="card-footer bg-transparent">
+                
+            </div>
+          </div>
+        </div>
     </div>
   </section>
 
@@ -104,6 +123,7 @@
   <script src="{{asset('adminlte')}}/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
   <script src="{{asset('adminlte')}}/plugins/datatables-buttons/js/buttons.print.min.js"></script>
   <script src="{{asset('adminlte')}}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+  <script src="{{asset('adminlte')}}/plugins/chart.js/Chart.min.js"></script>
   <script>
     $(function () {
       $("#datatable1").DataTable({

@@ -8,11 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
             var pos = window.pageYOffset;
 
             if (pos > 0) {
-                window.scrollTo(0, pos - 20); // Ubah 20 sesuai dengan kecepatan scrolling yang diinginkan
+                window.scrollTo(0, pos - 18); // Ubah 20 sesuai dengan kecepatan scrolling yang diinginkan
             } else {
                 window.clearInterval(scrollToTop);
             }
-        }, 5); // Ubah 5 sesuai dengan kecepatan scrolling yang diinginkan
+        }, 4); // Ubah 5 sesuai dengan kecepatan scrolling yang diinginkan
     });
 
     window.addEventListener("scroll", function () {

@@ -61,7 +61,8 @@ Route::controller(poliController::class)->group(function(){
     Route::get('poliklinik','index')->name('poliklinik.index');
     Route::get('poliklinik/{id}/periksa','periksa')->name('poliklinik.periksa');
     Route::put('poliklinik/{id}/anamnesa','anamnesa')->name('poliklinik.anamnesa');
-    Route::put('poliklinik/{id}/tindakan','tindakan')->name('poliklinik.tindakan');
+    Route::post('poliklinik/{id}/tindakan','tindakan')->name('poliklinik.tindakan');
+    Route::put('poliklinik/{id}/bataltindakan','bataltindakan')->name('poliklinik.bataltindakan');
 });
 Route::get('/construction', function () {
     return view('construction.index');

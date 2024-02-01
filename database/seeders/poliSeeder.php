@@ -18,7 +18,11 @@ class poliSeeder extends Seeder
             'user_id'   => '1'
         ]);
         m_poli::create([
-            'poli_nama' => 'Spesialis Gigi',
+            'poli_nama' => 'Spesialis Gigi dan Mulut',
+            'user_id'   => '1'
+        ]);
+        m_poli::create([
+            'poli_nama' => 'Kebidanan',
             'user_id'   => '1'
         ]);
     }

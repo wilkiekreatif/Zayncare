@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('trx_pasiens', function (Blueprint $table) {
-            $table->string('trx_id')->primary();
+            $table->id();
+            $table->string('trx_id')->unique();
             $table->foreignId('pasien_id')->constrained('m_pasiens');
             $table->foreignId('poli_id')->constrained('m_polis');
             $table->enum('kelastarif',[1,2,3])->default(1)->comment('1:margin1, 2:margin2, 3:margin3');

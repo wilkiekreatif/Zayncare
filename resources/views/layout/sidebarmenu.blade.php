@@ -21,17 +21,57 @@
           </p>
         </a>
         <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="#" class="nav-link @if(Request::is('apotek/pembayaran')) active @elseif(Request::is('apotek/pembayaran/*')) active @endif">
-              <i class="nav-icon fas fa-file-prescription"></i>
-              <p>Master </p>
+          <li class="nav-item @if(Request::is('gudang/obatalkes')) menu-is-opening menu-open @elseif(Request::is('gudang/obatalkes/*')) menu-is-opening menu-open @endif ">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-pills"></i>
+              <p>
+                Master
+                <i class="right fas fa-angle-left"></i>
+              </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('obatalkes.index')}}" class="nav-link @if(Request::is('gudang/obatalkes')) active @endif">
+                  <i class="fa fa-users nav-icon"></i>
+                  <p>Master User</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('obatalkes.index')}}" class="nav-link @if(Request::is('gudang/obatalkes')) active @endif">
+                  <i class="fa fa-user-md nav-icon"></i>
+                  <p>Master Dokter</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('obatalkes.defekta')}}" class="nav-link  @if(Request::is('gudang/obatalkes/defekta')) active @endif">
+                  <i class="fa fa-tools nav-icon"></i>
+                  <p>Master Tindakan</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{url('/construction')}}" class="nav-link  @if(Request::is('gudang/obatalkes/stokopname')) active @endif">
+                  <i class="fa fa-thermometer-full nav-icon"></i>
+                  <p>Master Poliklinik</p>
+                </a>
+              </li>
+            </ul>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link @if(Request::is('apotek/report')) active @elseif(Request::is('apotek/report')) active @endif">
-              <i class="nav-icon fas fa-cash-register"></i>
-              <p>Pembelian Umum</p>
+          <li class="nav-item @if(Request::is('gudang/obatalkes')) menu-is-opening menu-open @elseif(Request::is('gudang/obatalkes/*')) menu-is-opening menu-open @endif ">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-cogs"></i>
+              <p>
+                Config
+                <i class="right fas fa-angle-left"></i>
+              </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="#" class="nav-link @if(Request::is('gudang/obatalkes')) active @endif">
+                  <i class="fa fa-server nav-icon"></i>
+                  <p>ENV Editor</p>
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </li>
@@ -165,7 +205,19 @@
           <li class="nav-item">
             <a href="#" class="nav-link @if(Request::is('apotek/pembayaran')) active @elseif(Request::is('apotek/pembayaran/*')) active @endif">
               <i class="nav-icon fas fa-file-prescription"></i>
-              <p>Resep</p>
+              <p>Resep Poliklinik</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link @if(Request::is('apotek/pembayaran')) active @elseif(Request::is('apotek/pembayaran/*')) active @endif">
+              <i class="nav-icon fas fa-file-prescription"></i>
+              <p>Penjualan Resep</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link @if(Request::is('apotek/report')) active @elseif(Request::is('apotek/report')) active @endif">
+              <i class="nav-icon fas fa-file-prescription"></i>
+              <p>Copy Resep</p>
             </a>
           </li>
           <li class="nav-item">

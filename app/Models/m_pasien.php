@@ -24,6 +24,7 @@ class m_pasien extends Model
         'no_telp',
         'agama',
         'pendidikan',
+        'alergi',
         'asuransi1',
         'asuransi2',
         'asuransi3',

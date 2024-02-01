@@ -3,13 +3,17 @@
 @section('title','Pasien Poliklinik')
 
 @section('css')
-  <!-- DataTables -->
-  <link rel="stylesheet" href="{{asset('adminlte')}}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="{{asset('adminlte')}}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="{{asset('adminlte')}}/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="{{asset('adminlte')}}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="{{asset('adminlte')}}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="{{asset('adminlte')}}/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<meta http-equiv="refresh" content="60">
 @endsection
 
 @section('konten')
+  <div class="progress" style="height: 2px;">
+    <div id="timerprogress" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+  </div>
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <div class="container-fluid">
@@ -28,6 +32,57 @@
   </section>
   <section class="content text-sm">
     <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>{{$totalData = $trxPasiens->where('status','!=',['0','99'])->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
+              <p>Pasien hari ini</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-user-injured"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>{{$totalData = $trxPasiens->where('poli_id','1')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
+              <p>Pasien Poli Umum</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-user-injured"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>{{$totalData = $trxPasiens->where('poli_id','2')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
+              <p>Pasien Poli Gigi dan Mulut</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-user-injured"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h3>{{$totalData = $trxPasiens->where('poli_id','3')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
+              <p>Pasien Poli Kandungan</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-user-injured"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{-- table pasien poli --}}
       <div class="card card-default">
           <div class="card-header">
               <div class="d-flex justify-content-between align-items-center">
@@ -45,6 +100,7 @@
                   <th style="background-color: rgb(120, 186, 196)" width="15%">ID PASIEN</th>
                   <th style="background-color: rgb(120, 186, 196)" width="50%">NAMA PASIEN</th>
                   <th style="background-color: rgb(120, 186, 196)" width="20%">POLIKLINIK</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="10%">ALERGI</th>
                   <th style="background-color: rgb(120, 186, 196)" >STATUS</th>
                   <th style="background-color: rgb(120, 186, 196)" width="2%">ACTION</th>
                 </tr>
@@ -156,6 +212,11 @@
                         </ul>
                       </div>
                     </td>
+                    @if ($trxPasien->mPasien->alergi != null)
+                      <td style="background-color: rgb(255, 161, 161)"><h6>{{ $trxPasien->mPasien->alergi}}</h6></td>
+                    @else
+                      <td>-</td>
+                    @endif
                     <td>
                       @if ($trxPasien->status == 99)
                         <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Pasien batal periksa">Batal Periksa</span></h5>
@@ -173,7 +234,8 @@
                     </td>
                     <td>
                       <div class="btn-group" style="width: 100%">
-                        <a href="{{route('poliklinik.periksa',$trxPasien->trx_id)}}" type="button" class="btn btn-sm btn-info {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Periksa Pasien"><i class="fas fa-stethoscope"></i> Periksa</a>
+                        <a href="{{route('poliklinik.periksa',$trxPasien->trx_id)}}" type="button" class="btn btn-sm btn-primary {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Periksa Pasien"><i class="fas fa-stethoscope"></i> Periksa</a>
+                        <a href="#" type="button" class="btn btn-sm btn-info toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Periksa Pasien"><i class="fas fa-user-md"></i> Tindakan</a>
                         <a href="#" type="button" class="btn btn-sm btn-success toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Input Resep Pasien"><i class="fas fa-pills"></i> Resep</a>
                         @if ( $trxPasien->status == 4)
                           <a href="{{route('register.pulangkan',$trxPasien->trx_id)}}" onclick="return confirm('Apakah anda yakin akan memulangkan pasien ini?')" type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Pulangkan pasien"><i class="fas fa-home"></i> Pulangkan</a>
@@ -182,7 +244,7 @@
                         @endif
                       </div><hr>
                       <div class="btn-group" style="width: 100%">
-                        <a href="#" type="button" class="btn btn-sm btn-default {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Periksa Pasien"><i class="fas fa-print"></i> Tracer</a>
+                        <a href="#" type="button" class="btn btn-sm btn-default toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Periksa Pasien"><i class="fas fa-print"></i> Tracer</a>
                         <a href="#" type="button" class="btn btn-sm btn-primary toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Input Resep Pasien"><i class="fas fa-file"></i> Riwayat</a>
                       </div>
                     </td>
@@ -196,6 +258,7 @@
                   <th>ID PASIEN</th>
                   <th>NAMA PASIEN</th>
                   <th>POLIKLINIK</th>
+                  <th>ALERGI</th>
                   <th>STATUS</th>
                   <th>ACTION</th>
                 </tr>
@@ -222,6 +285,34 @@
   <script src="{{asset('adminlte')}}/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
   <script src="{{asset('adminlte')}}/plugins/datatables-buttons/js/buttons.print.min.js"></script>
   <script src="{{asset('adminlte')}}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+  <script>
+    function startTimer(seconds) {
+        const timer = document.getElementById('timerprogress');
+        // const startButton = document.getElementById('startButton');
+        
+        // startButton.disabled = true; // Matikan tombol saat timer berjalan
+        
+        timer.style.width = '0%';
+        let currentTime = 0;
+        
+        const interval = setInterval(function() {
+            if (currentTime >= seconds) {
+                clearInterval(interval);
+                startButton.disabled = false; // Aktifkan tombol setelah timer selesai
+            } else {
+                currentTime++;
+                const percentage = (currentTime / seconds) * 100;
+                timer.style.width = percentage + '%';
+                timer.setAttribute('aria-valuenow', currentTime);
+            }
+        }, 990);
+    }
+
+    // Jalankan fungsi startTimer secara otomatis saat halaman dibuka
+    window.onload = function() {
+        startTimer(60);
+    };
+  </script>
   <script>
     $(function () {
       $("#datatable1").DataTable({

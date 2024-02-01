@@ -116,7 +116,8 @@
       <div class="float-right d-none d-sm-block">
         <b>We play</b> with creativity | <b>Version</b> 1.0
       </div>
-      <strong>Developed by <a href="https://instagram.com/w.auliaabdillah"><b>  @w.auliaabdillah</b></a> 2024</strong>. All rights reserved.
+      <strong>Developed by <a href="https://instagram.com/w.auliaabdillah"><b>  Wilkie Creativa Medika</b></a></strong> 2024
+      . All rights reserved.
     </footer>
 
   </div>

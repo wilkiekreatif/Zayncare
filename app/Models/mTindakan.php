@@ -22,6 +22,6 @@ class mTindakan extends Model
 
     public function trxTindakan()
     {
-        $this->hasMany(trxPasien::class, 'id', 'tindakan_id');
+        return $this->hasMany(trxTindakanpasien::class, 'id', 'tindakan_id');
     }
 }

@@ -34,3 +34,17 @@
     </div>
   </div>
 </form>
+<div class="card card-primary card-outline">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <h3 class="card-title">
+          <i class="fab fa-wpforms"></i>
+          Riwayat Anamnesa
+        </h3>
+    </div>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body">
+    {{-- Form inputan tindakan --}}
+  </div>
+</div>

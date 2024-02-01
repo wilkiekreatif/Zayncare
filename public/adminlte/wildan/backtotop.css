@@ -14,4 +14,7 @@
 
 #back-to-top:hover {
     background-color: #19c4dc;
+    padding: 14px 19px;
+    bottom: 56px;
+    right: 10px;
 }

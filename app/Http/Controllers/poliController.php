@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\mTindakan;
 use App\Models\trxPasien;
+use App\Models\trxTindakanpasien;
 use Illuminate\Http\Request;
 
 class poliController extends Controller
@@ -71,9 +72,14 @@ class poliController extends Controller
 
     public function periksa(string $id)
     {
-        $pasien     = trxPasien::with('mPasien')->where('trx_id',$id)->first();
-        $tindakan   = mTindakan::where('is_active','1')->get();
-        return view('poliklinik.pemeriksaan',['tindakans'=> $tindakan])->with('trxPasien',$pasien);
+        $pasien         = trxPasien::with('mPasien')->where('trx_id',$id)->first();
+        $tindakan       = mTindakan::where('is_active','1')->get();
+        $tindakanPasien = trxTindakanpasien::with('mTindakan')->get();
+        //dd($tindakanPasien);
+        return view('poliklinik.pemeriksaan',[
+            'tindakans'     => $tindakan,
+            'trxTindakans'   => $tindakanPasien
+        ])->with('trxPasien',$pasien);
     }
 
     public function anamnesa(Request $request, string $id)
@@ -82,6 +88,23 @@ class poliController extends Controller
     }
     public function tindakan(Request $request, string $id)
     {
-        return 'tindakan poli';
+        $request->validate([
+            'tindakan'  => 'required',
+            'qty'       => 'required',
+            'satuan'    => 'required',
+        ],[
+            'tindakan.required' => 'kolom TINDAKAN wajib diisi',
+            'qty.required'      => 'kolom QTY wajib diisi',
+            'satuan.required'   => 'kolom SATUAN wajib diisi',
+        ]);
+
+        dd($request);
+        $tindakan = [
+            'trx_id'        => $request->trx_id,
+            'tindakan_id'   => $request->tindakan,
+            'qty'           => $request->qty,
+            'satuan'        => $request->satuan,
+            'tarif'         => $request->tarif,
+        ];
     }
 }

@@ -60,7 +60,7 @@
                     <td>{{ $no }}</td>
                     <td>{{ $mPasien->no_rm }}</td>
                     <td>
-                      <div style="width: 70%; float: left;">
+                      <div style="width: 60%; float: left;">
                         <ul class="nav nav-pills flex-column">
                           <li class="nav-item">
                             {{ $mPasien->label }}. @if ($mPasien->gelardepan!= null)
@@ -81,8 +81,9 @@
                           </li>
                         </ul>
                       </div>
-                      <div style="width: 30%; float: left;">
+                      <div style="width: 40%; float: left;">
                         <ul class="nav nav-pills flex-column">
+                          <li class="nav-item">{{$mPasien->nik}}</li>
                           <li class="nav-item">
                             {{ $mPasien->jeniskelamin==0 ? 'Laki-laki' : 'Perempuan'}}
                           </li>
@@ -107,7 +108,6 @@
                                 Diatas S-III
                             @endif</b>
                           </li>
-                          <li></li>
                         </ul>
                       </div>
                     </td>
@@ -118,19 +118,20 @@
                               <i class="fa fa-home"> </i> {{$mPasien->alamat}}, Desa {{$mPasien->desa}} Kec. {{$mPasien->kecamatan}} {{$mPasien->kota}}
                           </li>
                           <li class="nav-item">
-                              <i class="fa fa-user"> </i> @if ($mPasien->agama == 0)
-                                                            Islam
-                                                          @elseif ($mPasien->agama == 1)
-                                                            Katolik
-                                                          @elseif ($mPasien->agama == 2)
-                                                            Protestan
-                                                          @elseif ($mPasien->agama == 3)
-                                                            Hindu
-                                                          @elseif ($mPasien->agama == 4)
-                                                            Buddha
-                                                          @elseif ($mPasien->agama == 5)
-                                                            Lainnya
-                                                          @endif
+                              <i class="fa fa-user"> </i> 
+                                @if ($mPasien->agama == 0)
+                                  Islam
+                                @elseif ($mPasien->agama == 1)
+                                  Katolik
+                                @elseif ($mPasien->agama == 2)
+                                  Protestan
+                                @elseif ($mPasien->agama == 3)
+                                  Hindu
+                                @elseif ($mPasien->agama == 4)
+                                  Buddha
+                                @elseif ($mPasien->agama == 5)
+                                  Lainnya
+                                @endif
                           </li>
                           <li class="nav-item">
                               <i class="fa fa-phone"> </i> <a href="https://api.whatsapp.com/send/?phone={{$mPasien->no_telp}}" target="blank" data-toggle="tooltip" data-placement="bottom" title="klik untuk CHAT WHATSAPP dengan no ini"> {{$mPasien->no_telp}}</a> 

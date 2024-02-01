@@ -15,6 +15,7 @@ class pasienSeeder extends Seeder
     {
         m_pasien::create([
             'no_rm'         => '000001',
+            'nik'           => '5555544332211110000',
             'label'         => 'Tn',
             'gelardepan'    => '',
             'pasien_nama'   => 'Wildan Auliana',
@@ -28,13 +29,14 @@ class pasienSeeder extends Seeder
             'no_telp'       => '6281223766271',
             'agama'         => '0',
             'pendidikan'    => '4',
-            'pendidikan'    => 'Alergi Paracetamol',
+            'alergi'        => 'Alergi Paracetamol',
             'asuransi1'     => 'BPJS KESEHATAN',
             'asuransi2'     => 'UMUM',
             'user_id'       => '1',
         ]);
         m_pasien::create([
             'no_rm'         => '000002',
+            'nik'           => '5555544332211110001',
             'label'         => 'Ny',
             'gelardepan'    => '',
             'pasien_nama'   => 'Kiki Zakiyah Arifin',
@@ -54,6 +56,7 @@ class pasienSeeder extends Seeder
         ]);
         m_pasien::create([
             'no_rm'         => '000003',
+            'nik'           => '5555544332211110002',
             'label'         => 'An',
             'gelardepan'    => '',
             'pasien_nama'   => 'Muhammad Zain Abdullah',

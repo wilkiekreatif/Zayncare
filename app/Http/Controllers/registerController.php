@@ -46,6 +46,7 @@ class registerController extends Controller
     {
         $request->validate([
             'label'         => 'required',
+            'nik'           => 'required|unique:m_pasiens,nik',
             'pasiennama'    => 'required',
             'tgllahir'      => 'required|date',
             'alamat'        => 'required',
@@ -57,6 +58,8 @@ class registerController extends Controller
             'penjamin1'     => 'required',
         ],[
             'label.required'        => 'kolom PANGGILAN PASIEN wajib diisi',
+            'nik.required'          => 'kolom NIP wajib diisi.',
+            'nik.unique'            => 'NIP pasien sudah terdaftar, silahkan cek ulang master pasien.',
             'pasiennama.required'   => 'kolom NAMA PASIEN wajib diisi',
             'tgllahir.required'     => 'kolom TANGGAL LAHIR wajib diisi',
             'alamat.required'       => 'kolom ALAMAT PASIEN wajib diisi',
@@ -76,6 +79,7 @@ class registerController extends Controller
         $newPasien = [
             'no_rm'         => $id,
             'label'         => $request->label,
+            'nik'           => $request->nik,
             'gelardepan'    => $request->gelardepan,
             'pasien_nama'   => $request->pasiennama,
             'gelarbelakang' => $request->gelarbelakang,

@@ -66,6 +66,10 @@
                         <option value="An" {{ old('label') == 'An' ? 'selected' : '' }}>Anak (An.)</option>
                       </select>
                     </div>
+                    <div class="form-group">
+                      <label class="col-form-label" for="nik">Nomor induk penduduk </label>
+                      <input type="number" class="form-control {{ $errors->has('nik') ? 'is-invalid' : '' }}" name="nik" id="nik" placeholder="Silahkan isi ..." maxlength="60" value="{{old('nik')}}">
+                    </div>
                     <div class="row">
                       <div class="col-sm-2">
                         <div class="form-group">

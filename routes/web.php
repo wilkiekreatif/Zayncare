@@ -60,9 +60,17 @@ Route::controller(registerController::class)->group(function(){
 Route::controller(poliController::class)->group(function(){
     Route::get('poliklinik','index')->name('poliklinik.index');
     Route::get('poliklinik/{id}/periksa','periksa')->name('poliklinik.periksa');
+    Route::get('poliklinik/{id}/reseppoli','reseppoli')->name('poliklinik.reseppoli');
     Route::put('poliklinik/{id}/anamnesa','anamnesa')->name('poliklinik.anamnesa');
     Route::post('poliklinik/{id}/tindakan','tindakan')->name('poliklinik.tindakan');
     Route::put('poliklinik/{id}/bataltindakan','bataltindakan')->name('poliklinik.bataltindakan');
+    Route::get('poliklinik/{id}/doneresep','doneresep')->name('poliklinik.doneresep');
+    Route::get('poliklinik/{id}/kembalikan','kembalikan')->name('poliklinik.kembalikan');
+    Route::get('poliklinik/{id}/pulangkan','pulangkan')->name('poliklinik.pulangkan');
+    Route::get('poliklinik/{id}/batalperiksa','batalperiksa')->name('poliklinik.batalperiksa');
+    Route::get('poliklinik/{id}','getTarifobat')->name('poliklinik.getTarifobat');
+    Route::put('poliklinik/{id}/tambahobatalkes','tambahobatalkes')->name('poliklinik.tambahobatalkes');
+    Route::put('poliklinik/{trx_id}/deleteobat','deleteobat')->name('poliklinik.deleteobat');
 });
 Route::get('/construction', function () {
     return view('construction.index');

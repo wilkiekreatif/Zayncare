@@ -37,7 +37,7 @@
           <!-- small box -->
           <div class="small-box bg-info">
             <div class="inner">
-              <h3>{{$totalData = $trxPasiens->where('status','!=',['0','99'])->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
+              <h3>{{$totalData = $trxPasiens->where('status', '!=', ['99','4','5'])->count(); }} <sup style="font-size: 20px">Pasien</sup></h3>
               <p>Pasien hari ini</p>
             </div>
             <div class="icon">
@@ -235,17 +235,18 @@
                     <td>
                       <div class="btn-group" style="width: 100%">
                         <a href="{{route('poliklinik.periksa',$trxPasien->trx_id)}}" type="button" class="btn btn-sm btn-primary {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Periksa Pasien"><i class="fas fa-stethoscope"></i> Periksa</a>
-                        <a href="#" type="button" class="btn btn-sm btn-info toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Periksa Pasien"><i class="fas fa-user-md"></i> Tindakan</a>
-                        <a href="#" type="button" class="btn btn-sm btn-success toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Input Resep Pasien"><i class="fas fa-pills"></i> Resep</a>
+                        <a href="{{route('poliklinik.reseppoli',$trxPasien->trx_id)}}" type="button" class="btn btn-sm btn-success {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}} {{ $trxPasien->status == '3' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Input Resep Pasien"><i class="fas fa-pills"></i> Resep</a>
                         @if ( $trxPasien->status == 4)
-                          <a href="{{route('register.pulangkan',$trxPasien->trx_id)}}" onclick="return confirm('Apakah anda yakin akan memulangkan pasien ini?')" type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Pulangkan pasien"><i class="fas fa-home"></i> Pulangkan</a>
-                        @else
-                          <a href="{{route('register.batalperiksa',$trxPasien->trx_id)}}" onclick="return confirm('Apakah anda yakin akan membatalkan pasien ini?')" type="button" class="btn btn-sm btn-danger {{ $trxPasien->status == '1' ? '' : 'disabled'}}" data-toggle="tooltip" data-placement="bottom" title="Batalkan pemeriksaan"><i class="fas fa-times"></i> Batal</a>
-                        @endif
+                          <a href="{{route('poliklinik.pulangkan',$trxPasien->trx_id)}}" onclick="return confirm('Apakah anda yakin akan memulangkan pasien ini?')" type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Pulangkan pasien"><i class="fas fa-home"></i> Pulangkan</a>
+                        @elseif (( $trxPasien->status == 1 ))
+                          <a href="{{route('poliklinik.batalperiksa',$trxPasien->trx_id)}}" onclick="return confirm('Apakah anda yakin akan membatalkan pasien ini?')" type="button" class="btn btn-sm btn-danger {{ $trxPasien->status == '1' ? '' : 'disabled'}}" data-toggle="tooltip" data-placement="bottom" title="Batalkan pemeriksaan"><i class="fas fa-times"></i> Batal</a>
+                        @elseif (( $trxPasien->status == 99 ))
+                          <a href="{{route('poliklinik.kembalikan',$trxPasien->trx_id)}}" onclick="return confirm('Apakah anda yakin akan mengembalikan pasien ini?')" type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="mengembalikan pasien pemeriksaan"><i class="fas fa-undo-alt"></i> Kembalikan</a>
+                          @endif
                       </div><hr>
                       <div class="btn-group" style="width: 100%">
-                        <a href="#" type="button" class="btn btn-sm btn-default toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Periksa Pasien"><i class="fas fa-print"></i> Tracer</a>
-                        <a href="#" type="button" class="btn btn-sm btn-primary toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Input Resep Pasien"><i class="fas fa-file"></i> Riwayat</a>
+                        <a href="#" type="button" class="btn btn-sm btn-default toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Print tracer pasien"><i class="fas fa-print"></i> Tracer</a>
+                        <a href="#" type="button" class="btn btn-sm btn-primary toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Riwayat pasien"><i class="fas fa-file"></i> Riwayat</a>
                       </div>
                     </td>
                   </tr>

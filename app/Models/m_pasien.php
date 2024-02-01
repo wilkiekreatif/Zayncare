@@ -11,7 +11,9 @@ class m_pasien extends Model
 
     protected $fillable = [
         'no_rm',
+        'nik',
         'label',
+        'nik',
         'gelardepan',
         'pasien_nama',
         'gelarbelakang',

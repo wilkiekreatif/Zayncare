@@ -40,7 +40,7 @@
               <div class="d-flex justify-content-between align-items-center">
                   <h3 class="card-title">
                     <i class="fa fa-user-injured"></i>
-                    Data Pasien
+                    Data Pasien 2
                   </h3>
               </div>
             </div>

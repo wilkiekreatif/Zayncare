@@ -59,9 +59,9 @@ Route::controller(registerController::class)->group(function(){
 });
 Route::controller(poliController::class)->group(function(){
     Route::get('poliklinik','index')->name('poliklinik.index');
-    Route::get('poliklinik/{id}/periksa','periksa')->name('poliklinik.periksa');
+    // Route::get('poliklinik/{id}/periksa','periksa')->name('poliklinik.periksa');
     Route::get('poliklinik/{id}/reseppoli','reseppoli')->name('poliklinik.reseppoli');
-    Route::put('poliklinik/{id}/anamnesa','anamnesa')->name('poliklinik.anamnesa');
+    // Route::put('poliklinik/{id}/anamnesa','anamnesa')->name('poliklinik.anamnesa');
     Route::post('poliklinik/{id}/tindakan','tindakan')->name('poliklinik.tindakan');
     Route::put('poliklinik/{id}/bataltindakan','bataltindakan')->name('poliklinik.bataltindakan');
     Route::get('poliklinik/{id}/doneresep','doneresep')->name('poliklinik.doneresep');
@@ -71,6 +71,10 @@ Route::controller(poliController::class)->group(function(){
     Route::get('poliklinik/{id}','getTarifobat')->name('poliklinik.getTarifobat');
     Route::put('poliklinik/{id}/tambahobatalkes','tambahobatalkes')->name('poliklinik.tambahobatalkes');
     Route::put('poliklinik/{trx_id}/deleteobat','deleteobat')->name('poliklinik.deleteobat');
+
+    Route::get('poliklinik/periksa/{id}','periksa')->name('poliklinik.periksa'); 
+    Route::post('poliklinik/simpan/anamnesa','anamnesa')->name('poliklinik.anamnesa');
+    Route::get('harga_tindakan/{id}','getHarga_t');
 });
 Route::get('/construction', function () {
     return view('construction.index');

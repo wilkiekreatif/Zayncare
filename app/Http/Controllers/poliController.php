@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anamnesa;
+use App\Models\KodeHarga;
 use App\Models\m_obatalkes;
 use App\Models\mTindakan;
 use App\Models\trxObatalkes;
@@ -77,17 +79,41 @@ class poliController extends Controller
         $pasien         = trxPasien::with('mPasien')->where('trx_id',$id)->first();
         $tindakan       = mTindakan::where('is_active','1')->get();
         $tindakanPasien = trxTindakanpasien::with('mTindakan')->get();
+        // $kode_harga       = KodeHarga::all();
         //dd($tindakanPasien);
         return view('poliklinik.pemeriksaan',[
             'tindakans'     => $tindakan,
             'trxTindakans'   => $tindakanPasien
+            // 'kodeHarga' => $kode_harga
         ])->with('trxPasien',$pasien);
     }
 
-    public function anamnesa(Request $request, string $id)
+    public function anamnesa(Request $request)
     {
-        return 'anamnesa poli';
+        // code ispan
+        $request->validate([
+            'detakjantung' => 'required',
+            'tensi1' => 'required',
+            'tensi2' => 'required',
+            'suhu' => 'required',
+            
+        ]);
+
+        $id_t = $request->trx_id;
+
+        Anamnesa::create([
+            'trx_id' => $request->trx_id,
+            'detakjantung' => $request->detakjantung,
+            'tensi1' => $request->tensi1,
+            'tensi2' => $request->tensi2,
+            'suhu' => $request->suhu,
+            'beratbadan' => $request->beratbadan,
+            'user_id' => 1
+        ]);
+        
+        return redirect()->route('poliklinik.periksa',['id' => $id_t])->with('success','Tindakan berhasil disimpan');
     }
+
     public function tindakan(Request $request, string $id)
     {
         $request->validate([
@@ -100,14 +126,35 @@ class poliController extends Controller
             'satuan.required'   => 'kolom SATUAN wajib diisi',
         ]);
 
-        dd($request);
-        $tindakan = [
+        // dd($request);
+        $id_t = $request->trx_id;
+        // dd($id_p);
+        $total = $request->tarif * $request->qty;
+        trxTindakanpasien::create([
             'trx_id'        => $request->trx_id,
             'tindakan_id'   => $request->tindakan,
             'qty'           => $request->qty,
             'satuan'        => $request->satuan,
             'tarif'         => $request->tarif,
-        ];
+            'total'         => $total,
+            'status'         => 1,
+            'user_id'         => 1
+        ]);
+
+        return redirect()->route('poliklinik.periksa',['id' => $id_t])->with('success','Tindakan berhasil disimpan');
+
+        // $tindakan = [
+        //     'trx_id'        => $request->trx_id,
+        //     'tindakan_id'   => $request->tindakan,
+        //     'qty'           => $request->qty,
+        //     'satuan'        => $request->satuan,
+        //     'tarif'         => $request->tarif,
+        // ];
+    }
+
+    public function getHarga_t($id){
+        $harga = mTindakan::where('id', $id)->get();
+        return response()->json($harga);
     }
 
     public function reseppoli($id)

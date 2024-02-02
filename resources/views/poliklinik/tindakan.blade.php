@@ -14,7 +14,7 @@
       </div>
       <div class="form-group">
         <label class="col-form-label" for="tarif">Tarif</label>
-        <input readonly type="number" class="form-control" name="tarif" id="tarif"value="">
+        <input type="number" class="form-control" name="tarif" id="tarif">
       </div>
       <div class="form-group">
         <label class="col-form-label" for="qty">Jumlah Tindakan</label>
@@ -28,6 +28,7 @@
           <option value="Jam" {{ old('satuan') == 'Jam' ? 'selected' : '' }}>Jam</option>
         </select>
       </div>
+
       <div class="text-right">
         <button type="submit" onclick="return confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-success"> <i class="fas fa-save"> </i> SIMPAN</button>
         <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i> RESET</button>
@@ -35,3 +36,47 @@
     </div>
   </div>
 </form>
+
+{{-- Sript auto dropdown --}}
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+    $('#tindakan').on('change', function() {
+        var kode_tindakan = $(this).val();
+        // console.log(kode_tindakan);
+        if(kode_tindakan) {
+            $.ajax({
+                url:'/harga_tindakan/'+ kode_tindakan,
+                type: 'GET',
+                data: {
+                    '_token': '{{ csrf_token() }}'
+                },
+                dataType:'json',
+                success: function(data){
+                    // console.log(data);
+                    if(data){
+      
+                    var kelastarif = {{ $trxPasien->kelastarif }};
+                    if(kelastarif === 1){
+                      var margin = data[0].margin1;
+                    }else if(kelastarif === 2){
+                      var margin = data[0].margin2;
+                    }else if(kelastarif === 3){
+                      var margin = data[0].margin3;
+                    }                       
+                    
+                    var hargajual = (data[0].tarifdasar * margin/100) + data[0].tarifdasar;
+                    $('#tarif').val(hargajual);
+                    }else{
+                        $('#harga').empty();
+                    }
+                }
+            });    
+        }else{
+            $('#harga').empty();
+        }
+    });
+});
+
+
+</script>

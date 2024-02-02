@@ -50,7 +50,7 @@
           <div class="small-box bg-warning">
             <div class="inner">
               {{-- <h3>{{$totalData = $trxPasiens->where('poli_id','1')->count();}} <sup style="font-size: 20px">Resep</sup></h3> --}}
-              <p>Resep dari luar hari ini</p>
+              <p>Resep bulan ini</p>
             </div>
             <div class="icon">
               <i class="fas fa-user-injured"></i>

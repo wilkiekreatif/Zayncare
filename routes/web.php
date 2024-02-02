@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\kasirController;
 use App\Http\Controllers\obatalkesController;
 use App\Http\Controllers\poliController;
 use App\Http\Controllers\registerController;
@@ -76,6 +77,13 @@ Route::controller(poliController::class)->group(function(){
     Route::post('poliklinik/simpan/anamnesa','anamnesa')->name('poliklinik.anamnesa');
     Route::get('harga_tindakan/{id}','getHarga_t');
 });
+
+Route::controller(kasirController::class)->group(function(){
+    Route::get('kasir','index')->name('kasir.index');
+    Route::get('kasir/prosesbayar/{id}','prosesBayar')->name('kasir.prosesBayar');
+});
+
+
 Route::get('/construction', function () {
     return view('construction.index');
 });

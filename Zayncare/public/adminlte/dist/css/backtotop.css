@@ -1,0 +1,17 @@
+#back-to-top {
+    display: none;
+    position: fixed;
+    bottom: 60px;
+    right: 10px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 50px;
+    text-align: center;
+    text-decoration: none;
+    transition: opacity 0.4s ease-in-out;
+}
+
+#back-to-top:hover {
+    opacity: 0.7;
+}

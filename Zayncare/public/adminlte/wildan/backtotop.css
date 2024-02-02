@@ -1,0 +1,20 @@
+#back-to-top {
+    display: none;
+    position: fixed;
+    bottom: 60px;
+    right: 14px;
+    background-color: #15a2b6;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 50px;
+    text-align: center;
+    text-decoration: none;
+    transition: opacity 0.4s ease-in-out;
+}
+
+#back-to-top:hover {
+    background-color: #19c4dc;
+    padding: 14px 19px;
+    bottom: 56px;
+    right: 10px;
+}

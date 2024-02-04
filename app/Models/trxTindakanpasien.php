@@ -28,4 +28,8 @@ class trxTindakanpasien extends Model
     {
         return $this->belongsTo(m_pasien::class,'trx_id','id');
     }
+
+    public static function totalTindakan($id){
+        return self::where('trx_id', $id)->sum('total');
+    }
 }

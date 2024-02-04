@@ -44,6 +44,8 @@
                   </h3>
               </div>
             </div>
+            <form action="{{ route('kasir.simpanBayar',$trxPasien->trx_id) }}" method="post">
+              @csrf
             <!-- /.card-header -->
             <div class="card-body">
               <div class="row">
@@ -87,7 +89,6 @@
         </div>
       </div>
 
-
       <div class="row">
         <div class="col-md-12">
           <div class="card card-info card-outline">
@@ -113,27 +114,73 @@
                 @foreach ($trxTindakans as $tindakan)
                 <tr>
                   <td>{{ $no++}}</td>
-                  <td>{{ $tindakan->tindakan_id }}</td>
+                  <td>{{ $tindakan->mTindakan->tindakan_nama }}</td>
                   <td>{{ $tindakan->tarif }}</td>
                   <td>{{ $tindakan->qty }}</td>
                   <td>{{ $tindakan->total }}</td>
                 </tr>   
                 @endforeach
               </tbody>
+                <tr style="font-weight: bold ; font-size: 1rem">
+                  <td colspan="4">Total</td>
+                  <td>Rp. {{ $totalTindakan }}</td>
+                </tr>
+                <input style="border: none; font-weight: bold" type="number" name="totalTindakan" value="{{ $totalTindakan }}" hidden>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  {{-- <th>Tanggal</th> --}}
+                  <th>Obat dan Alkes</th>
+                  <th>Tarif</th>
+                  <th>Jumlah</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                @php
+                    $no=1;
+                @endphp
+                @foreach ($trxObatAlkes as $tObatAlkes)
+                <tr>
+                  <td>{{ $no++}}</td>
+                  <td>{{ $tObatAlkes->mObatAlkes->obatalkes_nama }}</td>
+                  <td>{{ $tObatAlkes->tarif }}</td>
+                  <td>{{ $tObatAlkes->qty }}</td>
+                  <td>{{ $tObatAlkes->total }}</td>
+                </tr>   
+                @endforeach
+              </tbody>
               <tfoot>
                 <tr style="font-weight: bold ; font-size: 1rem">
                   <td colspan="4">Total</td>
-                  <td>{{ $total }}</td>
+                  <td name='totalObatAlkes'>{{ $totalObatAlkes }}</td>
+                </tr>
+                <input style="border: none; font-weight: bold" type="number" name="totalObatAlkes" value="{{ $totalObatAlkes }}" hidden>
+                <hr>
+                <tr style="font-weight: bold ; font-size: 1rem">
+                  <td colspan="4">Total Pembayaran</td>
+                  <td name='totalPembayaran'>Rp. {{ $totalBayar }}</td>
+                  <input style="border: none; font-weight: bold" type="number" name="totalPembayaran" value="{{ $totalBayar }}" hidden>
                 </tr>
               </tfoot>
+
+
+
+
+
               </table>
               <!-- /.tab-content -->
             </div><!-- /.card-body -->
+          
+
+          </div>
+          <div class="text-left">
+            <button type="submit" onclick="return confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-success"> <i class="fas fa-save"> </i> SIMPAN</button>
+            <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i> Cancel</button>
           </div>
         </div>
-        
       </div>
-
+    </form>
     </div>
   </section>
 @endsection

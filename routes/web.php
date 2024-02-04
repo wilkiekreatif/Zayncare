@@ -82,6 +82,7 @@ Route::controller(poliController::class)->group(function(){
 Route::controller(kasirController::class)->group(function(){
     Route::get('kasir','index')->name('kasir.index');
     Route::get('kasir/prosesbayar/{id}','prosesBayar')->name('kasir.prosesBayar');
+    Route::post('kasir/simpanpembayaran/{id}','simpanPembayaran')->name('kasir.simpanBayar');
 });
 
 

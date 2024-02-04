@@ -78,7 +78,7 @@ class poliController extends Controller
     {
         $pasien         = trxPasien::with('mPasien')->where('trx_id',$id)->first();
         $tindakan       = mTindakan::where('is_active','1')->get();
-        $tindakanPasien = trxTindakanpasien::with('mTindakan')->get();
+        $tindakanPasien = trxTindakanpasien::with('mTindakan')->where('trx_id',$id)->get();
         // $kode_harga       = KodeHarga::all();
         //dd($tindakanPasien);
         return view('poliklinik.pemeriksaan',[

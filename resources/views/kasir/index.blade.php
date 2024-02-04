@@ -101,7 +101,7 @@
                   <th style="background-color: rgb(120, 186, 196)" width="50%">NAMA PASIEN</th>
                   <th style="background-color: rgb(120, 186, 196)" width="20%">POLIKLINIK</th>
                   <th style="background-color: rgb(120, 186, 196)" width="10%">ALERGI</th>
-                  <th style="background-color: rgb(120, 186, 196)" >STATUS</th>
+                  {{-- <th style="background-color: rgb(120, 186, 196)" >STATUS</th> --}}
                   <th style="background-color: rgb(120, 186, 196)" width="2%">ACTION</th>
                 </tr>
               </thead>
@@ -217,7 +217,7 @@
                     @else
                       <td>-</td>
                     @endif
-                    <td>
+                    {{-- <td>
                       @if ($trxPasien->status == 99)
                         <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Pasien batal periksa">Batal Periksa</span></h5>
                       @elseif ($trxPasien->status == 1)
@@ -231,10 +231,10 @@
                       @elseif ($trxPasien->status == 5)
                         <h5><span class="badge badge-info">Sudah Pulang</span></h5>
                       @endif
-                    </td>
+                    </td> --}}
                     <td>
                       <div class="btn-group" style="width: 100%">
-                        <a href="{{ route('kasir.prosesBayar',$trxPasien->trx_id) }}" type="button" class="btn btn-sm btn-primary {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Periksa Pasien"><i class="fas fa-stethoscope"></i>Bayar</a>
+                        <a href="{{ route('kasir.prosesBayar',$trxPasien->trx_id) }}" type="button" class="btn btn-sm btn-primary {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Proses Pembayaran"><i class="fas fa-stethoscope"></i>Bayar</a>
                         <a href="#" type="button" class="btn btn-sm btn-success {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}} {{ $trxPasien->status == '3' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Input Resep Pasien"><i class="fas fa-pills"></i> Rincian</a>
                         <a href="{{route('poliklinik.batalperiksa',$trxPasien->trx_id)}}" onclick="return confirm('Apakah anda yakin akan membatalkan pasien ini?')" type="button" class="btn btn-sm btn-danger {{ $trxPasien->status == '1' ? '' : 'disabled'}}" data-toggle="tooltip" data-placement="bottom" title="Batalkan pemeriksaan"><i class="fas fa-times"></i> Batal</a>
                       </div><hr>
@@ -254,7 +254,7 @@
                   <th>NAMA PASIEN</th>
                   <th>POLIKLINIK</th>
                   <th>ALERGI</th>
-                  <th>STATUS</th>
+                  {{-- <th>STATUS</th> --}}
                   <th>ACTION</th>
                 </tr>
               </tfoot>

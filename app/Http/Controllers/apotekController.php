@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\trxObatalkes;
+use App\Models\trxPasienResep;
 use Illuminate\Http\Request;
 
 class apotekController extends Controller
@@ -12,8 +13,30 @@ class apotekController extends Controller
      */
     public function index()
     {
-        $trxResep = trxObatalkes::all();
-        return view('apotek.index',['trxReseps' => $trxResep]);
+        $distinctTrxResep = trxPasienResep::select([
+                                                    'trx_id',
+                                                    'nik',
+                                                    'no_rm',
+                                                    'kelastarif',
+                                                    'label',
+                                                    'gelardepan',
+                                                    'pasien_nama',
+                                                    'gelarbelakang',
+                                                    'tgllahir',
+                                                    'alamat',
+                                                    'desa',
+                                                    'kecamatan',
+                                                    'kota',
+                                                    'no_telp',
+                                                    'poli_nama',
+                                                    'alergi',
+                                                    'status'
+
+                                                    
+                                                ])->distinct()->get();
+        // dd($distinctTrxResep);
+
+        return view('apotek.index',['trxReseps' => $distinctTrxResep]);
     }
 
     /**

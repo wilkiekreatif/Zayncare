@@ -160,7 +160,7 @@
                 </div>
                 <div class="card-footer">
                   <div class="text-right">
-                    <button type="submit" onclick="return  confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-success"> <i class="fas fa-save"> </i> SIMPAN</button>
+                    <button type="submit" class="btn btn-success"> <i class="fas fa-save"> </i> TAMBAH OBAT ALKES</button>
                     <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i> RESET</button>
                   </div>
                 </div>

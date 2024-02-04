@@ -109,7 +109,134 @@
                 <?php $no = 1 ?>
                 @foreach ($trxReseps as $trxResep)
                   <tr>
-                    
+                    <td>{{ $no}}</td>
+                    <td>
+                      <ul class="nav nav-pills flex-column">
+                        <li class="nav-item">
+                          No Trx: <b>{{$trxResep->trx_id}}</b>
+                        </li>
+                        <li class="nav-item">
+                          No RM: <b>{{$trxResep->no_rm}}</b>
+                        </li>
+                        <li class="nav-item">
+                          @if ($trxResep->kelastarif == 1)
+                              kelas tarif: <b>1</b>
+                          @elseif ($trxResep->kelastarif == 2)
+                              kelas tarif: <b>2</b>
+                          @elseif ($trxResep->kelastarif == 3)
+                              kelas tarif: <b>3</b>
+                          @endif
+                        </li>
+                    </td>
+                    <td>
+                      <div style="width: 40%; float: left;">
+                        <ul class="nav nav-pills flex-column">
+                          <li class="nav-item">
+                            {{ $trxResep->label }}. @if ($trxResep->gelardepan!= null)
+                                {{$trxResep->gelardepan}}.
+                            @endif<b>{{ $trxResep->pasien_nama }}</b> @if ($trxResep->gelarbelakang!=null)
+                                ,{{$trxResep->gelarbelakang }}
+                            @endif
+                          </li>
+                          <li class="nav-item">
+                            @php
+                              $tanggallahir = date('d-m-Y', strtotime($trxResep->tgllahir));
+                              $usia = date_diff(date_create($trxResep->tgllahir),date_create(\Carbon\Carbon::now()))->y;
+                            @endphp
+                              {{$tanggallahir}}
+                          </li>
+                          <li class="nav-item">
+                            <b>{{$usia}}</b>  Tahun
+                          </li>
+                          <li class="nav-item">
+                            {{ $trxResep->jeniskelamin==0 ? 'Laki-laki' : 'Perempuan'}}
+                          </li>
+                        </ul>
+                      </div>
+                      <div style="width: 60%; float: left;">
+                        <ul class="nav nav-pills flex-column">
+                          <li class="nav-item">
+                              <i class="fa fa-home"> </i> {{$trxResep->alamat}}, Desa {{$trxResep->desa}} Kec. {{$trxResep->kecamatan}} {{$trxResep->kota}}
+                          </li>
+                          <li class="nav-item"><b>
+                            @if ($trxResep->pendidikan==0)
+                                Dibawah SD
+                            @elseif ($trxResep->pendidikan==1)
+                                SD Sederajat
+                            @elseif ($trxResep->pendidikan==2)
+                                SMP Sederajat
+                            @elseif ($trxResep->pendidikan==3)
+                                SMA Sederajat
+                            @elseif ($trxResep->pendidikan==4)
+                                D-III Sederajat
+                            @elseif ($trxResep->pendidikan==5)
+                                S-I Sederajat
+                            @elseif ($trxResep->pendidikan==6)
+                                S-II Sederajat
+                            @elseif ($trxResep->pendidikan==7)
+                                S-III Sederajat
+                            @elseif ($trxResep->pendidikan==8)
+                                Diatas S-III
+                            @endif</b>
+                          </li>
+                          <li class="nav-item">
+                              <i class="fa fa-user"> </i> @if ($trxResep->agama == 0)
+                                                            Islam
+                                                          @elseif ($trxResep->agama == 1)
+                                                            Katolik
+                                                          @elseif ($trxResep->agama == 2)
+                                                            Protestan
+                                                          @elseif ($trxResep->agama == 3)
+                                                            Hindu
+                                                          @elseif ($trxResep->agama == 4)
+                                                            Buddha
+                                                          @elseif ($trxResep->agama == 5)
+                                                            Lainnya
+                                                          @endif
+                          </li>
+                          <li class="nav-item">
+                              <i class="fa fa-phone"> </i> <a href="https://api.whatsapp.com/send/?phone={{$trxResep->no_telp}}" target="blank" data-toggle="tooltip" data-placement="bottom" title="klik untuk CHAT WHATSAPP dengan no ini"> {{$trxResep->no_telp}}</a> 
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                    <td>
+                      <div style="width: 100%; float: left;">
+                        <ul class="nav nav-pills flex-column">
+                          <li class="nav-item">
+                            Poliklinik <b>{{$trxResep->poli_nama}}</b>
+                          </li>
+                          <li class="nav-item">
+                            #Nama dokter pemeriksa
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                    @if ($trxResep->alergi != null)
+                      <td style="background-color: rgb(255, 161, 161)"><h6>{{ $trxResep->alergi}}</h6></td>
+                    @else
+                      <td>-</td>
+                    @endif
+                    <td>
+                      @if ($trxResep->status == 99)
+                        <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Pasien batal periksa">Batal Periksa</span></h5>
+                      @elseif ($trxResep->status == 1)
+                        <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom" title="Anda hanya perlu menginput tindakan dan anamnesa dan status pasien otomatis berubah menjadi: SEDANG PERIKSA">Antrian</span></h5>
+                      @elseif ($trxResep->status == 2)
+                        <h5><span class="badge badge-secondary" data-toggle="tooltip" data-placement="bottom" title="Anda hanya perlu menginput resep dan status pasien otomatis berubah menjadi: SUDAH PERIKSA">Sedang Periksa</span></h5>
+                      @elseif ($trxResep->status == 3)
+                        <h5><span class="badge badge-primary" data-toggle="tooltip" data-placement="bottom" title="Anda hanya perlu mengarahkan pasien untuk ke kasir dan apabila pasien telah berhasil melakukan pembayaran maka status pasien otomatis berubah menjadi: SUDAH BAYAR">Sudah Periksa</span></h5>
+                      @elseif ($trxResep->status == 4)
+                        <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="KASIR hanya perlu klik tombol PULANGKAN di kolom ACTION apabila pasien tidak ada resep, namun apabila ada resep silahkan anda arahkan pasien tersebut ke apotek untuk dilakukan transaksi penyerahan resep.">Sudah Bayar</span></h5>
+                      @elseif ($trxResep->status == 5)
+                        <h5><span class="badge badge-info">Sudah Pulang</span></h5>
+                      @endif
+                    </td>
+                    <td>
+                      <div class="btn-group" style="width: 100%">
+                        <a href="{{route('poliklinik.reseppoli',$trxResep->trx_id)}}" type="button" class="btn btn-sm btn-success {{ $trxResep->status == '99' ? 'disabled' : ''}} {{ $trxResep->status == '5' ? 'disabled' : ''}} {{ $trxResep->status == '3' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Input Resep Pasien"><i class="fas fa-pills"></i> Verifikasi</a>
+                      </div>
+                    </td>
                   </tr>
                   <?php $no++ ?>
                 @endforeach

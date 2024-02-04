@@ -1,4 +1,4 @@
-<form action="{{route('poliklinik.anamnesa')}}" method="POST">
+<form action="{{route('poliklinik.anamnesa',$trxPasien->trx_id)}}" method="POST">
   @csrf
   {{-- @method('PUT') --}}
   <input type="hidden" name="trx_id" id="trx_id" value="{{$trxPasien->trx_id}}">

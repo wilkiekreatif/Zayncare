@@ -40,7 +40,7 @@
               <div class="d-flex justify-content-between align-items-center">
                   <h3 class="card-title">
                     <i class="fa fa-user-injured"></i>
-                    Data Pasien 2
+                    Data Pasien
                   </h3>
               </div>
             </div>
@@ -114,17 +114,41 @@
         <div class="col-md-5">
           <div class="card">
             <div class="card-header d-flex p-0">
-              <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> form Input Pemeriksaan Pasien</h3>
+              <h3 class="card-title p-3"><i class="fa fa-user-injured"></i>Tindakan Pasien</h3>
             </div><!-- /.card-header -->
             <div class="card-body">
-              <table id="datatable1" class="table table-bordered table-hover">
+              <table class="table table-bordered table-hover">
                 <thead>
                   <tr>
                     <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
-                    <th style="background-color: rgb(120, 186, 196)">ID SUPPLIER</th>
-                    <th style="background-color: rgb(120, 186, 196)">NAMA SUPPLIER</th>
+                    <th style="background-color: rgb(120, 186, 196)">TINDAKAN</th>
+                    <th style="background-color: rgb(120, 186, 196)">JUMLAH</th>
+                    <th style="background-color: rgb(120, 186, 196)">TOTAL TARIF</th>
+                    <th style="background-color: rgb(120, 186, 196)">OPSI</th>
                   </tr>
                 </thead>
+                <tbody>
+                  @php
+                      $no = 1;
+                  @endphp
+                  @foreach ($trxTindakans as $tindakan)
+                  <tr>
+                    <td>{{ $no++ }}</td>
+                    <td>{{ $tindakan->mtindakan->tindakan_nama }}</td>
+                    <td>{{ $tindakan->qty }}</td>
+                    <td>{{ $tindakan->total }}</td>
+                    <td>
+                      <form method="POST" action="{{ route('poliklinik.deletetindakan', ['trx_id' => $trxPasien->trx_id, 'id' => $tindakan->id]) }}" onsubmit="return confirm('Apakah anda yakin akan membatalkan pasien ini?');">
+                        @method('PUT') <!-- Menambahkan metode spoofing untuk PUT -->
+                        @csrf
+                          <button type="submit" class="btn btn-sm btn-danger {{ $trxPasien->status == '1' ? '' : 'disabled'}}" data-toggle="tooltip" data-placement="bottom" title="Batalkan tindakan">
+                            <i class="fas fa-trash"></i> Batal
+                          </button>
+                      </form>
+                  </td>
+                  </tr>
+                  @endforeach
+                </tbody>
               </table>
             </div>
           </div>

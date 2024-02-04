@@ -74,8 +74,9 @@ Route::controller(poliController::class)->group(function(){
     Route::put('poliklinik/{trx_id}/deleteobat','deleteobat')->name('poliklinik.deleteobat');
 
     Route::get('poliklinik/periksa/{id}','periksa')->name('poliklinik.periksa'); 
-    Route::post('poliklinik/simpan/anamnesa','anamnesa')->name('poliklinik.anamnesa');
+    Route::post('poliklinik/simpan/anamnesa/{id}','anamnesa')->name('poliklinik.anamnesa');
     Route::get('harga_tindakan/{id}','getHarga_t');
+    Route::put('poliklinik/hapustindakan/{id}','deletetindakan')->name('poliklinik.deletetindakan');
 });
 
 Route::controller(kasirController::class)->group(function(){

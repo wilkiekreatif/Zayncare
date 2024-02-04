@@ -14,7 +14,7 @@
       </div>
       <div class="form-group">
         <label class="col-form-label" for="tarif">Tarif</label>
-        <input type="number" class="form-control" name="tarif" id="tarif">
+        <input readonly type="number" class="form-control" name="tarif" id="tarif">
       </div>
       <div class="form-group">
         <label class="col-form-label" for="qty">Jumlah Tindakan</label>

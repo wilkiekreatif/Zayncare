@@ -88,7 +88,7 @@ class poliController extends Controller
         ])->with('trxPasien',$pasien);
     }
 
-    public function anamnesa(Request $request)
+    public function anamnesa(Request $request, string $id)
     {
         // code ispan
         $request->validate([
@@ -98,6 +98,10 @@ class poliController extends Controller
             'suhu' => 'required',
             
         ]);
+        
+        $pasien = trxPasien::with('mPasien')->where('trx_id',$id)->first();
+        $pasien->status = 2;
+        $pasien->save();
 
         $id_t = $request->trx_id;
 
@@ -126,7 +130,10 @@ class poliController extends Controller
             'satuan.required'   => 'kolom SATUAN wajib diisi',
         ]);
 
-        // dd($request);
+        $pasien = trxPasien::with('mPasien')->where('trx_id',$id)->first();
+        $pasien->status = 2;
+        $pasien->save();
+
         $id_t = $request->trx_id;
         // dd($id_p);
         $total = $request->tarif * $request->qty;
@@ -155,6 +162,20 @@ class poliController extends Controller
     public function getHarga_t($id){
         $harga = mTindakan::where('id', $id)->get();
         return response()->json($harga);
+    }
+
+    public function deletetindakan(Request $request, string $trx_id)
+    {
+        // dd($request->id, $trx_id);
+        $trxtindakanId = $request->id;
+        $trxtindakan   = trxTindakanpasien::find($trxtindakanId);
+
+        if(!$trxtindakan){
+            return redirect()->back()->with('error', 'Data tidak ditemukan. coba anda lakukan refresh halaman ini.');
+        }else{
+            $trxtindakan->delete();
+            return redirect()->back()->with('success', 'Tindakan berhasil dihapus.');
+        }
     }
 
     public function reseppoli($id)

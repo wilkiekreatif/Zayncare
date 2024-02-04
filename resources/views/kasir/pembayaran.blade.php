@@ -35,7 +35,7 @@
               </div>
             </div>
           </div>
-          <div class="card card-default">
+          <div class="card card-info">
             <div class="card-header">
               <div class="d-flex justify-content-between align-items-center">
                   <h3 class="card-title">
@@ -90,7 +90,7 @@
 
       <div class="row">
         <div class="col-md-12">
-          <div class="card">
+          <div class="card card-info card-outline">
             <div class="card-header d-flex p-0">
               <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> Rincian Tagihan Pasien</h3>
             </div><!-- /.card-header -->

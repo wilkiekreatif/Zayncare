@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\apotekController;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\kasirController;
 use App\Http\Controllers\obatalkesController;
 use App\Http\Controllers\poliController;
 use App\Http\Controllers\registerController;
@@ -60,9 +61,9 @@ Route::controller(registerController::class)->group(function(){
 });
 Route::controller(poliController::class)->group(function(){
     Route::get('poliklinik','index')->name('poliklinik.index');
-    Route::get('poliklinik/{id}/periksa','periksa')->name('poliklinik.periksa');
+    // Route::get('poliklinik/{id}/periksa','periksa')->name('poliklinik.periksa');
     Route::get('poliklinik/{id}/reseppoli','reseppoli')->name('poliklinik.reseppoli');
-    Route::put('poliklinik/{id}/anamnesa','anamnesa')->name('poliklinik.anamnesa');
+    // Route::put('poliklinik/{id}/anamnesa','anamnesa')->name('poliklinik.anamnesa');
     Route::post('poliklinik/{id}/tindakan','tindakan')->name('poliklinik.tindakan');
     Route::put('poliklinik/{id}/bataltindakan','bataltindakan')->name('poliklinik.bataltindakan');
     Route::get('poliklinik/{id}/doneresep','doneresep')->name('poliklinik.doneresep');
@@ -72,12 +73,22 @@ Route::controller(poliController::class)->group(function(){
     Route::get('poliklinik/{id}','getTarifobat')->name('poliklinik.getTarifobat');
     Route::put('poliklinik/{id}/tambahobatalkes','tambahobatalkes')->name('poliklinik.tambahobatalkes');
     Route::put('poliklinik/{trx_id}/deleteobat','deleteobat')->name('poliklinik.deleteobat');
+
+    Route::get('poliklinik/periksa/{id}','periksa')->name('poliklinik.periksa'); 
+    Route::post('poliklinik/simpan/anamnesa/{id}','anamnesa')->name('poliklinik.anamnesa');
+    Route::get('harga_tindakan/{id}','getHarga_t');
+    Route::put('poliklinik/hapustindakan/{id}','deletetindakan')->name('poliklinik.deletetindakan');
+});
+
+Route::controller(kasirController::class)->group(function(){
+    Route::get('kasir','index')->name('kasir.index');
+    Route::get('kasir/prosesbayar/{id}','prosesBayar')->name('kasir.prosesBayar');
+    Route::post('kasir/simpanpembayaran/{id}','simpanPembayaran')->name('kasir.simpanBayar');
 });
 
 Route::get('/construction', function () {
     return view('construction.index');
 });
-
 
 Route::controller(apotekController::class)->group(function(){
     Route::get('apotek','index')->name('apotek.index');

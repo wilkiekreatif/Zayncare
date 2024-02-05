@@ -29,4 +29,8 @@ class trxObatalkes extends Model
     public function mObatalkes(){
         return $this->belongsTo(m_obatalkes::class,'obatalkes_id');
     }
+
+    public static function totalObatAlkes($id){
+        return self::where('trx_id', $id)->sum('total');
+    }
 }

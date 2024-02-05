@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title','Pemeriksaan Pasien')
+@section('title','Proses Pembayaran')
 
 @section('konten')
   <!-- Content Header (Page header) -->
@@ -13,7 +13,7 @@
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{ route('dashboard.index')}}">Home</a></li>
-            <li class="breadcrumb-item">Poliklinik</li>
+            <li class="breadcrumb-item">Kasir</li>
             <li class="breadcrumb-item active">@yield('title')</li>
           </ol>
         </div>
@@ -30,12 +30,12 @@
                   <h3 class="card-title">
                   </h3>
                   <div>
-                    <a href="{{ route('poliklinik.index')}}" class="btn btn-primary btn-sm"> <i class="fas fa-arrow-left"> </i> Kembali</a>
+                    <a href="{{ route('kasir.index')}}" class="btn btn-primary btn-sm"> <i class="fas fa-arrow-left"> </i> Kembali</a>
                   </div>
               </div>
             </div>
           </div>
-          <div class="card card-default">
+          <div class="card card-info">
             <div class="card-header">
               <div class="d-flex justify-content-between align-items-center">
                   <h3 class="card-title">
@@ -44,6 +44,8 @@
                   </h3>
               </div>
             </div>
+            <form action="{{ route('kasir.simpanBayar',$trxPasien->trx_id) }}" method="post">
+              @csrf
             <!-- /.card-header -->
             <div class="card-body">
               <div class="row">
@@ -86,74 +88,99 @@
           </div>
         </div>
       </div>
+
       <div class="row">
-        <div class="col-md-7">
-          <div class="card">
+        <div class="col-md-12">
+          <div class="card card-info card-outline">
             <div class="card-header d-flex p-0">
-              <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> form Input Pemeriksaan Pasien</h3>
-              <ul class="nav nav-pills ml-auto p-2">
-                <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab"><b>Tindakan</b></a></li>
-                <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab"><b>Anamnesa</b></a></li>
-              </ul>
+              <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> Rincian Tagihan Pasien</h3>
             </div><!-- /.card-header -->
             <div class="card-body">
-              <div class="tab-content">
-                <div class="tab-pane active" id="tab_1">
-                  @include('poliklinik.tindakan')
-                </div>
-                <!-- /.tab-pane -->
-                <div class="tab-pane" id="tab_2">
-                  @include('poliklinik.anamnesa')
-                </div>
-                <!-- /.tab-pane -->
-              </div>
+              <table class="table table-hover table-sm">
+                <thead>
+                <tr>
+                  <th>No</th>
+                  {{-- <th>Tanggal</th> --}}
+                  <th>Tindakan</th>
+                  <th>Tarif</th>
+                  <th>Jumlah</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                @php
+                    $no=1;
+                @endphp
+                @foreach ($trxTindakans as $tindakan)
+                <tr>
+                  <td>{{ $no++}}</td>
+                  <td>{{ $tindakan->mTindakan->tindakan_nama }}</td>
+                  <td>{{ $tindakan->tarif }}</td>
+                  <td>{{ $tindakan->qty }}</td>
+                  <td>{{ $tindakan->total }}</td>
+                </tr>   
+                @endforeach
+              </tbody>
+                <tr style="font-weight: bold ; font-size: 1rem">
+                  <td colspan="4">Total</td>
+                  <td>Rp. {{ $totalTindakan }}</td>
+                </tr>
+                <input style="border: none; font-weight: bold" type="number" name="totalTindakan" value="{{ $totalTindakan }}" hidden>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  {{-- <th>Tanggal</th> --}}
+                  <th>Obat dan Alkes</th>
+                  <th>Tarif</th>
+                  <th>Jumlah</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                @php
+                    $no=1;
+                @endphp
+                @foreach ($trxObatAlkes as $tObatAlkes)
+                <tr>
+                  <td>{{ $no++}}</td>
+                  <td>{{ $tObatAlkes->mObatAlkes->obatalkes_nama }}</td>
+                  <td>{{ $tObatAlkes->tarif }}</td>
+                  <td>{{ $tObatAlkes->qty }}</td>
+                  <td>{{ $tObatAlkes->total }}</td>
+                </tr>   
+                @endforeach
+              </tbody>
+              <tfoot>
+                <tr style="font-weight: bold ; font-size: 1rem">
+                  <td colspan="4">Total</td>
+                  <td name='totalObatAlkes'>{{ $totalObatAlkes }}</td>
+                </tr>
+                <input style="border: none; font-weight: bold" type="number" name="totalObatAlkes" value="{{ $totalObatAlkes }}" hidden>
+                <hr>
+                <tr style="font-weight: bold ; font-size: 1rem">
+                  <td colspan="4">Total Pembayaran</td>
+                  <td name='totalPembayaran'>Rp. {{ $totalBayar }}</td>
+                  <input style="border: none; font-weight: bold" type="number" name="totalPembayaran" value="{{ $totalBayar }}" hidden>
+                </tr>
+              </tfoot>
+
+
+
+
+
+              </table>
               <!-- /.tab-content -->
             </div><!-- /.card-body -->
+          
+
           </div>
-        </div>
-        <div class="col-md-5">
-          <div class="card">
-            <div class="card-header d-flex p-0">
-              <h3 class="card-title p-3"><i class="fa fa-user-injured"></i>Tindakan Pasien</h3>
-            </div><!-- /.card-header -->
-            <div class="card-body">
-              <table class="table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
-                    <th style="background-color: rgb(120, 186, 196)">TINDAKAN</th>
-                    <th style="background-color: rgb(120, 186, 196)">JUMLAH</th>
-                    <th style="background-color: rgb(120, 186, 196)">TOTAL TARIF</th>
-                    <th style="background-color: rgb(120, 186, 196)">OPSI</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @php
-                      $no = 1;
-                  @endphp
-                  @foreach ($trxTindakans as $tindakan)
-                  <tr>
-                    <td>{{ $no++ }}</td>
-                    <td>{{ $tindakan->mtindakan->tindakan_nama }}</td>
-                    <td>{{ $tindakan->qty }}</td>
-                    <td>{{ $tindakan->total }}</td>
-                    <td>
-                      <form method="POST" action="{{ route('poliklinik.deletetindakan', ['trx_id' => $trxPasien->trx_id, 'id' => $tindakan->id]) }}" onsubmit="return confirm('Apakah anda yakin akan membatalkan pasien ini?');">
-                        @method('PUT') <!-- Menambahkan metode spoofing untuk PUT -->
-                        @csrf
-                          <button type="submit" class="btn btn-sm btn-danger {{ $trxPasien->status == '1' ? '' : 'disabled'}}" data-toggle="tooltip" data-placement="bottom" title="Batalkan tindakan">
-                            <i class="fas fa-trash"></i> Batal
-                          </button>
-                      </form>
-                  </td>
-                  </tr>
-                  @endforeach
-                </tbody>
-              </table>
-            </div>
+          <div class="text-left">
+            <button type="submit" onclick="return confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-success"> <i class="fas fa-save"> </i> SIMPAN</button>
+            <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i> Cancel</button>
           </div>
         </div>
       </div>
+    </form>
     </div>
   </section>
 @endsection

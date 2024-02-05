@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\apotekController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\kasirController;
 use App\Http\Controllers\obatalkesController;
@@ -85,7 +86,10 @@ Route::controller(kasirController::class)->group(function(){
     Route::post('kasir/simpanpembayaran/{id}','simpanPembayaran')->name('kasir.simpanBayar');
 });
 
-
 Route::get('/construction', function () {
     return view('construction.index');
+});
+
+Route::controller(apotekController::class)->group(function(){
+    Route::get('apotek','index')->name('apotek.index');
 });

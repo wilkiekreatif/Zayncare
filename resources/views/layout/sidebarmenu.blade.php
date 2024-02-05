@@ -203,7 +203,7 @@
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="#" class="nav-link @if(Request::is('apotek/pembayaran')) active @elseif(Request::is('apotek/pembayaran/*')) active @endif">
+            <a href="{{route('apotek.index')}}" class="nav-link @if(Request::is('apotek')) active @elseif(Request::is('apotek/*')) active @endif">
               <i class="nav-icon fas fa-file-prescription"></i>
               <p>Resep Poliklinik</p>
             </a>

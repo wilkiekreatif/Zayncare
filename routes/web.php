@@ -74,9 +74,6 @@ Route::controller(poliController::class)->group(function(){
     Route::put('poliklinik/{trx_id}/deleteobat','deleteobat')->name('poliklinik.deleteobat');
 });
 
-Route::controller(apotekController::class)->group(function(){
-    Route::get('apotek','index')->name('apotek.index');
-});
 Route::get('/construction', function () {
     return view('construction.index');
 });

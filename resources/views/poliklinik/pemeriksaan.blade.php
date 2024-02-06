@@ -207,5 +207,24 @@
       });
       // toastr.error("{{Session::get('error')}}","Error!",{timeOut:10000});
     </script>
+  @endif 
+
+  @if ($errors->any())
+    <script>
+      $(document).ready(function() {
+        @foreach ($errors->all() as $error)
+            toastr.error('{{ $error }}', 'Kesalahan!',{timeOut:30000});
+        @endforeach
+      });
+      // toastr.error("{{Session::get('error')}}","Error!",{timeOut:10000});
+    </script>
+  @endif
+  @if (Session::has('success'))
+    <script>
+      toastr.success("{{Session::get('success')}}","Success!");
+      // toastr.info("{{Session::get('success')}}","Success!");
+      // toastr.warning("{{Session::get('success')}}","Success!");
+      // toastr.error("{{Session::get('success')}}","Success!");
+    </script>
   @endif
 @endsection

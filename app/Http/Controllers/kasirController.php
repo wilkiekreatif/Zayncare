@@ -17,7 +17,7 @@ class kasirController extends Controller
         return view('kasir.index', compact('trxPasiens'));
     }
     
-    public function prosesBayar($id){
+    public function prosesBayar(Request $req, $id){
         $pasien         = trxPasien::with('mPasien')->where('trx_id',$id)->first();
         $tindakan       = mTindakan::where('is_active','1')->get();
         $tindakanPasien = trxTindakanpasien::with('mTindakan')->where('trx_id',$id)->get();
@@ -52,7 +52,19 @@ class kasirController extends Controller
             'user_id'           => 1 
         ]);
 
+        $pasien = trxPasien::with('mPasien')->where('trx_id',$id)->first();
+        $pasien->status_bayar = 2;
+        $pasien->save();
+
         return redirect('/kasir');
+    }
+
+    public function hitungKembalian(Request $req){
+        $totalBayar = $req->totalBayar;
+        $uangDiterima = $req->uangDiterima;
+        dd($totalBayar);
+        // $kembalian = $totalBayar - $uangDiterima;
+        return view('kasir.pembayaran', compact('kembalian'));
     }
 
 }

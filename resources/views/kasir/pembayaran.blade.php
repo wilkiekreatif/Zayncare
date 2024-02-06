@@ -90,7 +90,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
           <div class="card card-info card-outline">
             <div class="card-header d-flex p-0">
               <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> Rincian Tagihan Pasien</h3>
@@ -123,7 +123,7 @@
               </tbody>
                 <tr style="font-weight: bold ; font-size: 1rem">
                   <td colspan="4">Total</td>
-                  <td>Rp. {{ $totalTindakan }}</td>
+                  <td>{{ $totalTindakan }}</td>
                 </tr>
                 <input style="border: none; font-weight: bold" type="number" name="totalTindakan" value="{{ $totalTindakan }}" hidden>
               <thead>
@@ -159,31 +159,63 @@
                 <hr>
                 <tr style="font-weight: bold ; font-size: 1rem">
                   <td colspan="4">Total Pembayaran</td>
-                  <td name='totalPembayaran'>Rp. {{ $totalBayar }}</td>
+                  <td name='totalPembayaran'>{{ $totalBayar }}</td>
                   <input style="border: none; font-weight: bold" type="number" name="totalPembayaran" value="{{ $totalBayar }}" hidden>
                 </tr>
               </tfoot>
-
-
-
-
-
               </table>
               <!-- /.tab-content -->
+              <div class="text-left mt-2">
+                <button type="submit" onclick="return confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-success"> <i class="fas fa-save"> </i> SIMPAN</button>
+                <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i> Cancel</button>
+              </div>
             </div><!-- /.card-body -->
           
 
           </div>
-          <div class="text-left">
-            <button type="submit" onclick="return confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-success"> <i class="fas fa-save"> </i> SIMPAN</button>
-            <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i> Cancel</button>
+        </div>
+        
+        <div class="col-4">
+          <div class="card card-info card-outline">
+            <div class="card-header d-flex p-0">
+              <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> Pembayaran Pasien</h3>
+            </div>
+            <form action="">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="">Dibayar Oleh Pasien</label>
+                <input style="font-weight: bold;" name="totalBayar" id="totalBayar" type="number" class="form-control" value="{{ $totalBayar }}" readonly>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-8">
+                    <label for="">Uang diterima</label>
+                    <input style="font-weight: bold;" name="uangDiterima" id="uangDiterima" type="number" class="form-control">
+                  </div>
+                  <div class="col-4">
+                    <label for="">PPN 11%</label>
+                    <input style="font-weight: bold;" name="ppn" id="ppn" type="number" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="">Kembalian</label>
+                <input style="font-weight: bold;" type="number" id="hasil" class="form-control">
+              </div>
+            </div>
+            {{-- <button onclick="pengurangan()" type="button" class="btn btn-success"> <i class="fas fa-save"> </i> lihat</button> --}}
+          </form>
           </div>
         </div>
+
       </div>
     </form>
     </div>
   </section>
 @endsection
+
+
+
 
 {{-- JS --------------------------------------------------------------------------------------------------------------------- --}}
 @section('js')
@@ -235,4 +267,15 @@
       // toastr.error("{{Session::get('error')}}","Error!",{timeOut:10000});
     </script>
   @endif
+
+  <script>
+    function pengurangan(){
+      var totalBayar = parseInt(document.getElementById('totalBayar').value);
+      var uangDiterima = parseInt(document.getElementById('uangDiterima').value);
+
+      var hasil = totalBayar - uangDiterima;
+      document.getElementById('hasil').innerHTML = totalBayar + '-' + uangDiterima + '=' + hasil;
+      console.log('hasil');
+    }
+  </script>
 @endsection

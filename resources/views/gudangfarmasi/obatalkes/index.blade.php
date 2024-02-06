@@ -53,6 +53,7 @@
                   <th style="background-color: rgb(120, 186, 196)" width="10%">HARGA BELI TERAKHIR</th>
                   <th style="background-color: rgb(120, 186, 196)">MARGIN KEUNTUNGAN</th>
                   <th style="background-color: rgb(120, 186, 196)" width="6%">STOK</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="6%">WAJIB RESEP</th>
                   <th style="background-color: rgb(120, 186, 196)"width="2%">STATUS</th>
                   <th style="background-color: rgb(120, 186, 196)" width="2%">ACTION</th>
                 </tr>
@@ -172,6 +173,18 @@
                       @else
                         {{$obatalkes->stok}}
                       @endif</b> {{$obatalkes->satuan}}</td>
+                    <td
+                      @if ($obatalkes->is_active==0)
+                        style="background-color: rgb(255, 225, 0)"
+                      @elseif ($obatalkes->wajibresep==1)
+                        style="background-color: rgb(255, 164, 164)"
+                      @endif>
+                      @if ($obatalkes->wajibresep==0)
+                      <i class="fa fa-times"></i> Tidak
+                    @else
+                      <i class="fa fa-check"></i> Ya
+                    @endif
+                    </td>
                     <td  @if ($obatalkes->is_active==0)
                         style="background-color: rgb(255, 225, 0)"
                     @endif
@@ -208,6 +221,7 @@
                   <th>HARGA BELI TERAKHIR</th>
                   <th>MARGIN KEUNTUNGAN</th>
                   <th>STOK </th>
+                  <th>WAJIB RESEP</th>
                   <th>STATUS</th>
                   <th>ACTION</th>
                 </tr>

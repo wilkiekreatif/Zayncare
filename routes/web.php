@@ -75,6 +75,9 @@ Route::controller(poliController::class)->group(function(){
 
 Route::controller(apotekController::class)->group(function(){
     Route::get('apotek','index')->name('apotek.index');
+    Route::get('apotek/{id}/verifresep','verifresep')->name('apotek.verifresep');
+    Route::get('apotek/{id}/resepvalidate','resepvalidate')->name('apotek.resepvalidate');
+    Route::get('apotek/penjualan','jualumum')->name('apotek.jualumum');
 });
 });
 Route::get('/construction', function () {

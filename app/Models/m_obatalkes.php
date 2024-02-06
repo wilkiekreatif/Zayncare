@@ -26,6 +26,7 @@ class m_obatalkes extends Model
         'margin4',
         'margin5',
         'is_active',
+        'wajibresep',
         'user_id',
     ];
 

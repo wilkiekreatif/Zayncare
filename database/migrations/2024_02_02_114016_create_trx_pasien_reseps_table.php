@@ -32,24 +32,26 @@ return new class extends Migration
             m_pasiens.agama,
             m_pasiens.pendidikan,
             m_pasiens.alergi,
+
 						m_polis.poli_nama,
-            m_obatalkes.obatalkes_nama,
+
+						m_obatalkes.obatalkes_nama,
             trx_obatalkes.racikan,
             trx_obatalkes.racikanke,
             trx_obatalkes.qty,
             m_obatalkes.satuan,
             trx_obatalkes.signa,
             trx_obatalkes.etiket,
-            trx_pasiens.status,
+						trx_pasiens.status AS statusPasien,
+						trx_obatalkes.`status` AS statusResep,
             trx_obatalkes.created_at
-
 
             FROM trx_obatalkes
 
             LEFT JOIN trx_pasiens ON trx_pasiens.trx_id = trx_obatalkes.trx_id
             LEFT JOIN m_pasiens ON m_pasiens.id = trx_pasiens.pasien_id
 						LEFT JOIN m_obatalkes ON trx_obatalkes.obatalkes_id = m_obatalkes.id
-						LEFT JOIN m_polis ON trx_pasiens.poli_id = m_polis.id
+						LEFT JOIN m_polis ON trx_pasiens.poli_id = m_polis.id 
         ");
     }
 

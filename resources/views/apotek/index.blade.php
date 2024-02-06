@@ -218,23 +218,17 @@
                       <td>-</td>
                     @endif
                     <td>
-                      @if ($trxResep->status == 99)
-                        <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Pasien batal periksa">Batal Periksa</span></h5>
-                      @elseif ($trxResep->status == 1)
-                        <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom" title="Anda hanya perlu menginput tindakan dan anamnesa dan status pasien otomatis berubah menjadi: SEDANG PERIKSA">Antrian</span></h5>
-                      @elseif ($trxResep->status == 2)
-                        <h5><span class="badge badge-secondary" data-toggle="tooltip" data-placement="bottom" title="Anda hanya perlu menginput resep dan status pasien otomatis berubah menjadi: SUDAH PERIKSA">Sedang Periksa</span></h5>
-                      @elseif ($trxResep->status == 3)
-                        <h5><span class="badge badge-primary" data-toggle="tooltip" data-placement="bottom" title="Anda hanya perlu mengarahkan pasien untuk ke kasir dan apabila pasien telah berhasil melakukan pembayaran maka status pasien otomatis berubah menjadi: SUDAH BAYAR">Sudah Periksa</span></h5>
-                      @elseif ($trxResep->status == 4)
-                        <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="KASIR hanya perlu klik tombol PULANGKAN di kolom ACTION apabila pasien tidak ada resep, namun apabila ada resep silahkan anda arahkan pasien tersebut ke apotek untuk dilakukan transaksi penyerahan resep.">Sudah Bayar</span></h5>
-                      @elseif ($trxResep->status == 5)
-                        <h5><span class="badge badge-info">Sudah Pulang</span></h5>
+                      @if ($trxResep->statusResep == 0)
+                        <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Resep belum verifikasi">Belum Verifikasi</span></h5>
+                      @elseif ($trxResep->statusResep == 1)
+                        <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="Resep pasien ini sudah dibayar">Sudah Bayar</span></h5>
+                      @elseif ($trxResep->statusResep == 2)
+                        <h5><span class="badge badge-info" data-toggle="tooltip" data-placement="bottom" title="Resep pasien ini sudah diverifikasi dan tinggal dibayar k kasir">Sudah Verifikasi</span></h5>
                       @endif
                     </td>
                     <td>
                       <div class="btn-group" style="width: 100%">
-                        <a href="{{route('poliklinik.reseppoli',$trxResep->trx_id)}}" type="button" class="btn btn-sm btn-success {{ $trxResep->status == '99' ? 'disabled' : ''}} {{ $trxResep->status == '5' ? 'disabled' : ''}} {{ $trxResep->status == '3' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Input Resep Pasien"><i class="fas fa-pills"></i> Verifikasi</a>
+                        <a href="{{route('apotek.verifresep',$trxResep->trx_id)}}" type="button" class="btn btn-sm btn-success {{ $trxResep->statusResep == '1' ? 'disabled' : ''}} {{ $trxResep->statusResep == '2' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Verifikasi Resep Pasien"><i class="fas fa-pills"></i> Verifikasi</a>
                       </div>
                     </td>
                   </tr>

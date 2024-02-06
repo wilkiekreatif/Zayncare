@@ -39,5 +39,19 @@ class ObatalkesSeeder extends Seeder
             'stok'              => '5',
             'user_id'           => '1',
         ]);
+        
+        m_obatalkes::create([
+            'obatalkes_id'      => 'OA-00003',
+            'obatalkes_nama'    => 'Zypraz 25mg',
+            'supplier1_id'      => '2',
+            'satuan'            => 'Tablet',
+            'hargabeliterakhir' => '7500',
+            'margin1'           => '5',
+            'margin2'           => '10',
+            'margin3'           => '15',
+            'stok'              => '5',
+            'wajibresep'        => '1',
+            'user_id'           => '1',
+        ]);
     }
 }

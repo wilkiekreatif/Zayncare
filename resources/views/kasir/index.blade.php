@@ -37,20 +37,8 @@
           <!-- small box -->
           <div class="small-box bg-info">
             <div class="inner">
-              {{-- <h3>{{$totalData = $trxPasiens->where('status', '!=', ['99','4','5'])->count(); }} <sup style="font-size: 20px">Pasien</sup></h3> --}}
+              <h3>{{$totalData = $trxPasiens->where('status', '!=', ['99','4','5'])->count(); }} <sup style="font-size: 20px">Pasien</sup></h3>
               <p>Pasien hari ini</p>
-            </div>
-            <div class="icon">
-              <i class="fas fa-user-injured"></i>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-warning">
-            <div class="inner">
-              {{-- <h3>{{$totalData = $trxPasiens->where('poli_id','1')->count();}} <sup style="font-size: 20px">Pasien</sup></h3> --}}
-              <p>Pasien Poli Umum</p>
             </div>
             <div class="icon">
               <i class="fas fa-user-injured"></i>
@@ -61,8 +49,8 @@
           <!-- small box -->
           <div class="small-box bg-success">
             <div class="inner">
-              {{-- <h3>{{$totalData = $trxPasiens->where('poli_id','2')->count();}} <sup style="font-size: 20px">Pasien</sup></h3> --}}
-              <p>Pasien Poli Gigi dan Mulut</p>
+              <h3>{{$totalData = $trxPasiens->where('status_bayar','2')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
+              <p>Pasien Sudah Bayar</p>
             </div>
             <div class="icon">
               <i class="fas fa-user-injured"></i>
@@ -73,8 +61,8 @@
           <!-- small box -->
           <div class="small-box bg-danger">
             <div class="inner">
-              {{-- <h3>{{$totalData = $trxPasiens->where('poli_id','3')->count();}} <sup style="font-size: 20px">Pasien</sup></h3> --}}
-              <p>Pasien Poli Kandungan</p>
+              <h3>{{$totalData = $trxPasiens->where('status_bayar','1')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
+              <p>Pasien Belum Bayar</p>
             </div>
             <div class="icon">
               <i class="fas fa-user-injured"></i>

@@ -29,7 +29,7 @@
             <div class="card-header">
               <div class="d-flex justify-content-between align-items-center">
                   <h3 class="card-title">
-                    <a href="{{ route('poliklinik.doneresep',$trxPasien->trx_id)}}" onclick="return  confirm('Apakah anda yakin?')" class="btn btn-success btn-sm"> <i class="fas fa-save"> </i> Selesai</a>
+                    {{-- <a href="{{ route('poliklinik.doneresep',$trxPasien->trx_id)}}" onclick="return  confirm('Apakah anda yakin?')" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="klik tombol ini untuk merubah status periksa pasien menjadi SUDAH PERIKSA"> <i class="fas fa-save"> </i> Selesai Input Resep</a> --}}
                   </h3>
                   <div>
                     <a href="{{ route('poliklinik.index')}}" class="btn btn-primary btn-sm"> <i class="fas fa-arrow-left"> </i> Kembali</a>
@@ -87,7 +87,7 @@
                 <div class="col-sm-3">
                   <div class="form-group">
                     <label class="col-form-label">Alergi Obat</label>
-                    <textarea class="form-control" style="background-color: rgb(255, 194, 183)" rows="5">{{$trxPasien->mPasien->alergi}}</textarea>
+                    <textarea readonly class="form-control" style="{{$trxPasien->mPasien->alergi != null ? 'background-color: rgb(255, 194, 183)' : ''}}" rows="5">{{$trxPasien->mPasien->alergi}}</textarea>
                   </div>
                 </div>
               </div>
@@ -115,7 +115,7 @@
                     <div class="form-group">
                       <label for="obatalkes">Obat Alkes <a style="color:red">*</a></label>
                       <div class="row">
-                        <div class="col-sm-8">
+                        <div class="col-sm-10">
                           <select id="obatalkes" name="obatalkes" class="form-control select2bs4 {{ $errors->has('obatalkes') ? 'is-invalid' : '' }}" style="width: 100%;">
                             <option disabled selected="selected">-- Pilih salah satu --</option>
                             @foreach ($obatalkess as $obatalkes)
@@ -130,11 +130,11 @@
                                 $harga = ($obatalkes->hargabeliterakhir*$margin/100)+$obatalkes->hargabeliterakhir;
                                 $hargaformated = number_format($harga, 0, ',', '.');
                               @endphp
-                              <option value="{{ $obatalkes->id }}" {{ old('obatalkes') == $obatalkes->id ? 'selected' : '' }}>{{ $obatalkes->obatalkes_nama }} | {{ $obatalkes->stok }} {{ $obatalkes->satuan }} | Rp. {{ $hargaformated }}</option>
+                              <option value="{{ $obatalkes->id }}" {{ $obatalkes->stok == 0 ? 'disabled' : '' }} {{ old('obatalkes') == $obatalkes->id ? 'selected' : '' }}>{{ $obatalkes->obatalkes_nama }} | {{ $obatalkes->stok }} {{ $obatalkes->satuan }} | Rp. {{ $hargaformated }}</option>
                             @endforeach
                           </select>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-2">
                           <input readonly id="tarif" name="tarif" type="text" class="form-control">
                         </div>
                       </div>
@@ -166,6 +166,16 @@
                 </div>
                 </form>
               </div>
+              <div class="card card-default">
+                <div class="card-header">
+                  <div class="d-flex justify-content-between align-items-center">
+                      <h3 class="card-title">
+                        <a href="{{ route('poliklinik.doneresep',$trxPasien->trx_id)}}" onclick="return  confirm('Apakah anda yakin?')" class="btn btn-success btn-md" data-toggle="tooltip" data-placement="bottom" title="klik tombol ini untuk merubah status periksa pasien menjadi SUDAH PERIKSA"> <i class="fas fa-save"> </i> Selesai Input Resep</a>
+                      </h3>
+                  </div>
+                </div>
+              </div>
+              {{--  --}}
             </div>
             <div class="col-sm-4">
               <div class="card card-info card-outline">
@@ -277,6 +287,8 @@
                 var margin = data[0].margin1;
               }else if(kelastarif === 2){
                 var margin = data[0].margin2;
+              }else if(kelastarif === 3){
+                var margin = data[0].margin3;
               }
               // console.log('margin: '+margin);
               var hargajual = (data[0].hargabeliterakhir * margin/100) + data[0].hargabeliterakhir;

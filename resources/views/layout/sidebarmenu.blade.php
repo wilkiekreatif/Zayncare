@@ -258,7 +258,7 @@
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="kasir" class="nav-link @if(Request::is('kasir/pembayaranpasien')) active @elseif(Request::is('kasir/pembayaranpasien/*')) active @endif">
+            <a href="{{route('kasir.index')}}" class="nav-link @if(Request::is('kasir/pembayaranpasien')) active @elseif(Request::is('kasir/pembayaranpasien/*')) active @endif">
               <i class="nav-icon fas fa-money-bill-wave-alt"></i>
               <p>Pembayaran Pasien</p>
             </a>

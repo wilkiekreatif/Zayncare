@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('margin2')->nullable();
             $table->integer('margin3')->nullable();
             $table->float('stok')->default(0);
-            // $table->integer('margin5')->nullable();
+            $table->enum('wajibresep',[0,1])->default(0)->comment('0:boleh tanpa resep, 1: wajib resep');
             $table->enum('is_active',[0,1,99])->default(1)->comment('0: nonaktif, 1:aktif, 99:deleted');
             $table->foreignId('user_id')->constrained('users')->default(1);
             $table->timestamps();

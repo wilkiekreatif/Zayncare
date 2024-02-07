@@ -21,7 +21,7 @@
           </p>
         </a>
         <ul class="nav nav-treeview">
-          <li class="nav-item @if(Request::is('gudang/obatalkes')) menu-is-opening menu-open @elseif(Request::is('gudang/obatalkes/*')) menu-is-opening menu-open @endif ">
+          <li class="nav-item @if(Request::is('sysadmin/obatalkes')) menu-is-opening menu-open @elseif(Request::is('sysadmin/obatalkes/*')) menu-is-opening menu-open @endif ">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-pills"></i>
               <p>
@@ -31,32 +31,32 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('obatalkes.index')}}" class="nav-link @if(Request::is('gudang/obatalkes')) active @endif">
+                <a href="{{ route('obatalkes.index')}}" class="nav-link @if(Request::is('sysadmin/user')) active @endif">
                   <i class="fa fa-users nav-icon"></i>
                   <p>Master User</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('obatalkes.index')}}" class="nav-link @if(Request::is('gudang/obatalkes')) active @endif">
+                <a href="{{ route('obatalkes.index')}}" class="nav-link @if(Request::is('sysadmin/dokter')) active @endif">
                   <i class="fa fa-user-md nav-icon"></i>
                   <p>Master Dokter</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('obatalkes.defekta')}}" class="nav-link  @if(Request::is('gudang/obatalkes/defekta')) active @endif">
-                  <i class="fa fa-tools nav-icon"></i>
+                <a href="{{route('obatalkes.defekta')}}" class="nav-link  @if(Request::is('sysadmin/tindakan')) active @endif">
+                  <i class="fa fa-stethoscope nav-icon"></i>
                   <p>Master Tindakan</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('/construction')}}" class="nav-link  @if(Request::is('gudang/obatalkes/stokopname')) active @endif">
-                  <i class="fa fa-thermometer-full nav-icon"></i>
+                <a href="{{url('/construction')}}" class="nav-link  @if(Request::is('sysadmin/poliklinik')) active @endif">
+                  <i class="fa fa-hospital nav-icon"></i>
                   <p>Master Poliklinik</p>
                 </a>
               </li>
             </ul>
           </li>
-          <li class="nav-item @if(Request::is('gudang/obatalkes')) menu-is-opening menu-open @elseif(Request::is('gudang/obatalkes/*')) menu-is-opening menu-open @endif ">
+          <li class="nav-item @if(Request::is('sysadmin/config')) menu-is-opening menu-open @elseif(Request::is('sysadmin/config/*')) menu-is-opening menu-open @endif ">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-cogs"></i>
               <p>
@@ -66,7 +66,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link @if(Request::is('gudang/obatalkes')) active @endif">
+                <a href="#" class="nav-link @if(Request::is('sysadmin/enveditor')) active @endif">
                   <i class="fa fa-server nav-icon"></i>
                   <p>ENV Editor</p>
                 </a>
@@ -100,31 +100,31 @@
                   <p>Master Obat Alkes</p>
                 </a>
               </li>
-              @if(request()->is('gudang/obatalkes/create'))
+              {{-- @if(request()->is('gudang/obatalkes/create'))
                 <li class="nav-item">
                   <a href="{{ route('obatalkes.create')}}" class="nav-link active">
                     <i class="fa fa-upload nav-icon"></i>
                     <p>Tambah Master Obat Alkes Baru</p>
                   </a>
                 </li>
-              @endif
+              @endif --}}
               <li class="nav-item">
                 <a href="{{route('obatalkes.defekta')}}" class="nav-link  @if(Request::is('gudang/obatalkes/defekta')) active @endif">
                   <i class="fa fa-shopping-cart nav-icon"></i>
                   <p>Pembelian</p>
                 </a>
               </li>
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a href="{{url('/construction')}}" class="nav-link  @if(Request::is('gudang/obatalkes/stokopname')) active @endif">
                   <i class="fa fa-clipboard-list nav-icon"></i>
                   <p>Stock Opname</p>
                 </a>
-              </li>
+              </li> --}}
             </ul>
           </li>
           <li class="nav-item">
             <a href="{{ route('supplier.index') }}" class="nav-link @if(Request::is('gudang/supplier')) active @elseif(Request::is('gudang/supplier/*')) active @endif">
-              <i class="nav-icon fas fa-truck-loading"></i>
+              <i class="nav-icon fas fa-truck"></i>
               <p>Suppliers</p>
             </a>
           </li>
@@ -182,12 +182,12 @@
               <p>Pasien Terdaftar</p>
             </a>
           </li>
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a href="#" class="nav-link @if(Request::is('poliklinik/report')) active @elseif(Request::is('poliklinik/report')) active @endif">
               <i class="nav-icon fas fa-file"></i>
               <p>Laporan Pasien</p>
             </a>
-          </li>
+          </li> --}}
         </ul>
       </li>
 
@@ -202,16 +202,39 @@
           </p>
         </a>
         <ul class="nav nav-treeview">
+          <li class="nav-item @if(Request::is('apotek/penjualan')) menu-is-opening menu-open @elseif(Request::is('gudang/penjualan/*')) menu-is-opening menu-open @endif ">
+            <a href="#" class="nav-link ">
+              <i class="nav-icon fas fa-pills"></i>
+              <p>
+                Penjualan Umum
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('apotek.pu')}}" class="nav-link @if(Request::is('apotek/daftarpenjualan')) active @endif">
+                  <i class="nav-icon fas fa-tablets"></i>
+                  <p>Daftar Penjualan Umum</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('apotek.jualumum')}}" class="nav-link @if(Request::is('apotek/penjualan')) active @elseif(Request::is('apotek/penjualan/*')) active @endif">
+                  <i class="nav-icon fas fa-cash-register"></i>
+                  <p>Transaksi Penjualan Umum</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="nav-item">
-            <a href="{{route('apotek.index')}}" class="nav-link @if(Request::is('apotek')) active @elseif(Request::is('apotek/*')) active @endif">
+            <a href="{{route('apotek.index')}}" class="nav-link @if(Request::is('apotek')) active @endif">
               <i class="nav-icon fas fa-file-prescription"></i>
               <p>Resep Poliklinik</p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link @if(Request::is('apotek/pembayaran')) active @elseif(Request::is('apotek/pembayaran/*')) active @endif">
+          {{-- <li class="nav-item">
+            <a href="#" class="nav-link @if(Request::is('apotek/resepluar')) active @elseif(Request::is('apotek/resepluar/*')) active @endif">
               <i class="nav-icon fas fa-file-prescription"></i>
-              <p>Penjualan Resep</p>
+              <p>Penjualan Resep Luar</p>
             </a>
           </li>
           <li class="nav-item">
@@ -219,13 +242,7 @@
               <i class="nav-icon fas fa-file-prescription"></i>
               <p>Copy Resep</p>
             </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link @if(Request::is('apotek/report')) active @elseif(Request::is('apotek/report')) active @endif">
-              <i class="nav-icon fas fa-cash-register"></i>
-              <p>Pembelian Umum</p>
-            </a>
-          </li>
+          </li> --}}
         </ul>
       </li>
 
@@ -252,12 +269,12 @@
               <p>Pembayaran Umum</p>
             </a>
           </li>
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a href="#" class="nav-link @if(Request::is('kasir/report')) active @elseif(Request::is('kasir/report')) active @endif">
               <i class="nav-icon fas fa-user"></i>
               <p>Laporan Transaksi</p>
             </a>
-          </li>
+          </li> --}}
         </ul>
       </li>
 

@@ -36,24 +36,27 @@
             <div class="card-header">
               <div class="d-flex justify-content-between align-items-center">
                   <h3 class="card-title">
-                    <a href="" onclick="return  confirm('Apakah anda yakin?')" class="btn btn-success btn-md" data-toggle="tooltip" data-placement="bottom" title="klik tombol ini untuk menyimpan Transaksi Penjualan Umum"> <i class="fas fa-save"> </i> Kirim Data Pembelian ke Kasir</a>
+                    <a href="{{route('apotek.sendtokasir',$trx_id)}}" onclick="return  confirm('Apakah anda yakin?')" class="btn btn-success btn-md" data-toggle="tooltip" data-placement="bottom" title="klik tombol ini untuk menyimpan Transaksi Penjualan Umum"> <i class="fas fa-save"> </i> Kirim Data Pembelian ke Kasir</a>
                   </h3>
               </div>
             </div>
             <div class="card-body">
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <label for="obatalkes">NO TRANSAKSI</label>
                   <input readonly id="trx_id" name="trx_id" type="text" class="form-control" style="background-color: cornsilk; font-size: xx-large" value="{{$trx_id}}">
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-6">
                   <label for="obatalkes">TOTAL PEMBELIAN</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text">Rp.</span>
+                      <span class="input-group-text text-md">Rp.</span>
                     </div>
-                    {{-- <input type="text" class="form-control" > --}}
-                    <input readonly type="text" class="form-control form-control-lg" style="background-color: rgb(195, 255, 200); font-size: xx-large"  value="{{ $totalharga }}">
+                    @php
+                        // $hargabeli          = $obatalkes->hargabeliterakhir;
+                        $totalformated  = number_format($totalharga, 0, ',', '.');
+                    @endphp
+                    <input readonly type="text" class="form-control form-control-lg" style="background-color: rgb(195, 255, 200); font-size: xxx-large"  value="{{ $totalformated }}">
                     <input id="totalbayar" name="totalbayar" type="hidden" class="form-control" style="background-color: springgreen">
                   </div>
                 </div>
@@ -98,8 +101,12 @@
                             <td>{{$itemobat->mObatalkes->obatalkes_nama}}</td>
                             <td><b>{{$itemobat->qty}}</b> {{$itemobat->mObatalkes->satuan}}</td>
                             <td><b>{{$itemobat->mObatalkes->stok}}</b> {{$itemobat->mObatalkes->satuan}}</td>
-                            <td><b>Rp. {{$itemobat->tarif}}</b>/ {{$itemobat->mObatalkes->satuan}}</td>
-                            <td><b>Rp. {{$itemobat->total}}</b></td>
+                            @php
+                              $tarifformated  = number_format($itemobat->tarif, 0, ',', '.');
+                              $totalformated  = number_format($itemobat->total, 0, ',', '.');
+                            @endphp
+                            <td><b>Rp. {{$tarifformated}}</b>/ {{$itemobat->mObatalkes->satuan}}</td>
+                            <td><b>Rp. {{$totalformated}}</b></td>
                             <td>
                               <div style="width: 100%; float: left;">
                                 <ul class="nav nav-pills flex-column">
@@ -170,7 +177,7 @@
                     <div class="form-group">
                       <label for="obatalkes">Obat Alkes <a style="color:red">*</a></label>
                       <div class="row">
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                           <select id="obatalkes" name="obatalkes" class="form-control select2bs4 {{ $errors->has('obatalkes') ? 'is-invalid' : '' }}" style="width: 100%;">
                             <option disabled selected="selected">-- Pilih salah satu --</option>
                             @foreach ($obatalkess as $obatalkes)
@@ -183,7 +190,7 @@
                             @endforeach
                           </select>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                           <input readonly id="tarif" name="tarif" type="text" class="form-control">
                         </div>
                       </div>
@@ -193,13 +200,13 @@
                       <input id="qty" name="qty" type="number" class="form-control {{ $errors->has('qty') ? 'is-invalid' : '' }}" placeholder="Nama Obat Alkes..." maxlength="3" value="{{old('qty')}}">
                     </div>
                     <div class="row">
-                      <div class="col-sm-3">
+                      <div class="col-sm-4">
                         <div class="form-group">
                           <label for="signa">Signa</label>
                           <input id="signa" name="signa" type="text" class="form-control {{ $errors->has('signa') ? 'is-invalid' : '' }}" placeholder="Signa..." maxlength="10" value="{{old('signa')}}">
                         </div>
                       </div>
-                      <div class="col-sm-9">
+                      <div class="col-sm-8">
                         <div class="form-group">
                           <label for="etiket">Etiket</label>
                           <input id="etiket" name="etiket" type="text" class="form-control {{ $errors->has('etiket') ? 'is-invalid' : '' }}" placeholder="etiket..." maxlength="60" value="{{old('etiket')}}">

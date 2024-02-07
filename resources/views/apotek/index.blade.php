@@ -100,7 +100,7 @@
                   <th style="background-color: rgb(120, 186, 196)" width="15%">ID PASIEN</th>
                   <th style="background-color: rgb(120, 186, 196)" width="50%">NAMA PASIEN</th>
                   <th style="background-color: rgb(120, 186, 196)" width="20%">POLIKLINIK</th>
-                  <th style="background-color: rgb(120, 186, 196)" width="10%">ALERGI</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="10%">KETERANGAN</th>
                   <th style="background-color: rgb(120, 186, 196)" >STATUS</th>
                   <th style="background-color: rgb(120, 186, 196)" width="2%">ACTION</th>
                 </tr>
@@ -241,7 +241,7 @@
                   <th>ID PASIEN</th>
                   <th>NAMA PASIEN</th>
                   <th>POLIKLINIK</th>
-                  <th>ALERGI</th>
+                  <th>KETERANGAN</th>
                   <th>STATUS</th>
                   <th>ACTION</th>
                 </tr>

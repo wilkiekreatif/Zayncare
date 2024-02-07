@@ -42,30 +42,6 @@ class apotekController extends Controller
         return view('apotek.index',['trxReseps' => $distinctTrxResep]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
     public function verifresep(string $id)
     {
         $trxPasien = trxPasienResep::select([
@@ -131,6 +107,57 @@ class apotekController extends Controller
         trxObatalkes::where('trx_id',$id)->where('status','0')->update($resepvalidate);
 
         return redirect()->route('apotek.index')->with('success','Resep telah selesai di validasi. silahkan arah pasien ke kasir untuk dilakukan pembayaran!');
+    }
+
+    public function sendtokasir(string $id)
+    {
+        $total = trxObatalkes::where('trx_id',$id)->where('status','0')->sum('total');
+        // dd($total);
+        $trxUmum = [
+            'trx_id'    => $id,
+            'total'     => $total,
+            'status'    => '0',
+            'user_id'   => 1,
+        ];
+
+        trxUmum::create($trxUmum);
+
+        return redirect()->route('apotek.index')->with('success','Resep telah berhasil dikirim ke Kasir. silahkan arah pasien ke kasir untuk dilakukan pembayaran!');
+    }
+
+    public function pu()
+    {
+        $trxUmum    = trxUmum::all();
+
+        $today      = Carbon::now();
+        $year       = Carbon::now()->year;
+        $month      = Carbon::now()->month;
+
+        $trxtoday   = trxUmum::whereDate('created_at',$today)
+                        ->where('status','!=','2')
+                        ->count();
+
+        $trxmonth   = trxUmum::whereYear('created_at',$year)
+                        ->whereMonth('created_at',$month)
+                        ->where('status','!=','2')
+                        ->count();
+        
+        $omsettoday = trxUmum::whereDate('created_at',$today)
+                        ->where('status','!=','2')
+                        ->sum('total');
+
+        $omsetmonth   = trxUmum::whereYear('created_at',$year)
+                        ->whereMonth('created_at',$month)
+                        ->where('status','!=','2')
+                        ->sum('total');
+
+        return view('apotek.pu',[
+            'trxumums'  => $trxUmum,
+            'trxtoday'  => $trxtoday,
+            'trxmonth'  => $trxmonth,
+            'omsettoday'=> $omsettoday,
+            'omsetmonth'=> $omsetmonth,
+        ]);
     }
 
     

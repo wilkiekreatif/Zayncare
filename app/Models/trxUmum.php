@@ -11,7 +11,7 @@ class trxUmum extends Model
 
     protected $fillable = [
         'trx_id',
-        'Total',
+        'total',
         'status',
         'user_id'
     ];

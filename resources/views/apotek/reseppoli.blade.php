@@ -93,7 +93,7 @@
                 </div>
                 <div class="col-sm-3">
                   <div class="form-group">
-                    <label class="col-form-label">Alergi Obat</label>
+                    <label class="col-form-label">Keterangan</label>
                     <textarea readonly class="form-control" style="{{$trxPasien->mPasien->alergi != null ? 'background-color: rgb(255, 194, 183)' : ''}}" rows="5">{{$trxPasien->mPasien->alergi}}</textarea>
                   </div>
                 </div>

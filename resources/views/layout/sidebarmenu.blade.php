@@ -212,15 +212,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('apotek.jualumum')}}" class="nav-link @if(Request::is('apotek/penjualan')) active @elseif(Request::is('apotek/penjualan/*')) active @endif">
-                  <i class="nav-icon fas fa-cash-register"></i>
-                  <p>Transaksi Penjualan Umum</p>
+                <a href="{{route('apotek.pu')}}" class="nav-link @if(Request::is('apotek/daftarpenjualan')) active @endif">
+                  <i class="nav-icon fas fa-tablets"></i>
+                  <p>Daftar Penjualan Umum</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link @if(Request::is('apotek/daftarpenjualan')) active @endif">
+                <a href="{{route('apotek.jualumum')}}" class="nav-link @if(Request::is('apotek/penjualan')) active @elseif(Request::is('apotek/penjualan/*')) active @endif">
                   <i class="nav-icon fas fa-cash-register"></i>
-                  <p>Daftar Penjualan Umum</p>
+                  <p>Transaksi Penjualan Umum</p>
                 </a>
               </li>
             </ul>

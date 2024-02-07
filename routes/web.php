@@ -79,10 +79,11 @@ Route::controller(poliController::class)->group(function(){
 
 Route::controller(apotekController::class)->group(function(){
     Route::get('apotek','index')->name('apotek.index');
+    Route::get('apotek/penjualan','pu')->name('apotek.pu');
+    Route::get('apotek/penjualanUmum','jualumum')->name('apotek.jualumum');
     Route::get('apotek/{id}/verifresep','verifresep')->name('apotek.verifresep');
     Route::get('apotek/{id}/resepvalidate','resepvalidate')->name('apotek.resepvalidate');
-    Route::get('apotek/penjualan','jualumum')->name('apotek.jualumum');
-    Route::get('apotek/penjualan/{id}','tambahitemobat')->name('apotek.tambahitemobat');
+    Route::get('apotek/penjualan/{id}','sendtokasir')->name('apotek.sendtokasir');
 });
 
 Route::get('/construction', function () {

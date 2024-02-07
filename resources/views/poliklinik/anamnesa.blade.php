@@ -1,6 +1,7 @@
 <form action="{{route('poliklinik.anamnesa',$trxPasien->trx_id)}}" method="POST">
   @csrf
-  @method('PUT')
+  {{-- @method('PUT') --}}
+  <input type="hidden" name="trx_id" id="trx_id" value="{{$trxPasien->trx_id}}">
   <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
@@ -33,8 +34,12 @@
       </div>
     </div>
   </div>
+  <div class="text-right">
+    <button type="submit" onclick="return confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-success"> <i class="fas fa-save"> </i> SIMPAN</button>
+    <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i> RESET</button>
+  </div>
 </form>
-<div class="card card-primary card-outline">
+<div class="card card-primary card-outline mt-2">
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-center">
         <h3 class="card-title">

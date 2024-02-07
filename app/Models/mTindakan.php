@@ -24,4 +24,8 @@ class mTindakan extends Model
     {
         return $this->hasMany(trxTindakanpasien::class, 'id', 'tindakan_id');
     }
+
+    public function harga(){
+        return $this->hasOne(KodeHarga::class);
+    }
 }

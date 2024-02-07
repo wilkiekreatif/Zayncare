@@ -36,7 +36,7 @@ class apotekController extends Controller
                                                     'alergi',
                                                     'statusPasien',
                                                     'statusResep'
-                                                ])->distinct()->orderBy('statusResep')->get();
+                                                ])->distinct()->where('no_rm','!=', Null)->orderBy('statusResep')->get();
         // dd($distinctTrxResep);
 
         return view('apotek.index',['trxReseps' => $distinctTrxResep]);
@@ -93,6 +93,7 @@ class apotekController extends Controller
                                         ->distinct()
                                         ->first();
         $trxResep = trxPasienResep::where('trx_id', $id)->where('statusResep','0')->get();
+        // dd($trxResep);
         $obatalkes = m_obatalkes::where('is_active','1')->get();
         // dd($trxPasien);
 
@@ -112,9 +113,11 @@ class apotekController extends Controller
     
         $trx_id     = 'PU'.$tglskrg.$formattedNumber;
         // dd($trx_id);
-        $obatalkes = m_obatalkes::where('is_active','1')->where('wajibresep','0')->get();
-        $itemobat  = trxObatalkes::where('trx_id',$trx_id)->get();
+        $obatalkes  = m_obatalkes::where('is_active','1')->where('wajibresep','0')->get();
+        $itemobat   = trxObatalkes::with('mObatalkes')->where('trx_id',$trx_id)->get();
+        $totalharga = trxObatalkes::where('trx_id',$trx_id)->sum('total');
         return view('apotek.jualobat',[
+            'totalharga'    => $totalharga,
             'obatalkess'    => $obatalkes,
             'itemobats'     => $itemobat
         ])->with('trx_id', $trx_id);

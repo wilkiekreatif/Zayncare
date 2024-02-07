@@ -42,21 +42,114 @@
             </div>
             <div class="card-body">
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <label for="obatalkes">NO TRANSAKSI</label>
                   <input readonly id="trx_id" name="trx_id" type="text" class="form-control" style="background-color: cornsilk; font-size: xx-large" value="{{$trx_id}}">
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-8">
                   <label for="obatalkes">TOTAL PEMBELIAN</label>
-                  <input readonly type="text" class="form-control form-control-lg" style="background-color: rgb(195, 255, 200); font-size: xx-large"  value="Rp. 1.000">
-                  <input id="totalbayar" name="totalbayar" type="hidden" class="form-control" style="background-color: springgreen">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Rp.</span>
+                    </div>
+                    {{-- <input type="text" class="form-control" > --}}
+                    <input readonly type="text" class="form-control form-control-lg" style="background-color: rgb(195, 255, 200); font-size: xx-large"  value="{{ $totalharga }}">
+                    <input id="totalbayar" name="totalbayar" type="hidden" class="form-control" style="background-color: springgreen">
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            {{-- Kolom input item obat --}}
-            <div class="col-sm-6">
+            <div class="col-sm-8">
+              <div class="card card-info card-outline">
+                <div class="card-header">
+                  <div class="d-flex justify-content-between align-items-center">
+                      <h3 class="card-title">
+                        <i class="fa fa-file-medical-alt"></i>
+                        Resep Pasien
+                      </h3>
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <table id="datatable1" class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
+                        <th style="background-color: rgb(120, 186, 196)">NAMA OBAT ALKES</th>
+                        <th style="background-color: rgb(120, 186, 196)">QTY</th>
+                        <th style="background-color: rgb(120, 186, 196)">STOK GUDANG</th>
+                        <th style="background-color: rgb(120, 186, 196)">HARGA</th>
+                        <th style="background-color: rgb(120, 186, 196)">TOTAL</th>
+                        <th style="background-color: rgb(120, 186, 196)">ETIKET</th>
+                        <th style="background-color: rgb(120, 186, 196)" width="2%">#</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @if($itemobats->isNotEmpty())
+                        @foreach ($itemobats as $itemobat)
+                          <tr
+                            @if ($itemobat->mObatalkes->stok < $itemobat->qty)
+                              style="background-color: rgb(253, 255, 150)" data-toggle="tooltip" data-placement="bottom" title="Stok gudang {{ strtoUpper($itemobat->mObatalkes->obatalkes_nama)}} tidak mencukupi permintaan resep"
+                            @endif
+                          >
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{$itemobat->mObatalkes->obatalkes_nama}}</td>
+                            <td><b>{{$itemobat->qty}}</b> {{$itemobat->mObatalkes->satuan}}</td>
+                            <td><b>{{$itemobat->mObatalkes->stok}}</b> {{$itemobat->mObatalkes->satuan}}</td>
+                            <td><b>Rp. {{$itemobat->tarif}}</b>/ {{$itemobat->mObatalkes->satuan}}</td>
+                            <td><b>Rp. {{$itemobat->total}}</b></td>
+                            <td>
+                              <div style="width: 100%; float: left;">
+                                <ul class="nav nav-pills flex-column">
+                                  <li class="nav-item">
+                                    @empty($itemobat->signa)
+                                      -
+                                    @else
+                                      {{$itemobat->signa}}
+                                    @endempty
+                                  </li>
+                                  <li class="nav-item">
+                                    @empty($itemobat->etiket)
+                                      -
+                                    @else
+                                      {{$itemobat->etiket}}
+                                    @endempty
+                                  </li>
+                                </ul>
+                              </div>
+                            </td>
+                            <td>
+                              <form method="POST" action="{{ route('poliklinik.deleteobat', ['trx_id' => $trx_id, 'id' => $itemobat->id]) }}">
+                                @method('PUT') <!-- Menambahkan metode spoofing untuk PUT -->
+                                @csrf
+                                  <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Batalkan Obat Alkes">
+                                    <i class="fas fa-trash"></i> Batal
+                                  </button>
+                              </form>
+                            </td>
+                          </tr>
+                        @endforeach
+                      @endif
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th width="2%">No</th>
+                        <th> NAMA OBAT ALKES</th>
+                        <th> QTY</th>
+                        <th>STOK GUDANG</th>
+                        <th>HARGA</th>
+                        <th>TOTAL</th>
+                        <th> ETIKET</th>
+                        <th width="2%">#</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
               <div class="card card-info card-outline">
                 <div class="card-header">
                   <div class="d-flex justify-content-between align-items-center">
@@ -68,8 +161,12 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                  <form action="" method="POST">
+                  <form action="{{ route('poliklinik.tambahobatalkes',$trx_id) }}" method="POST">
                     @csrf
+                    @method('PUT')
+                    {{-- <div class="form-group">
+                      <input readonly id="idresep" name="idresep" type="text" class="form-control">
+                    </div> --}}
                     <div class="form-group">
                       <label for="obatalkes">Obat Alkes <a style="color:red">*</a></label>
                       <div class="row">
@@ -93,69 +190,38 @@
                     </div>
                     <div class="form-group">
                       <label for="qty">Qty <a style="color:red">*</a></label>
-                      <input id="qty" name="qty" type="number" class="form-control {{ $errors->has('qty') ? 'is-invalid' : '' }}" placeholder="Jumlah Obat Alkes..." maxlength="3" value="{{old('qty')}}">
+                      <input id="qty" name="qty" type="number" class="form-control {{ $errors->has('qty') ? 'is-invalid' : '' }}" placeholder="Nama Obat Alkes..." maxlength="3" value="{{old('qty')}}">
                     </div>
-                    <div class="form-group">
-                      <label for="keterangan">Keterangan</label>
-                      <input id="keterangan" name="keterangan" type="text" class="form-control {{ $errors->has('keterangan') ? 'is-invalid' : '' }}" placeholder="Keterangan..." maxlength="160" value="{{old('keterangan')}}">
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <div class="form-group">
+                          <label for="signa">Signa</label>
+                          <input id="signa" name="signa" type="text" class="form-control {{ $errors->has('signa') ? 'is-invalid' : '' }}" placeholder="Signa..." maxlength="10" value="{{old('signa')}}">
+                        </div>
+                      </div>
+                      <div class="col-sm-9">
+                        <div class="form-group">
+                          <label for="etiket">Etiket</label>
+                          <input id="etiket" name="etiket" type="text" class="form-control {{ $errors->has('etiket') ? 'is-invalid' : '' }}" placeholder="etiket..." maxlength="60" value="{{old('etiket')}}">
+                        </div>
+                      </div>
                     </div>
                 </div>
                 <div class="card-footer">
-                  <div class="text-right">
-                    <button type="submit" class="btn btn-success"> <i class="fas fa-plus"> </i></button>
-                    <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i></button>
-                  </div>
+                  <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="klik tombol ini untuk menambahkan item obat ke Resep Pasien"> <i class="fas fa-plus"> </i></button>
+                  <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i></button>
                 </div>
                 </form>
               </div>
-            </div>
-            <div class="col-sm-6">
-              {{-- tabel input item obat --}}
-              <div class="card card-info card-outline">
+              {{-- <div class="card card-default">
                 <div class="card-header">
                   <div class="d-flex justify-content-between align-items-center">
                       <h3 class="card-title">
-                        <i class="fa fa-file-medical-alt"></i>
-                        Item Pembelian Umum
                       </h3>
                   </div>
                 </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                  <table id="datatable1" class="table table-bordered table-hover">
-                    <thead>
-                      <tr>
-                        <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
-                        <th style="background-color: rgb(120, 186, 196)">NAMA OBAT ALKES</th>
-                        <th style="background-color: rgb(120, 186, 196)">QTY</th>
-                        <th style="background-color: rgb(120, 186, 196)">HARGA</th>
-                        <th style="background-color: rgb(120, 186, 196)">TOTAL</th>
-                        <th style="background-color: rgb(120, 186, 196)" width="2%">#</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @if($itemobats->isNotEmpty())
-                        @foreach ($itemobats as $itemobat)
-                          <tr>
-                            <td>{{ $loop->iteration }}</td>
-                          </tr>
-                        @endforeach
-                      @endif
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th width="2%">No</th>
-                        <th> NAMA OBAT ALKES</th>
-                        <th> QTY</th>
-                        <th> HARGA</th>
-                        <th> TOTAL</th>
-                        <th width="2%">#</th>
-                          </tr>
-                        </tfoot>
-                      </table>
-                    </div>
-                  </div>
-              </div>
+              </div> --}}
+              {{--  --}}
             </div>
           </div>
         </div>

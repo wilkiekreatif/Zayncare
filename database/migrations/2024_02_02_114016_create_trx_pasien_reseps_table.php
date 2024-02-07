@@ -15,6 +15,7 @@ return new class extends Migration
         DB::statement("
             CREATE VIEW trx_pasien_reseps AS SELECT DISTINCT
             trx_obatalkes.trx_id,
+            trx_obatalkes.id,
             m_pasiens.no_rm,
 						trx_pasiens.kelastarif,
             m_pasiens.label,
@@ -39,6 +40,7 @@ return new class extends Migration
             trx_obatalkes.racikan,
             trx_obatalkes.racikanke,
             trx_obatalkes.qty,
+            m_obatalkes.stok,
             m_obatalkes.satuan,
             trx_obatalkes.signa,
             trx_obatalkes.etiket,

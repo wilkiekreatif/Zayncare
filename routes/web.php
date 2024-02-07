@@ -39,6 +39,7 @@ Route::controller(obatalkesController::class)->group(function(){
     Route::get('gudang/obatalkes/{id}/aktif','aktif')->name('obatalkes.aktif');
     Route::get('gudang/obatalkes/{id}/delete','delete')->name('obatalkes.delete');
 });
+
 Route::controller(supplierController::class)->group(function(){
     Route::get('gudang/supplier','index')->name('supplier.index');
     Route::get('gudang/supplier/create','create')->name('supplier.create');
@@ -49,6 +50,7 @@ Route::controller(supplierController::class)->group(function(){
     Route::get('gudang/supplier/{id}/aktif','aktif')->name('supplier.aktif');
     Route::get('gudang/supplier/{id}/delete','delete')->name('supplier.delete');
 });
+
 Route::controller(registerController::class)->group(function(){
     Route::get('register','index')->name('register.index');
     Route::get('register/create','create')->name('register.create');
@@ -58,6 +60,7 @@ Route::controller(registerController::class)->group(function(){
     Route::get('register/{id}/pulangkan','pulangkan')->name('register.pulangkan');
     Route::get('register/{id}/batalperiksa','batalperiksa')->name('register.batalperiksa');
 });
+
 Route::controller(poliController::class)->group(function(){
     Route::get('poliklinik','index')->name('poliklinik.index');
     Route::get('poliklinik/{id}/periksa','periksa')->name('poliklinik.periksa');
@@ -72,14 +75,16 @@ Route::controller(poliController::class)->group(function(){
     Route::get('poliklinik/{id}','getTarifobat')->name('poliklinik.getTarifobat');
     Route::put('poliklinik/{id}/tambahobatalkes','tambahobatalkes')->name('poliklinik.tambahobatalkes');
     Route::put('poliklinik/{trx_id}/deleteobat','deleteobat')->name('poliklinik.deleteobat');
+});
 
 Route::controller(apotekController::class)->group(function(){
     Route::get('apotek','index')->name('apotek.index');
     Route::get('apotek/{id}/verifresep','verifresep')->name('apotek.verifresep');
     Route::get('apotek/{id}/resepvalidate','resepvalidate')->name('apotek.resepvalidate');
     Route::get('apotek/penjualan','jualumum')->name('apotek.jualumum');
+    Route::get('apotek/penjualan/{id}','tambahitemobat')->name('apotek.tambahitemobat');
 });
-});
+
 Route::get('/construction', function () {
     return view('construction.index');
 });

@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title','Pembayaran Pasien')
+@section('title','Pembayaran Pasien Poliklinik')
 
 @section('css')
 <!-- DataTables -->
@@ -49,7 +49,7 @@
           <!-- small box -->
           <div class="small-box bg-success">
             <div class="inner">
-              <h3>{{$totalData = $trxPasiens->where('status_bayar','2')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
+              <h3>{{$totalData = $trxPasiens->where('status','4')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
               <p>Pasien Sudah Bayar</p>
             </div>
             <div class="icon">
@@ -61,8 +61,20 @@
           <!-- small box -->
           <div class="small-box bg-danger">
             <div class="inner">
-              <h3>{{$totalData = $trxPasiens->where('status_bayar','1')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
+              <h3>{{$totalData = $trxPasiens->where('status','1')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
               <p>Pasien Belum Bayar</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-user-injured"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h3><sup style="font-size: 20px">Rp. </sup>{{$totalData = $trxPasiens->where('status','1')->count();}}</h3>
+              <p>Omset hari ini</p>
             </div>
             <div class="icon">
               <i class="fas fa-user-injured"></i>
@@ -208,25 +220,21 @@
                     <td>
                       @if ($trxPasien->status == 99)
                         <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Pasien batal periksa">Batal Periksa</span></h5>
-                      @elseif ($trxPasien->status_bayar == 1)
+                      @elseif ($trxPasien->status == 1)
                         <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom">Belum bayar</span></h5>
-                      @elseif ($trxPasien->status_bayar == 2)
-                        <h5><span class="badge badge-secondary" data-toggle="tooltip" data-placement="bottom">Sudah Bayar</span></h5>
-                      @elseif ($trxPasien->status_bayar == 3)
+                      @elseif ($trxPasien->status == 4)
+                        <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom">Sudah Bayar</span></h5>
+                      @elseif ($trxPasien->status == 3)
                         <h5><span class="badge badge-primary" data-toggle="tooltip" data-placement="bottom">Sudah Verifikasi</span></h5>
-                      @elseif ($trxPasien->status_bayar == 5)
+                      @elseif ($trxPasien->statu == 5)
                         <h5><span class="badge badge-info">Sudah Pulang</span></h5>
                       @endif
                     </td>
                     <td>
-                      <div class="btn-group" style="width: 100%">
-                        <a href="{{ route('kasir.prosesBayar',$trxPasien->trx_id) }}" type="button" class="btn btn-sm btn-primary {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Proses Pembayaran"><i class="fas fa-stethoscope"></i>Bayar</a>
-                        <a href="#" type="button" class="btn btn-sm btn-success {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}} {{ $trxPasien->status == '3' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Input Resep Pasien"><i class="fas fa-pills"></i> Rincian</a>
-                        <a href="{{route('poliklinik.batalperiksa',$trxPasien->trx_id)}}" onclick="return confirm('Apakah anda yakin akan membatalkan pasien ini?')" type="button" class="btn btn-sm btn-danger {{ $trxPasien->status == '1' ? '' : 'disabled'}}" data-toggle="tooltip" data-placement="bottom" title="Batalkan pemeriksaan"><i class="fas fa-times"></i> Batal</a>
-                      </div><hr>
-                      <div class="btn-group" style="width: 100%">
-                        <a href="#" type="button" class="btn btn-sm btn-default toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Print tracer pasien"><i class="fas fa-print"></i> Tracer</a>
-                        <a href="#" type="button" class="btn btn-sm btn-primary toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Riwayat pasien"><i class="fas fa-file"></i> Riwayat</a>
+                      <div class="btn-group" style="width: 100%;">
+                        <a href="{{ route('kasir.prosesBayar',$trxPasien->trx_id) }}" type="button" class="btn btn-sm btn-success {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}  {{ $trxPasien->status == '4' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Klik untuk pembayaran"><i class="fas fa-money-bill-wave"> </i><br>Bayar</a>
+                        <a href="#" type="button" class="btn btn-sm btn-warning toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}} {{ $trxPasien->status == '3' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Print rincian pasien"><i class="fas fa-print"></i> Rincian</a>
+                        <a href="#" type="button" class="btn btn-sm btn-primary toastrDefaultError {{ $trxPasien->status <> '4' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Print kwitansi pembayaran"><i class="fas fa-print"></i> Kwitansi</a>
                       </div>
                     </td>
                   </tr>

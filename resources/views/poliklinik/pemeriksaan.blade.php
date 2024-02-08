@@ -25,7 +25,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="card card-default">
-            <div class="card-header">
+            <div class="card-header card-info">
               <div class="d-flex justify-content-between align-items-center">
                   <h3 class="card-title">
                   </h3>
@@ -35,7 +35,7 @@
               </div>
             </div>
           </div>
-          <div class="card card-default">
+          <div class="card card-info">
             <div class="card-header">
               <div class="d-flex justify-content-between align-items-center">
                   <h3 class="card-title">
@@ -88,12 +88,13 @@
       </div>
       <div class="row">
         <div class="col-md-7">
-          <div class="card">
+          <div class="card card-info card-outline">
             <div class="card-header d-flex p-0">
               <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> form Input Pemeriksaan Pasien</h3>
               <ul class="nav nav-pills ml-auto p-2">
                 <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab"><b>Tindakan</b></a></li>
                 <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab"><b>Anamnesa</b></a></li>
+                <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab"><b>Keterangan</b></a></li>
               </ul>
             </div><!-- /.card-header -->
             <div class="card-body">
@@ -105,6 +106,10 @@
                 <div class="tab-pane" id="tab_2">
                   @include('poliklinik.anamnesa')
                 </div>
+
+                <div class="tab-pane" id="tab_3">
+                  @include('poliklinik.keterangan')
+                </div>
                 <!-- /.tab-pane -->
               </div>
               <!-- /.tab-content -->
@@ -112,7 +117,7 @@
           </div>
         </div>
         <div class="col-md-5">
-          <div class="card">
+          <div class="card card-info card-outline">
             <div class="card-header d-flex p-0">
               <h3 class="card-title p-3"><i class="fa fa-user-injured"></i>Tindakan Pasien</h3>
             </div><!-- /.card-header -->

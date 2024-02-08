@@ -34,12 +34,14 @@
       </div>
     </div>
   </div>
-  <div class="text-right">
-    <button type="submit" onclick="return confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-success"> <i class="fas fa-save"> </i> SIMPAN</button>
-    <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i> RESET</button>
-  </div>
+    <div class="card-footer">
+        <div class="text-right">
+          <button type="submit" onclick="return confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-success"> <i class="fas fa-plus"> </i></button>
+          <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i></button>
+        </div>
+    </div>
 </form>
-<div class="card card-primary card-outline mt-2">
+<div class="card card-info card-outline mt-2">
   <div class="card-header">
     <div class="d-flex justify-content-between align-items-center">
         <h3 class="card-title">
@@ -51,5 +53,43 @@
   <!-- /.card-header -->
   <div class="card-body">
     {{-- Form inputan tindakan --}}
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
+          <th style="background-color: rgb(120, 186, 196)">TANGGAL</th>
+          <th style="background-color: rgb(120, 186, 196)">DETAK JANTUNG</th>
+          <th style="background-color: rgb(120, 186, 196)">TENSI 1</th>
+          <th style="background-color: rgb(120, 186, 196)">TENSI 2</th>
+          <th style="background-color: rgb(120, 186, 196)">BERAT BADAN</th>
+          <th style="background-color: rgb(120, 186, 196)">SUHU</th>
+        </tr>
+      </thead>
+      <tbody>
+        @php
+            $no = 1;
+        @endphp
+        @foreach ($anamnesa as $anm)
+        <tr>
+          <td>{{ $no++ }}</td>
+          <td>{{ $anm->created_at }}</td>
+          <td>{{ $anm->detakjantung }}</td>
+          <td>{{ $anm->tensi1 }}</td>
+          <td>{{ $anm->tensi2 }}</td>
+          <td>{{ $anm->suhu }}</td>
+          <td>{{ $anm->beratbadan }}</td>
+          <td>
+            {{-- <form method="POST" action="{{ route('poliklinik.deletetindakan', ['trx_id' => $trxPasien->trx_id, 'id' => $tindakan->id]) }}" onsubmit="return confirm('Apakah anda yakin akan membatalkan pasien ini?');">
+              @method('PUT') <!-- Menambahkan metode spoofing untuk PUT -->
+              @csrf
+                <button type="submit" class="btn btn-sm btn-danger {{ $trxPasien->status == '1' ? '' : 'disabled'}}" data-toggle="tooltip" data-placement="bottom" title="Batalkan tindakan">
+                  <i class="fas fa-trash"></i> Batal
+                </button>
+            </form> --}}
+        </td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
   </div>
 </div>

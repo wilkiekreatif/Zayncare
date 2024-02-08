@@ -78,6 +78,7 @@ Route::controller(poliController::class)->group(function(){
     Route::post('poliklinik/simpan/anamnesa/{id}','anamnesa')->name('poliklinik.anamnesa');
     Route::get('harga_tindakan/{id}','getHarga_t');
     Route::put('poliklinik/hapustindakan/{id}','deletetindakan')->name('poliklinik.deletetindakan');
+    Route::post('poliklinik/updateAlergi/{id}','updateAlergi')->name('poliklinik.updateAlergi');
 });
 
 Route::controller(kasirController::class)->group(function(){

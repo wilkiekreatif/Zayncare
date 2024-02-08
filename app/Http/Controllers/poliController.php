@@ -238,8 +238,8 @@ class poliController extends Controller
         $request->validate([
             'obatalkes'     => 'required',
             'qty'           => 'required',
-            'signa'         => 'required',
-            'etiket'        => 'required',
+            // 'signa'         => 'required',
+            // 'etiket'        => 'required',
         ],[
             'obatalkes.required'    => 'Kolom OBAT ALKES wajib diisi.',
             'qty.required'          => 'Kolom QTY wajib diisi.',
@@ -271,6 +271,7 @@ class poliController extends Controller
         $trxobatalkesId = $request->id;
         $trxobatalkes   = trxObatalkes::find($trxobatalkesId);
 
+        // dd($trxobatalkes);
         if(!$trxobatalkes){
             return redirect()->back()->with('error', 'Data tidak ditemukan. coba anda lakukan refresh halaman ini.');
         }else{

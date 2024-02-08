@@ -54,6 +54,7 @@ class obatalkesController extends Controller
             'satuan'            => 'required',
             'hargabeli'         => 'required',
             'margin1'           => 'required',
+            'wajibresep'        => 'required',
         ],[
             'obatalkes.required'=> 'Kolom NAMA OBAT ALKES wajib diisi!',
             'jenis.required'    => 'Kolom JENIS OBAT ALKES wajib diisi!',
@@ -61,6 +62,7 @@ class obatalkesController extends Controller
             'satuan.required'   => 'Kolom SATUAN wajib diisi!',
             'hargabeli.required'=> 'Kolom PERKIRAAN HARGA BELI wajib diisi!',
             'margin1.required'  => 'Kolom MARGIN 1 wajib diisi!',
+            'wajibresep.required'  => 'Kolom WAJIB RESEP wajib diisi!',
         ]);
 
         $id = m_obatalkes::count();
@@ -80,6 +82,7 @@ class obatalkesController extends Controller
             'margin1'           => $request->margin1,
             'margin2'           => $request->margin2,
             'margin3'           => $request->margin3,
+            'wajibresep'        => $request->wajibresep,
             'user_id'           => 1,
         ];
 

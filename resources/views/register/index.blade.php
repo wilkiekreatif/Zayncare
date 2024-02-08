@@ -54,10 +54,9 @@
                 </tr>
               </thead>
               <tbody>
-                <?php $no = 1 ?>
                 @foreach ($mPasiens as $mPasien)
                   <tr>
-                    <td>{{ $no }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $mPasien->no_rm }}</td>
                     <td>
                       <div style="width: 60%; float: left;">
@@ -225,7 +224,6 @@
                         <a href="#" type="button" class="btn btn-primary toastrDefaultError" data-toggle="tooltip" data-placement="bottom" title="Edit master pasien"><i class="fas fa-edit"></i> Edit</a>
                       </div>
                     </td>
-                    <?php $no++ ?>
                   </tr>
                 @endforeach
               </tbody>

@@ -120,6 +120,14 @@
                         </div>
                       </div>
                     </div>
+                    <div class="form-group">
+                      <label for="wajibresep">Wajib Resep <a style="color:red">*</a></label>
+                      <select id="wajibresep" name="wajibresep" class="form-control select2bs4 {{ $errors->has('wajibresep') ? 'is-invalid' : '' }}" style="width: 100%;">
+                        <option disabled selected="selected">-- Pilih salah satu --</option>
+                        <option value="0" {{ old('wajibresep') == '0' ? 'selected' : '' }}>Tidak perlu disertai Resep Dokter</option>
+                        <option value="1" {{ old('wajibresep') == '1' ? 'selected' : '' }}>Harus disertai Resep Dokter</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>

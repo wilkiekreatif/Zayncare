@@ -137,16 +137,19 @@
                       $no = 1;
                   @endphp
                   @foreach ($trxTindakans as $tindakan)
+                  @php
+                      $total = number_format($tindakan->total,0,',','.');
+                  @endphp
                   <tr>
                     <td>{{ $no++ }}</td>
                     <td>{{ $tindakan->mtindakan->tindakan_nama }}</td>
                     <td>{{ $tindakan->qty }}</td>
-                    <td>{{ $tindakan->total }}</td>
+                    <td>Rp. {{ $total }}</td>
                     <td>
                       <form method="POST" action="{{ route('poliklinik.deletetindakan', ['trx_id' => $trxPasien->trx_id, 'id' => $tindakan->id]) }}" onsubmit="return confirm('Apakah anda yakin akan membatalkan pasien ini?');">
                         @method('PUT') <!-- Menambahkan metode spoofing untuk PUT -->
                         @csrf
-                          <button type="submit" class="btn btn-sm btn-danger {{ $trxPasien->status == '1' ? '' : 'disabled'}}" data-toggle="tooltip" data-placement="bottom" title="Batalkan tindakan">
+                          <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Batalkan tindakan">
                             <i class="fas fa-trash"></i> Batal
                           </button>
                       </form>

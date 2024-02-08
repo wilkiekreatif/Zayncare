@@ -23,7 +23,7 @@
   <section class="content text-sm">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-sm-12">
           <div class="card card-default">
             <div class="card-header">
               <div class="d-flex justify-content-between align-items-center">
@@ -90,7 +90,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-sm-8">
           <div class="card card-info card-outline">
             <div class="card-header d-flex p-0">
               <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> Rincian Tagihan Pasien</h3>
@@ -112,18 +112,24 @@
                     $no=1;
                 @endphp
                 @foreach ($trxTindakans as $tindakan)
+                @php
+                    $total = number_format($tindakan->total,0,',','.');
+                @endphp
                 <tr>
                   <td>{{ $no++}}</td>
                   <td>{{ $tindakan->mTindakan->tindakan_nama }}</td>
                   <td>{{ $tindakan->tarif }}</td>
                   <td>{{ $tindakan->qty }}</td>
-                  <td>{{ $tindakan->total }}</td>
+                  <td>Rp. {{ $total }}</td>
                 </tr>   
                 @endforeach
               </tbody>
                 <tr style="font-weight: bold ; font-size: 1rem">
+                  @php
+                    $totalTindakans = number_format($totalTindakan,0,',','.');
+                  @endphp
                   <td colspan="4">Total</td>
-                  <td>{{ $totalTindakan }}</td>
+                  <td>Rp. {{ $totalTindakans }}</td>
                 </tr>
                 <input style="border: none; font-weight: bold" type="number" name="totalTindakan" value="{{ $totalTindakan }}" hidden>
               <thead>
@@ -141,25 +147,34 @@
                     $no=1;
                 @endphp
                 @foreach ($trxObatAlkes as $tObatAlkes)
+                @php
+                    $tObatAl = number_format($tObatAlkes->total,0,',','.');
+                @endphp
                 <tr>
                   <td>{{ $no++}}</td>
                   <td>{{ $tObatAlkes->mObatAlkes->obatalkes_nama }}</td>
                   <td>{{ $tObatAlkes->tarif }}</td>
                   <td>{{ $tObatAlkes->qty }}</td>
-                  <td>{{ $tObatAlkes->total }}</td>
+                  <td>Rp. {{ $tObatAl }}</td>
                 </tr>   
                 @endforeach
               </tbody>
               <tfoot>
                 <tr style="font-weight: bold ; font-size: 1rem">
+                  @php
+                  $totalObtAlks = number_format($totalObatAlkes,0,',','.');
+                  @endphp
                   <td colspan="4">Total</td>
-                  <td name='totalObatAlkes'>{{ $totalObatAlkes }}</td>
+                  <td name='totalObatAlkes'>Rp. {{ $totalObtAlks }}</td>
                 </tr>
                 <input style="border: none; font-weight: bold" type="number" name="totalObatAlkes" value="{{ $totalObatAlkes }}" hidden>
                 <hr>
                 <tr style="font-weight: bold ; font-size: 1rem">
+                  @php
+                  $totalByr = number_format($totalBayar,0,',','.');
+                  @endphp
                   <td colspan="4">Total Pembayaran</td>
-                  <td name='totalPembayaran'>{{ $totalBayar }}</td>
+                  <td name='totalPembayaran'>Rp. {{ $totalByr }}</td>
                   <input style="border: none; font-weight: bold" type="number" name="totalPembayaran" value="{{ $totalBayar }}" hidden>
                 </tr>
               </tfoot>
@@ -182,10 +197,13 @@
             </div>
             <form action="">
             <div class="card-body">
-              <div class="form-group">
-                <label for="">Dibayar Oleh Pasien</label>
-                <input style="font-weight: bold;" name="totalBayar" id="totalBayar" type="number" class="form-control" value="{{ $totalBayar }}" readonly>
-              </div>
+              <div class="input-group">
+                 <label for="">Dibayar Oleh Pasien</label>
+                <div class="input-group-prepend" style="width: 100%">
+                  <span class="input-group-text text-sm">Rp.</span>
+                  <input style="font-weight: bold" name="totalBayar" id="totalBayar" type="number" class="form-control" value="{{ $totalByr }}" readonly>
+                </div>
+              </div>
               <div class="form-group">
                 <div class="row">
                   <div class="col-8">
@@ -194,13 +212,13 @@
                   </div>
                   <div class="col-4">
                     <label for="">PPN 11%</label>
-                    <input style="font-weight: bold;" name="ppn" id="ppn" type="number" class="form-control">
+                    <input name="ppn" id="ppn" type="checkbox" class="form-control">
                   </div>
                 </div>
               </div>
               <div class="form-group">
                 <label for="">Kembalian</label>
-                <input style="font-weight: bold;" type="number" id="hasil" class="form-control">
+                <input style="font-weight: bold;" type="number" id="hasil" class="form-control" readonly>
               </div>
             </div>
             {{-- <button onclick="pengurangan()" type="button" class="btn btn-success"> <i class="fas fa-save"> </i> lihat</button> --}}
@@ -240,7 +258,7 @@
       $("#datatable1").DataTable({
         "responsive": true, "lengthChange": true, "autoWidth": false,
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      }).buttons().container().appendTo('#datatable1_wrapper .col-md-6:eq(0)');
+      }).buttons().container().appendTo('#datatable1_wrapper .col-sm-6:eq(0)');
     });
 
     toastr.options = {

@@ -21,7 +21,7 @@ class kasirController extends Controller
         $pasien         = trxPasien::with('mPasien')->where('trx_id',$id)->first();
         $tindakan       = mTindakan::where('is_active','1')->get();
         $tindakanPasien = trxTindakanpasien::with('mTindakan')->where('trx_id',$id)->get();
-        $trxObatAlkes   = trxObatalkes::with('mObatalkes')->where('trx_id',$id)->get();
+        $trxObatAlkes   = trxObatalkes::with('mObatalkes')->where('trx_id',$id)->where('status','2')->get();
         $totalTindakan = trxTindakanpasien::totalTindakan($id);
         $totalObatAlkes = trxObatalkes::totalObatAlkes($id);
         $totalBayar = $totalTindakan + $totalObatAlkes;

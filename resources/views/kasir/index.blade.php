@@ -37,20 +37,8 @@
           <!-- small box -->
           <div class="small-box bg-info">
             <div class="inner">
-              {{-- <h3>{{$totalData = $trxPasiens->where('status', '!=', ['99','4','5'])->count(); }} <sup style="font-size: 20px">Pasien</sup></h3> --}}
+              <h3>{{$totalData = $trxPasiens->where('status', '!=', ['99','4','5'])->count(); }} <sup style="font-size: 20px">Pasien</sup></h3>
               <p>Pasien hari ini</p>
-            </div>
-            <div class="icon">
-              <i class="fas fa-user-injured"></i>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <div class="small-box bg-warning">
-            <div class="inner">
-              {{-- <h3>{{$totalData = $trxPasiens->where('poli_id','1')->count();}} <sup style="font-size: 20px">Pasien</sup></h3> --}}
-              <p>Pasien Poli Umum</p>
             </div>
             <div class="icon">
               <i class="fas fa-user-injured"></i>
@@ -61,8 +49,8 @@
           <!-- small box -->
           <div class="small-box bg-success">
             <div class="inner">
-              {{-- <h3>{{$totalData = $trxPasiens->where('poli_id','2')->count();}} <sup style="font-size: 20px">Pasien</sup></h3> --}}
-              <p>Pasien Poli Gigi dan Mulut</p>
+              <h3>{{$totalData = $trxPasiens->where('status_bayar','2')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
+              <p>Pasien Sudah Bayar</p>
             </div>
             <div class="icon">
               <i class="fas fa-user-injured"></i>
@@ -73,8 +61,8 @@
           <!-- small box -->
           <div class="small-box bg-danger">
             <div class="inner">
-              {{-- <h3>{{$totalData = $trxPasiens->where('poli_id','3')->count();}} <sup style="font-size: 20px">Pasien</sup></h3> --}}
-              <p>Pasien Poli Kandungan</p>
+              <h3>{{$totalData = $trxPasiens->where('status_bayar','1')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
+              <p>Pasien Belum Bayar</p>
             </div>
             <div class="icon">
               <i class="fas fa-user-injured"></i>
@@ -101,7 +89,7 @@
                   <th style="background-color: rgb(120, 186, 196)" width="50%">NAMA PASIEN</th>
                   <th style="background-color: rgb(120, 186, 196)" width="20%">POLIKLINIK</th>
                   <th style="background-color: rgb(120, 186, 196)" width="10%">ALERGI</th>
-                  {{-- <th style="background-color: rgb(120, 186, 196)" >STATUS</th> --}}
+                  <th style="background-color: rgb(120, 186, 196)" >STATUS</th>
                   <th style="background-color: rgb(120, 186, 196)" width="2%">ACTION</th>
                 </tr>
               </thead>
@@ -217,21 +205,19 @@
                     @else
                       <td>-</td>
                     @endif
-                    {{-- <td>
+                    <td>
                       @if ($trxPasien->status == 99)
                         <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Pasien batal periksa">Batal Periksa</span></h5>
-                      @elseif ($trxPasien->status == 1)
-                        <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom" title="Anda hanya perlu menginput tindakan dan anamnesa dan status pasien otomatis berubah menjadi: SEDANG PERIKSA">Antrian</span></h5>
-                      @elseif ($trxPasien->status == 2)
-                        <h5><span class="badge badge-secondary" data-toggle="tooltip" data-placement="bottom" title="Anda hanya perlu menginput resep dan status pasien otomatis berubah menjadi: SUDAH PERIKSA">Sedang Periksa</span></h5>
-                      @elseif ($trxPasien->status == 3)
-                        <h5><span class="badge badge-primary" data-toggle="tooltip" data-placement="bottom" title="Anda hanya perlu mengarahkan pasien untuk ke kasir dan apabila pasien telah berhasil melakukan pembayaran maka status pasien otomatis berubah menjadi: SUDAH BAYAR">Sudah Periksa</span></h5>
-                      @elseif ($trxPasien->status == 4)
-                        <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="KASIR hanya perlu klik tombol PULANGKAN di kolom ACTION apabila pasien tidak ada resep, namun apabila ada resep silahkan anda arahkan pasien tersebut ke apotek untuk dilakukan transaksi penyerahan resep.">Sudah Bayar</span></h5>
-                      @elseif ($trxPasien->status == 5)
+                      @elseif ($trxPasien->status_bayar == 1)
+                        <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom">Belum bayar</span></h5>
+                      @elseif ($trxPasien->status_bayar == 2)
+                        <h5><span class="badge badge-secondary" data-toggle="tooltip" data-placement="bottom">Sudah Bayar</span></h5>
+                      @elseif ($trxPasien->status_bayar == 3)
+                        <h5><span class="badge badge-primary" data-toggle="tooltip" data-placement="bottom">Sudah Verifikasi</span></h5>
+                      @elseif ($trxPasien->status_bayar == 5)
                         <h5><span class="badge badge-info">Sudah Pulang</span></h5>
                       @endif
-                    </td> --}}
+                    </td>
                     <td>
                       <div class="btn-group" style="width: 100%">
                         <a href="{{ route('kasir.prosesBayar',$trxPasien->trx_id) }}" type="button" class="btn btn-sm btn-primary {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Proses Pembayaran"><i class="fas fa-stethoscope"></i>Bayar</a>
@@ -254,7 +240,7 @@
                   <th>NAMA PASIEN</th>
                   <th>POLIKLINIK</th>
                   <th>ALERGI</th>
-                  {{-- <th>STATUS</th> --}}
+                  <th>STATUS</th>
                   <th>ACTION</th>
                 </tr>
               </tfoot>

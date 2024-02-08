@@ -32,7 +32,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="card card-default">
-            <div class="card-header">
+            <div class="card-header card-info">
               <div class="d-flex justify-content-between align-items-center">
                   <h3 class="card-title">
                   </h3>
@@ -42,7 +42,7 @@
               </div>
             </div>
           </div>
-          <div class="card card-default">
+          <div class="card card-info">
             <div class="card-header">
               <div class="d-flex justify-content-between align-items-center">
                   <h3 class="card-title">
@@ -95,12 +95,13 @@
       </div>
       <div class="row">
         <div class="col-md-7">
-          <div class="card">
+          <div class="card card-info card-outline">
             <div class="card-header d-flex p-0">
               <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> form Input Pemeriksaan Pasien</h3>
               <ul class="nav nav-pills ml-auto p-2">
                 <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab"><b>Tindakan</b></a></li>
                 <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab"><b>Anamnesa</b></a></li>
+                <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab"><b>Keterangan</b></a></li>
               </ul>
             </div><!-- /.card-header -->
             <div class="card-body">
@@ -112,6 +113,10 @@
                 <div class="tab-pane" id="tab_2">
                   @include('poliklinik.anamnesa')
                 </div>
+
+                <div class="tab-pane" id="tab_3">
+                  @include('poliklinik.keterangan')
+                </div>
                 <!-- /.tab-pane -->
               </div>
               <!-- /.tab-content -->
@@ -119,7 +124,7 @@
           </div>
         </div>
         <div class="col-md-5">
-          <div class="card">
+          <div class="card card-info card-outline">
             <div class="card-header d-flex p-0">
               <h3 class="card-title p-3"><i class="fa fa-user-injured"></i>Tindakan Pasien</h3>
             </div><!-- /.card-header -->
@@ -139,16 +144,19 @@
                       $no = 1;
                   @endphp
                   @foreach ($trxTindakans as $tindakan)
+                  @php
+                      $total = number_format($tindakan->total,0,',','.');
+                  @endphp
                   <tr>
                     <td>{{ $no++ }}</td>
                     <td>{{ $tindakan->mtindakan->tindakan_nama }}</td>
                     <td>{{ $tindakan->qty }}</td>
-                    <td>{{ $tindakan->total }}</td>
+                    <td>Rp. {{ $total }}</td>
                     <td>
                       <form method="POST" action="{{ route('poliklinik.deletetindakan', ['trx_id' => $trxPasien->trx_id, 'id' => $tindakan->id]) }}" onsubmit="return confirm('Apakah anda yakin akan membatalkan pasien ini?');">
                         @method('PUT') <!-- Menambahkan metode spoofing untuk PUT -->
                         @csrf
-                          <button type="submit" class="btn btn-sm btn-danger {{ $trxPasien->status == '1' ? '' : 'disabled'}}" data-toggle="tooltip" data-placement="bottom" title="Batalkan tindakan">
+                          <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Batalkan tindakan">
                             <i class="fas fa-trash"></i> Batal
                           </button>
                       </form>
@@ -213,6 +221,25 @@
         @endforeach
       });
       // toastr.error("{{Session::get('error')}}","Error!",{timeOut:10000});
+    </script>
+  @endif 
+
+  @if ($errors->any())
+    <script>
+      $(document).ready(function() {
+        @foreach ($errors->all() as $error)
+            toastr.error('{{ $error }}', 'Kesalahan!',{timeOut:30000});
+        @endforeach
+      });
+      // toastr.error("{{Session::get('error')}}","Error!",{timeOut:10000});
+    </script>
+  @endif
+  @if (Session::has('success'))
+    <script>
+      toastr.success("{{Session::get('success')}}","Success!");
+      // toastr.info("{{Session::get('success')}}","Success!");
+      // toastr.warning("{{Session::get('success')}}","Success!");
+      // toastr.error("{{Session::get('success')}}","Success!");
     </script>
   @endif
 @endsection

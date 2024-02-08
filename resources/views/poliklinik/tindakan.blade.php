@@ -29,9 +29,11 @@
         </select>
       </div>
 
-      <div class="text-right">
-        <button type="submit" onclick="return confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-success"> <i class="fas fa-save"> </i> SIMPAN</button>
-        <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i> RESET</button>
+      <div class="card-footer">
+        <div class="text-right">
+          <button type="submit" onclick="return confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-success"> <i class="fas fa-plus"> </i></button>
+          <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i></button>
+        </div>
       </div>
     </div>
   </div>
@@ -77,6 +79,7 @@
         }
     });
 });
+
 
 
 </script>

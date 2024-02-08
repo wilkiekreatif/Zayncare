@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Anamnesa;
 use App\Models\KodeHarga;
 use App\Models\m_obatalkes;
+use App\Models\m_pasien;
 use App\Models\mTindakan;
 use App\Models\trxObatalkes;
 use App\Models\trxPasien;
@@ -79,12 +80,13 @@ class poliController extends Controller
         $pasien         = trxPasien::with('mPasien')->where('trx_id',$id)->first();
         $tindakan       = mTindakan::where('is_active','1')->get();
         $tindakanPasien = trxTindakanpasien::with('mTindakan')->where('trx_id',$id)->get();
+        $anamnesa = Anamnesa::where('trx_id', $id)->get();
         // $kode_harga       = KodeHarga::all();
         //dd($tindakanPasien);
         return view('poliklinik.pemeriksaan',[
             'tindakans'     => $tindakan,
-            'trxTindakans'   => $tindakanPasien
-            // 'kodeHarga' => $kode_harga
+            'trxTindakans'   => $tindakanPasien,
+            'anamnesa' => $anamnesa
         ])->with('trxPasien',$pasien);
     }
 
@@ -176,6 +178,13 @@ class poliController extends Controller
             $trxtindakan->delete();
             return redirect()->back()->with('success', 'Tindakan berhasil dihapus.');
         }
+    }
+
+    public function updateAlergi($id, Request $req){
+        $pasien = m_pasien::find($id);
+        $pasien->alergi = $req->keterangan;
+        $pasien->save();
+        return redirect()->back()->with('success','Data alergi berhasil di ubah');
     }
 
     public function reseppoli($id)

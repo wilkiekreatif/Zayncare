@@ -76,12 +76,18 @@ Route::controller(poliController::class)->group(function(){
     Route::get('poliklinik/{id}','getTarifobat')->name('poliklinik.getTarifobat');
     Route::put('poliklinik/{id}/tambahobatalkes','tambahobatalkes')->name('poliklinik.tambahobatalkes');
     Route::put('poliklinik/{trx_id}/deleteobat','deleteobat')->name('poliklinik.deleteobat');
+    Route::get('poliklinik/periksa/{id}','periksa')->name('poliklinik.periksa'); 
+    Route::post('poliklinik/simpan/anamnesa/{id}','anamnesa')->name('poliklinik.anamnesa');
+    Route::get('harga_tindakan/{id}','getHarga_t');
+    Route::put('poliklinik/hapustindakan/{id}','deletetindakan')->name('poliklinik.deletetindakan');
+    Route::post('poliklinik/updateAlergi/{id}','updateAlergi')->name('poliklinik.updateAlergi');
 });
 
 Route::controller(kasirController::class)->group(function(){
     Route::get('kasir','index')->name('kasir.index');
     Route::get('kasir/prosesbayar/{id}','prosesBayar')->name('kasir.prosesBayar');
     Route::post('kasir/simpanpembayaran/{id}','simpanPembayaran')->name('kasir.simpanBayar');
+    Route::get('kasir/pembayaranPasien/{totalBayar}/{uangDiterima}','HitungKembalian')->name('kasir.hitungKembalian');
 });
 
 Route::get('/construction', function () {

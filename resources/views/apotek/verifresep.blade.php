@@ -157,7 +157,7 @@
                               </div>
                             </td>
                             <td>
-                              <form method="POST" action="{{ route('poliklinik.deleteobat', ['trx_id' => $trxPasien->trx_id, 'id' => $trxobatalkes->id]) }}">
+                              <form method="POST" action="{{ route('apotek.deleteobatalkes', ['trx_id' => $trxPasien->trx_id, 'id' => $trxobatalkes->id]) }}">
                                 @method('PUT') <!-- Menambahkan metode spoofing untuk PUT -->
                                 @csrf
                                   <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Batalkan Obat Alkes">

@@ -72,7 +72,35 @@ class kasirController extends Controller
 
     public function pembayranUmum(){
         $trxUmum = trxUmum::all();
-        return view('kasir.pembayaran_umum', compact('trxUmum'));
+
+        $today      = Carbon::now();
+        $year       = Carbon::now()->year;
+        $month      = Carbon::now()->month;
+
+        $trxtoday   = trxUmum::whereDate('created_at',$today)
+                        ->where('status','!=','2')
+                        ->count();
+
+        $trxmonth   = trxUmum::whereYear('created_at',$year)
+                        ->whereMonth('created_at',$month)
+                        ->where('status','!=','2')
+                        ->count();
+        
+        $omsettoday = trxUmum::whereDate('created_at',$today)
+                        ->where('status','!=','2')
+                        ->sum('total');
+
+        $omsetmonth   = trxUmum::whereYear('created_at',$year)
+                        ->whereMonth('created_at',$month)
+                        ->where('status','!=','2')
+                        ->sum('total');
+        return view('kasir.pembayaran_umum',[
+            'trxumum'  => $trxUmum,
+            'trxtoday'  => $trxtoday,
+            'trxmonth'  => $trxmonth,
+            'omsettoday'  => $omsettoday,
+            'omsetmonth'  => $omsetmonth,
+        ]);
     }
 
     public function prosesbayarUmum($id){

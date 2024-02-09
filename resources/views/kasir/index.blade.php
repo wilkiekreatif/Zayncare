@@ -221,12 +221,14 @@
                       @if ($trxPasien->status == 99)
                         <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Pasien batal periksa">Batal Periksa</span></h5>
                       @elseif ($trxPasien->status == 1)
-                        <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom">Belum bayar</span></h5>
-                      @elseif ($trxPasien->status == 4)
-                        <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom">Sudah Bayar</span></h5>
+                        <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom" title="Anda hanya perlu menginput tindakan dan anamnesa dan status pasien otomatis berubah menjadi: SEDANG PERIKSA">Antrian</span></h5>
+                      @elseif ($trxPasien->status == 2)
+                        <h5><span class="badge badge-secondary" data-toggle="tooltip" data-placement="bottom" title="Anda hanya perlu menginput resep dan status pasien otomatis berubah menjadi: SUDAH PERIKSA">Sedang Periksa</span></h5>
                       @elseif ($trxPasien->status == 3)
-                        <h5><span class="badge badge-primary" data-toggle="tooltip" data-placement="bottom">Sudah Verifikasi</span></h5>
-                      @elseif ($trxPasien->statu == 5)
+                        <h5><span class="badge badge-primary" data-toggle="tooltip" data-placement="bottom" title="Anda hanya perlu mengarahkan pasien untuk ke kasir dan apabila pasien telah berhasil melakukan pembayaran maka status pasien otomatis berubah menjadi: SUDAH BAYAR">Sudah Periksa</span></h5>
+                      @elseif ($trxPasien->status == 4)
+                        <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="KASIR hanya perlu klik tombol PULANGKAN di kolom ACTION apabila pasien tidak ada resep, namun apabila ada resep silahkan anda arahkan pasien tersebut ke apotek untuk dilakukan transaksi penyerahan resep.">Sudah Bayar</span></h5>
+                      @elseif ($trxPasien->status == 5)
                         <h5><span class="badge badge-info">Sudah Pulang</span></h5>
                       @endif
                     </td>

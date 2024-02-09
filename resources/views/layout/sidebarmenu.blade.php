@@ -258,13 +258,13 @@
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{route('kasir.index')}}" class="nav-link @if(Request::is('kasir/pembayaranpasien')) active @elseif(Request::is('kasir/pembayaranpasien/*')) active @endif">
+            <a href="{{route('kasir.index')}}" class="nav-link @if(Request::is('kasir')) active @elseif(Request::is('kasir')) active @endif">
               <i class="nav-icon fas fa-money-bill-wave-alt"></i>
               <p>Pembayaran Pasien</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('kasir.pembayranUmum') }}" class="nav-link @if(Request::is('kasir/pembayaranumum')) active @elseif(Request::is('kasir/pembayaranumum/*')) active @endif">
+            <a href="{{ route('kasir.pembayranUmum') }}" class="nav-link @if(Request::is('kasir/pembayaran_umum')) active @elseif(Request::is('kasir/pembayaran_umum/*')) active @endif">
               <i class="nav-icon fas fa-money-bill-wave-alt"></i>
               <p>Pembayaran Umum</p>
             </a>

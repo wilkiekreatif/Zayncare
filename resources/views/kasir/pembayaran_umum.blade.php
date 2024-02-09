@@ -37,11 +37,27 @@
           <!-- small box -->
           <div class="small-box bg-info">
             <div class="inner">
-              <h3>{{$totalData = $trxUmum->where('status', '!=', ['99','4','5'])->count(); }} <sup style="font-size: 20px">Pasien</sup></h3>
-              <p>Pasien hari ini</p>
+              <h3>{{$trxtoday}} <sup style="font-size: 20px">trx</sup></h3>
+              <p>Penjualan hari ini</p>
             </div>
             <div class="icon">
-              <i class="fas fa-user-injured"></i>
+              <i class="fas fa-cash-register"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              @php
+                  $omsethariini  = number_format($omsettoday, 0, ',', '.');
+                  $omsetbulanini = number_format($omsetmonth, 0, ',', '.');
+              @endphp
+              <h3><sup style="font-size: 20px">Rp.</sup> {{$omsethariini}}</h3>
+              <p>Omset hari ini</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-money-bill-wave"></i>
             </div>
           </div>
         </div>
@@ -49,11 +65,11 @@
           <!-- small box -->
           <div class="small-box bg-success">
             <div class="inner">
-              <h3>{{$totalData = $trxUmum->where('status','1')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
-              <p>Pasien Sudah Bayar</p>
+              <h3>{{$trxmonth}} <sup style="font-size: 20px">trx</sup></h3>
+              <p>Penjualan bulan ini</p>
             </div>
             <div class="icon">
-              <i class="fas fa-user-injured"></i>
+              <i class="fas fa-cash-register"></i>
             </div>
           </div>
         </div>
@@ -61,11 +77,11 @@
           <!-- small box -->
           <div class="small-box bg-danger">
             <div class="inner">
-              <h3>{{$totalData = $trxUmum->where('status','0')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
-              <p>Pasien Belum Bayar</p>
+              <h3><sup style="font-size: 20px">Rp.</sup> {{$omsetbulanini}}</h3>
+              <p>Omset bulan ini</p>
             </div>
             <div class="icon">
-              <i class="fas fa-user-injured"></i>
+              <i class="fas fa-money-bill-wave"></i>
             </div>
           </div>
         </div>
@@ -85,14 +101,15 @@
               <thead>
                 <tr>
                   <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
-                  <th style="background-color: rgb(120, 186, 196)" width="15%">ID PASIEN</th>
+                  <th style="background-color: rgb(120, 186, 196)" >ID TRANSAKSI</th>
+                  <th style="background-color: rgb(120, 186, 196)" >TOTAL</th>
                   <th style="background-color: rgb(120, 186, 196)" >STATUS</th>
                   <th style="background-color: rgb(120, 186, 196)" width="2%">ACTION</th>
                 </tr>
               </thead>
               <tbody>
                 <?php $no = 1 ?>
-                @foreach ($trxUmum as $trxPasien)
+                @foreach ($trxumum as $trxPasien)
                   <tr>
                     <td>{{$no}}</td>
                     <td>
@@ -101,26 +118,23 @@
                           No Trx: <b>{{$trxPasien->trx_id}}</b>
                         </li>
                     </td>
-                   
+                    @php
+                      $total  = number_format($trxPasien->total, 0, ',', '.');
+                    @endphp
+                    <td>Rp. {{$total}}</td>
                     <td>
-                      @if ($trxPasien->status == 99)
-                        <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Pasien batal periksa">Batal Periksa</span></h5>
+                      @if ($trxPasien->status == 2)
+                        <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Batal bayar">Batal Bayar</span></h5>
                       @elseif ($trxPasien->status == 0)
-                        <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom">Belum bayar</span></h5>
+                        <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom" title="Belum bayar">Belum bayar</span></h5>
                       @elseif ($trxPasien->status == 1)
-                        <h5><span class="badge badge-secondary" data-toggle="tooltip" data-placement="bottom">Sudah Bayar</span></h5>
+                        <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="Sudah bayar">Sudah Bayar</span></h5>
                       @endif
                     </td>
                     <td>
                       <div class="btn-group" style="width: 100%">
-                        <a href="{{ route('kasir.prosesBayarUmum',$trxPasien->trx_id) }}" type="button" class="btn btn-sm btn-primary {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Proses Pembayaran"><i class="fas fa-stethoscope"></i>Bayar</a>
+                        <a href="{{ route('kasir.prosesBayarUmum',$trxPasien->trx_id) }}" type="button" class="btn btn-sm btn-primary {{ $trxPasien->status == '2' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Proses Pembayaran"><i class="fas fa-stethoscope"></i>Bayar</a>
                         <a href="#" type="button" class="btn btn-sm btn-success {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}} {{ $trxPasien->status == '3' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Input Resep Pasien"><i class="fas fa-pills"></i> Rincian</a>
-                        <a href="{{route('poliklinik.batalperiksa',$trxPasien->trx_id)}}" onclick="return confirm('Apakah anda yakin akan membatalkan pasien ini?')" type="button" class="btn btn-sm btn-danger {{ $trxPasien->status == '1' ? '' : 'disabled'}}" data-toggle="tooltip" data-placement="bottom" title="Batalkan pemeriksaan"><i class="fas fa-times"></i> Batal</a>
-                      </div><hr>
-                      <div class="btn-group" style="width: 100%">
-                        <a href="#" type="button" class="btn btn-sm btn-default toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Print tracer pasien"><i class="fas fa-print"></i> Tracer</a>
-                        <a href="#" type="button" class="btn btn-sm btn-primary toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Riwayat pasien"><i class="fas fa-file"></i> Riwayat</a>
-                      </div>
                     </td>
                   </tr>
                   <?php $no++ ?>
@@ -129,10 +143,8 @@
               <tfoot>
                 <tr>
                   <th>No</th>
-                  <th>ID PASIEN</th>
-                  <th>NAMA PASIEN</th>
-                  <th>POLIKLINIK</th>
-                  <th>ALERGI</th>
+                  <th>ID TRANSAKSI</th>
+                  <th>TOTAL</th>
                   <th>STATUS</th>
                   <th>ACTION</th>
                 </tr>

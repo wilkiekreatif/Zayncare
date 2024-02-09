@@ -87,65 +87,68 @@
         </div>
       </div>
 
-      <div class="row">
-        {{-- table belum lunas --}}
-        <div class="col-md-6">
-          <div class="card card-default">
-              <div class="card-header">
-                  <div class="d-flex justify-content-between align-items-center">
-                      <h3 class="card-title">
-                        <i class="fa fa-layer-group"></i>
-                        Tabel @yield('title')
-                      </h3>
-                  </div>
-              </div>
-              <div class="card-body">
-                <table id="datatable1" class="table table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
-                      <th style="background-color: rgb(120, 186, 196)" width="15%">ID TRANSAKSI</th>
-                      <th style="background-color: rgb(120, 186, 196)" width="50%">TOTAL </th>
-                      <th style="background-color: rgb(120, 186, 196)" width="20%">POLIKLINIK</th>
-                      <th style="background-color: rgb(120, 186, 196)" width="10%">KETERANGAN</th>
-                      <th style="background-color: rgb(120, 186, 196)" >STATUS</th>
-                      <th style="background-color: rgb(120, 186, 196)" width="2%">ACTION</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @if($trxumums->isNotEmpty())
-                      @foreach ($trxumums as $trxumum)                  
-                        <tr>
-                          <td>{{$loop->iteration}}</td>
-                          <td>{{$trxumum->trx_id}}</td>
-                          @php
-                            $total  = number_format($trxumum->total, 0, ',', '.');
-                          @endphp
-                          <td>Rp. {{$total}}</td>
-                        </tr>
-                      @endforeach
-                    @endif
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <th>No</th>
-                      <th>ID PASIEN</th>
-                      <th>NAMA PASIEN</th>
-                      <th>POLIKLINIK</th>
-                      <th>KETERANGAN</th>
-                      <th>STATUS</th>
-                      <th>ACTION</th>
-                    </tr>
-                  </tfoot>
-                </table>
+      <div class="card card-default">
+          <div class="card-header">
+              <div class="d-flex justify-content-between align-items-center">
+                  <h3 class="card-title">
+                    <i class="fa fa-layer-group"></i>
+                    Tabel @yield('title')
+                  </h3>
               </div>
           </div>
-        </div>
-        {{-- table sudah lunas --}}
-        <div class="col-md-6">
-
-        </div>
+          <div class="card-body">
+            <table id="datatable1" class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="15%">ID TRANSAKSI</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="50%">TOTAL</th>
+                  <th style="background-color: rgb(120, 186, 196)" >STATUS</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="2%">ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+                @if($trxumums->isNotEmpty())
+                  @foreach ($trxumums as $trxumum)                  
+                    <tr>
+                      <td>{{$loop->iteration}}</td>
+                      <td>{{$trxumum->trx_id}}</td>
+                      @php
+                        $total  = number_format($trxumum->total, 0, ',', '.');
+                      @endphp
+                      <td>Rp. {{$total}}</td>
+                      <td>
+                        @if ($trxumum->status == 0)
+                            <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom" title="Pembelian belum bayar">Belum Bayar</span></h5>
+                        @elseif ($trxumum->status == 1)
+                          <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="Pembelian sudah bayar">Sudah Bayar</span></h5>
+                        @elseif ($trxumum->status == 2)
+                          <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Pembelian batal bayar">Batal Bayar</span></h5>
+                        @endif
+                      </td>
+                      <td>
+                        <div class="btn-group" style="width: 100%">
+                          <a type="button" class="btn btn-sm btn-primary toastrDefaultError" data-toggle="tooltip" data-placement="bottom" title="Detail pembelian"><i class="fas fa-list"></i> Detail</a>
+                          <a type="button" class="btn btn-sm btn-danger toastrDefaultError" data-toggle="tooltip" data-placement="bottom" title="Batalkan pembelian"><i class="fas fa-trash"></i> Batal</a>
+                        </div>
+                      </td>
+                    </tr>
+                  @endforeach
+                @endif
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>No</th>
+                  <th>ID TRANSAKSI</th>
+                  <th>TOTAL</th>
+                  <th>STATUS</th>
+                  <th>ACTION</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
       </div>
+      
     </div>
   </section>
 @endsection

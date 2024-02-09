@@ -202,7 +202,7 @@
           </p>
         </a>
         <ul class="nav nav-treeview">
-          <li class="nav-item @if(Request::is('apotek/penjualan')) menu-is-opening menu-open @elseif(Request::is('gudang/penjualan/*')) menu-is-opening menu-open @endif ">
+          <li class="nav-item @if(Request::is('apotek/penjualan')) menu-is-opening menu-open @elseif(Request::is('apotek/penjualanUmum')) menu-is-opening menu-open @endif ">
             <a href="#" class="nav-link ">
               <i class="nav-icon fas fa-pills"></i>
               <p>
@@ -212,13 +212,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('apotek.pu')}}" class="nav-link @if(Request::is('apotek/daftarpenjualan')) active @endif">
+                <a href="{{route('apotek.pu')}}" class="nav-link @if(Request::is('apotek/penjualan')) active @endif">
                   <i class="nav-icon fas fa-tablets"></i>
                   <p>Daftar Penjualan Umum</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('apotek.jualumum')}}" class="nav-link @if(Request::is('apotek/penjualan')) active @elseif(Request::is('apotek/penjualan/*')) active @endif">
+                <a href="{{route('apotek.jualumum')}}" class="nav-link @if(Request::is('apotek/penjualanUmum')) active @elseif(Request::is('apotek/penjualanUmum/*')) active @endif">
                   <i class="nav-icon fas fa-cash-register"></i>
                   <p>Transaksi Penjualan Umum</p>
                 </a>

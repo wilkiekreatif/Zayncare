@@ -86,49 +86,65 @@
           </div>
         </div>
       </div>
-      {{-- table pasien poli --}}
-      <div class="card card-default">
-          <div class="card-header">
-              <div class="d-flex justify-content-between align-items-center">
-                  <h3 class="card-title">
-                    <i class="fa fa-layer-group"></i>
-                    Tabel @yield('title')
-                  </h3>
+
+      <div class="row">
+        {{-- table belum lunas --}}
+        <div class="col-md-6">
+          <div class="card card-default">
+              <div class="card-header">
+                  <div class="d-flex justify-content-between align-items-center">
+                      <h3 class="card-title">
+                        <i class="fa fa-layer-group"></i>
+                        Tabel @yield('title')
+                      </h3>
+                  </div>
+              </div>
+              <div class="card-body">
+                <table id="datatable1" class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
+                      <th style="background-color: rgb(120, 186, 196)" width="15%">ID TRANSAKSI</th>
+                      <th style="background-color: rgb(120, 186, 196)" width="50%">TOTAL </th>
+                      <th style="background-color: rgb(120, 186, 196)" width="20%">POLIKLINIK</th>
+                      <th style="background-color: rgb(120, 186, 196)" width="10%">KETERANGAN</th>
+                      <th style="background-color: rgb(120, 186, 196)" >STATUS</th>
+                      <th style="background-color: rgb(120, 186, 196)" width="2%">ACTION</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @if($trxumums->isNotEmpty())
+                      @foreach ($trxumums as $trxumum)                  
+                        <tr>
+                          <td>{{$loop->iteration}}</td>
+                          <td>{{$trxumum->trx_id}}</td>
+                          @php
+                            $total  = number_format($trxumum->total, 0, ',', '.');
+                          @endphp
+                          <td>Rp. {{$total}}</td>
+                        </tr>
+                      @endforeach
+                    @endif
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>No</th>
+                      <th>ID PASIEN</th>
+                      <th>NAMA PASIEN</th>
+                      <th>POLIKLINIK</th>
+                      <th>KETERANGAN</th>
+                      <th>STATUS</th>
+                      <th>ACTION</th>
+                    </tr>
+                  </tfoot>
+                </table>
               </div>
           </div>
-          <div class="card-body">
-            <table id="datatable1" class="table table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
-                  <th style="background-color: rgb(120, 186, 196)" width="15%">ID TRANSAKSI</th>
-                  <th style="background-color: rgb(120, 186, 196)" width="50%">TOTAL </th>
-                  <th style="background-color: rgb(120, 186, 196)" width="20%">POLIKLINIK</th>
-                  <th style="background-color: rgb(120, 186, 196)" width="10%">KETERANGAN</th>
-                  <th style="background-color: rgb(120, 186, 196)" >STATUS</th>
-                  <th style="background-color: rgb(120, 186, 196)" width="2%">ACTION</th>
-                </tr>
-              </thead>
-              <tbody>
-                @if($trxumums->isNotEmpty())
-                  @foreach ($trxumums as $trxumum)                  
-                    <tr></tr>
-                  @endforeach
-                @endif
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>No</th>
-                  <th>ID PASIEN</th>
-                  <th>NAMA PASIEN</th>
-                  <th>POLIKLINIK</th>
-                  <th>KETERANGAN</th>
-                  <th>STATUS</th>
-                  <th>ACTION</th>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
+        </div>
+        {{-- table sudah lunas --}}
+        <div class="col-md-6">
+
+        </div>
       </div>
     </div>
   </section>

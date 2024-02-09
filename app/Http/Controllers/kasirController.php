@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 class kasirController extends Controller
 {
     public function index(){
-        $trxPasiens = trxPasien::all();
+        $trxPasiens = trxPasien::orderby('status','ASC')->get();
         return view('kasir.index', compact('trxPasiens'));
     }
     
@@ -42,15 +42,15 @@ class kasirController extends Controller
     public function simpanPembayaran(Request $req, $id){
 
         trxKasir::create([
-            'id_transaksi' => $req->trx_id,
+            'id_transaksi'      => $req->trx_id,
             'tanggal_transaksi' => Carbon::now(),
-            'no_rekmed' => $req->norm,
-            'nama_pasien' => $req->pasiennama,
-            'asal_poli' => $req->poliklinik,
-            'kelas_tarif' => $req->kelastarif,
-            'total_tindakan' => $req->totalTindakan,
-            'total_obat_alkes' => $req->totalObatAlkes,
-            'total_transaksi' => $req->totalPembayaran,
+            'no_rekmed'         => $req->norm,
+            'nama_pasien'       => $req->pasiennama,
+            'asal_poli'         => $req->poliklinik,
+            'kelas_tarif'       => $req->kelastarif,
+            'total_tindakan'    => $req->totalTindakan,
+            'total_obat_alkes'  => $req->totalObatAlkes,
+            'total_transaksi'   => $req->totalPembayaran,
             'user_id'           => 1 
         ]);
 
@@ -58,7 +58,8 @@ class kasirController extends Controller
         $pasien->status = 4;
         $pasien->save();
 
-        return redirect('/kasir')->with('success','Data transaksi berhasil disimpan');
+        return redirect()->route('kasir.index')->with('success','Transaksi telah berhasil disimpan. silahkan print tanda terima apabila dibutuhkan.');
+
     }
 
     public function hitungKembalian(Request $req){

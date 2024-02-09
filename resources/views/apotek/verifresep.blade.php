@@ -370,5 +370,9 @@
       // toastr.warning("{{Session::get('success')}}","Success!");
       // toastr.error("{{Session::get('success')}}","Success!");
     </script>
+  @elseif (Session::has('error'))
+    <script>
+      toastr.error("{{Session::get('error')}}","Kesalahan!");
+    </script>
   @endif
 @endsection

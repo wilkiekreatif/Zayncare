@@ -267,7 +267,11 @@ class poliController extends Controller
 
     public function deleteobat(Request $request, string $trx_id)
     {
-        // dd($request->id, $trx_id);
+        $jmldata = trxObatalkes::where('trx_id',$request->trx_id)->count();
+        // dd($jmldata);
+        if($jmldata == 1){
+            return redirect()->back()->with('error', 'tabel ini tidak boleh kosong. anda harus input item obat yang sesuai baru anda bisa menghapus data pada tabel ini.');
+        }
         $trxobatalkesId = $request->id;
         $trxobatalkes   = trxObatalkes::find($trxobatalkesId);
 
@@ -275,6 +279,7 @@ class poliController extends Controller
         if(!$trxobatalkes){
             return redirect()->back()->with('error', 'Data tidak ditemukan. coba anda lakukan refresh halaman ini.');
         }else{
+            // dd($trxobatalkes);
             $trxobatalkes->delete();
             return redirect()->back()->with('success', 'Item obat berhasil dihapus.');
         }

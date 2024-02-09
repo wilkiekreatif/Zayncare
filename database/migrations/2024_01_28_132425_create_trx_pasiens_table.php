@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('poli_id')->constrained('m_polis');
             $table->enum('kelastarif',[1,2,3])->default(1)->comment('1:margin1, 2:margin2, 3:margin3');
             $table->enum('status',[1,2,3,4,5,99])->default(1)->comment('99: batal periksa, 1: antrian, 2: sedang periksa, 3: sudah periksa, 4: sudah bayar, 5: sudah pulang');
-            $table->enum('status_bayar',[1,2,3])->default(1)->comment('1: belum bayar, 2: sudah bayar, 3: sudah verifikasi');
             $table->foreignId('user_id')->constrained('users')->default('1');
             $table->timestamps();
         });

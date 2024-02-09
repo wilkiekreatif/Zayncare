@@ -264,7 +264,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link @if(Request::is('kasir/pembayaranumum')) active @elseif(Request::is('kasir/pembayaranumum/*')) active @endif">
+            <a href="{{ route('kasir.pembayranUmum') }}" class="nav-link @if(Request::is('kasir/pembayaranumum')) active @elseif(Request::is('kasir/pembayaranumum/*')) active @endif">
               <i class="nav-icon fas fa-money-bill-wave-alt"></i>
               <p>Pembayaran Umum</p>
             </a>

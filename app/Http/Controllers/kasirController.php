@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\mTindakan;
+use App\Models\trx_kasir_umum;
 use App\Models\trxKasir;
 use App\Models\trxObatalkes;
 use App\Models\trxPasien;
 use App\Models\trxTindakanpasien;
+use App\Models\trxUmum;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -53,10 +55,10 @@ class kasirController extends Controller
         ]);
 
         $pasien = trxPasien::with('mPasien')->where('trx_id',$id)->first();
-        $pasien->status_bayar = 2;
+        $pasien->status = 4;
         $pasien->save();
 
-        return redirect('/kasir');
+        return redirect('/kasir')->with('success','Data transaksi berhasil disimpan');
     }
 
     public function hitungKembalian(Request $req){
@@ -65,6 +67,33 @@ class kasirController extends Controller
         dd($totalBayar);
         // $kembalian = $totalBayar - $uangDiterima;
         return view('kasir.pembayaran', compact('kembalian'));
+    }
+
+    public function pembayranUmum(){
+        $trxUmum = trxUmum::all();
+        return view('kasir.pembayaran_umum', compact('trxUmum'));
+    }
+
+    public function prosesbayarUmum($id){
+        $trxObatAlkesU = trxUmum::where('trx_id',$id)->get();
+        // $trxObatAlkesU   = trxUmum::with('mObatalkes')->where('trx_id',$id)->get();
+        return view('kasir.proses_bayar_umum', compact('trxObatAlkesU'));
+    }
+
+    public function simpanPembayaranUmum($id, Request $req) {
+        trx_kasir_umum::create([
+            'id_transaksi' => $req->id_transaksi,
+            'tanggal_transaksi' => $req->tanggal_transaksi,
+            'total_transaksi' => $req->total_transaksi,
+            'user_id'           => 1 
+        ]);
+
+        $pasien = trxUmum::where('trx_id',$id)->update(['status' => '1']);
+        // $pasien->status = 1;
+        // $pasien->save();
+        
+
+        return redirect('kasir/pembayaran_umum')->with('success','Data transaksi berhasil disimpan');;
     }
 
 }

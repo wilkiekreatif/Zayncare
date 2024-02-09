@@ -87,7 +87,10 @@ Route::controller(kasirController::class)->group(function(){
     Route::get('kasir','index')->name('kasir.index');
     Route::get('kasir/prosesbayar/{id}','prosesBayar')->name('kasir.prosesBayar');
     Route::post('kasir/simpanpembayaran/{id}','simpanPembayaran')->name('kasir.simpanBayar');
-    Route::get('kasir/pembayaranPasien/{totalBayar}/{uangDiterima}','HitungKembalian')->name('kasir.hitungKembalian');
+    // Route::get('kasir/pembayaranPasien/{totalBayar}/{uangDiterima}','HitungKembalian')->name('kasir.hitungKembalian');
+    Route::get('kasir/pembayaran_umum','pembayranUmum')->name('kasir.pembayranUmum');
+    Route::get('kasir/prosesBayar_umum/{id}','prosesBayarUmum')->name('kasir.prosesBayarUmum');
+    Route::post('kasir/simpanpembayaranumum/{id}','simpanPembayaranUmum')->name('kasir.simpanPembayaranUmum');
 });
 
 Route::get('/construction', function () {

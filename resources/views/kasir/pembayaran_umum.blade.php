@@ -37,7 +37,7 @@
           <!-- small box -->
           <div class="small-box bg-info">
             <div class="inner">
-              <h3>{{$totalData = $trxPasiens->where('status', '!=', ['99','4','5'])->count(); }} <sup style="font-size: 20px">Pasien</sup></h3>
+              <h3>{{$totalData = $trxUmum->where('status', '!=', ['99','4','5'])->count(); }} <sup style="font-size: 20px">Pasien</sup></h3>
               <p>Pasien hari ini</p>
             </div>
             <div class="icon">
@@ -49,7 +49,7 @@
           <!-- small box -->
           <div class="small-box bg-success">
             <div class="inner">
-              <h3>{{$totalData = $trxPasiens->where('status_bayar','2')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
+              <h3>{{$totalData = $trxUmum->where('status','1')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
               <p>Pasien Sudah Bayar</p>
             </div>
             <div class="icon">
@@ -61,7 +61,7 @@
           <!-- small box -->
           <div class="small-box bg-danger">
             <div class="inner">
-              <h3>{{$totalData = $trxPasiens->where('status_bayar','1')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
+              <h3>{{$totalData = $trxUmum->where('status','0')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
               <p>Pasien Belum Bayar</p>
             </div>
             <div class="icon">
@@ -86,16 +86,13 @@
                 <tr>
                   <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
                   <th style="background-color: rgb(120, 186, 196)" width="15%">ID PASIEN</th>
-                  <th style="background-color: rgb(120, 186, 196)" width="50%">NAMA PASIEN</th>
-                  <th style="background-color: rgb(120, 186, 196)" width="20%">POLIKLINIK</th>
-                  <th style="background-color: rgb(120, 186, 196)" width="10%">ALERGI</th>
                   <th style="background-color: rgb(120, 186, 196)" >STATUS</th>
                   <th style="background-color: rgb(120, 186, 196)" width="2%">ACTION</th>
                 </tr>
               </thead>
               <tbody>
                 <?php $no = 1 ?>
-                @foreach ($trxPasiens as $trxPasien)
+                @foreach ($trxUmum as $trxPasien)
                   <tr>
                     <td>{{$no}}</td>
                     <td>
@@ -103,126 +100,20 @@
                         <li class="nav-item">
                           No Trx: <b>{{$trxPasien->trx_id}}</b>
                         </li>
-                        <li class="nav-item">
-                          No RM: <b>{{$trxPasien->mPasien->no_rm}}</b>
-                        </li>
-                        <li class="nav-item">
-                          @if ($trxPasien->kelastarif == 1)
-                              kelas tarif: <b>1</b>
-                          @elseif ($trxPasien->kelastarif == 2)
-                              kelas tarif: <b>2</b>
-                          @elseif ($trxPasien->kelastarif == 3)
-                              kelas tarif: <b>3</b>
-                          @endif
-                        </li>
                     </td>
-                    <td>
-                      <div style="width: 40%; float: left;">
-                        <ul class="nav nav-pills flex-column">
-                          <li class="nav-item">
-                            {{ $trxPasien->mPasien->label }}. @if ($trxPasien->mPasien->gelardepan!= null)
-                                {{$trxPasien->mPasien->gelardepan}}.
-                            @endif<b>{{ $trxPasien->mPasien->pasien_nama }}</b> @if ($trxPasien->mPasien->gelarbelakang!=null)
-                                ,{{$trxPasien->mPasien->gelarbelakang }}
-                            @endif
-                          </li>
-                          <li class="nav-item">
-                            @php
-                              $tanggallahir = date('d-m-Y', strtotime($trxPasien->mPasien->tgllahir));
-                              $usia = date_diff(date_create($trxPasien->mPasien->tgllahir),date_create(\Carbon\Carbon::now()))->y;
-                            @endphp
-                              {{$tanggallahir}}
-                          </li>
-                          <li class="nav-item">
-                            <b>{{$usia}}</b>  Tahun
-                          </li>
-                          <li class="nav-item">
-                            {{ $trxPasien->mPasien->jeniskelamin==0 ? 'Laki-laki' : 'Perempuan'}}
-                          </li>
-                        </ul>
-                      </div>
-                      <div style="width: 60%; float: left;">
-                        <ul class="nav nav-pills flex-column">
-                          <li class="nav-item">
-                              <i class="fa fa-home"> </i> {{$trxPasien->mPasien->alamat}}, Desa {{$trxPasien->mPasien->desa}} Kec. {{$trxPasien->mPasien->kecamatan}} {{$trxPasien->mPasien->kota}}
-                          </li>
-                          <li class="nav-item"><b>
-                            @if ($trxPasien->mPasien->pendidikan==0)
-                                Dibawah SD
-                            @elseif ($trxPasien->mPasien->pendidikan==1)
-                                SD Sederajat
-                            @elseif ($trxPasien->mPasien->pendidikan==2)
-                                SMP Sederajat
-                            @elseif ($trxPasien->mPasien->pendidikan==3)
-                                SMA Sederajat
-                            @elseif ($trxPasien->mPasien->pendidikan==4)
-                                D-III Sederajat
-                            @elseif ($trxPasien->mPasien->pendidikan==5)
-                                S-I Sederajat
-                            @elseif ($trxPasien->mPasien->pendidikan==6)
-                                S-II Sederajat
-                            @elseif ($trxPasien->mPasien->pendidikan==7)
-                                S-III Sederajat
-                            @elseif ($trxPasien->mPasien->pendidikan==8)
-                                Diatas S-III
-                            @endif</b>
-                          </li>
-                          <li class="nav-item">
-                              <i class="fa fa-user"> </i> @if ($trxPasien->mPasien->agama == 0)
-                                                            Islam
-                                                          @elseif ($trxPasien->mPasien->agama == 1)
-                                                            Katolik
-                                                          @elseif ($trxPasien->mPasien->agama == 2)
-                                                            Protestan
-                                                          @elseif ($trxPasien->mPasien->agama == 3)
-                                                            Hindu
-                                                          @elseif ($trxPasien->mPasien->agama == 4)
-                                                            Buddha
-                                                          @elseif ($trxPasien->mPasien->agama == 5)
-                                                            Lainnya
-                                                          @endif
-                          </li>
-                          <li class="nav-item">
-                              <i class="fa fa-phone"> </i> <a href="https://api.whatsapp.com/send/?phone={{$trxPasien->mPasien->no_telp}}" target="blank" data-toggle="tooltip" data-placement="bottom" title="klik untuk CHAT WHATSAPP dengan no ini"> {{$trxPasien->mPasien->no_telp}}</a> 
-                          </li>
-                        </ul>
-                      </div>
-                    </td>
-                    <td>
-                      <div style="width: 100%; float: left;">
-                        <ul class="nav nav-pills flex-column">
-                          <li class="nav-item">
-                            Poliklinik <b>{{$trxPasien->mPoli->poli_nama}}</b>
-                          </li>
-                          <li class="nav-item">
-                            #Nama dokter pemeriksa
-                          </li>
-                        </ul>
-                      </div>
-                    </td>
-                    @if ($trxPasien->mPasien->alergi != null)
-                      <td style="background-color: rgb(255, 161, 161)"><h6>{{ $trxPasien->mPasien->alergi}}</h6></td>
-                    @else
-                      <td>-</td>
-                    @endif
+                   
                     <td>
                       @if ($trxPasien->status == 99)
                         <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Pasien batal periksa">Batal Periksa</span></h5>
-                      @elseif ($trxPasien->status == 1)
+                      @elseif ($trxPasien->status == 0)
                         <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom">Belum bayar</span></h5>
-                      @elseif ($trxPasien->status == 2)
-                        <h5><span class="badge badge-secondary" data-toggle="tooltip" data-placement="bottom">Sedang Periksa</span></h5>
-                      @elseif ($trxPasien->status == 3)
-                        <h5><span class="badge badge-primary" data-toggle="tooltip" data-placement="bottom">Sudah Verifikasi</span></h5>
-                      @elseif ($trxPasien->status == 4)
-                        <h5><span class="badge badge-info">Sudah Bayar</span></h5>
-                      @elseif ($trxPasien->status == 5)
-                        <h5><span class="badge badge-info">Sudah Pulang</span></h5>
+                      @elseif ($trxPasien->status == 1)
+                        <h5><span class="badge badge-secondary" data-toggle="tooltip" data-placement="bottom">Sudah Bayar</span></h5>
                       @endif
                     </td>
                     <td>
                       <div class="btn-group" style="width: 100%">
-                        <a href="{{ route('kasir.prosesBayar',$trxPasien->trx_id) }}" type="button" class="btn btn-sm btn-primary {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Proses Pembayaran"><i class="fas fa-stethoscope"></i>Bayar</a>
+                        <a href="{{ route('kasir.prosesBayarUmum',$trxPasien->trx_id) }}" type="button" class="btn btn-sm btn-primary {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Proses Pembayaran"><i class="fas fa-stethoscope"></i>Bayar</a>
                         <a href="#" type="button" class="btn btn-sm btn-success {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}} {{ $trxPasien->status == '3' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Input Resep Pasien"><i class="fas fa-pills"></i> Rincian</a>
                         <a href="{{route('poliklinik.batalperiksa',$trxPasien->trx_id)}}" onclick="return confirm('Apakah anda yakin akan membatalkan pasien ini?')" type="button" class="btn btn-sm btn-danger {{ $trxPasien->status == '1' ? '' : 'disabled'}}" data-toggle="tooltip" data-placement="bottom" title="Batalkan pemeriksaan"><i class="fas fa-times"></i> Batal</a>
                       </div><hr>

@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title','Daftar Penjualan Umum')
+@section('title','Pembayaran Pasien')
 
 @section('css')
 <!-- DataTables -->
@@ -86,7 +86,7 @@
           </div>
         </div>
       </div>
-
+      {{-- table pasien poli --}}
       <div class="card card-default">
           <div class="card-header">
               <div class="d-flex justify-content-between align-items-center">
@@ -101,40 +101,44 @@
               <thead>
                 <tr>
                   <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
-                  <th style="background-color: rgb(120, 186, 196)" width="15%">ID TRANSAKSI</th>
-                  <th style="background-color: rgb(120, 186, 196)" width="50%">TOTAL</th>
+                  <th style="background-color: rgb(120, 186, 196)" >ID TRANSAKSI</th>
+                  <th style="background-color: rgb(120, 186, 196)" >TOTAL</th>
                   <th style="background-color: rgb(120, 186, 196)" >STATUS</th>
                   <th style="background-color: rgb(120, 186, 196)" width="2%">ACTION</th>
                 </tr>
               </thead>
               <tbody>
-                @if($trxumums->isNotEmpty())
-                  @foreach ($trxumums as $trxumum)                  
-                    <tr>
-                      <td>{{$loop->iteration}}</td>
-                      <td>{{$trxumum->trx_id}}</td>
-                      @php
-                        $total  = number_format($trxumum->total, 0, ',', '.');
-                      @endphp
-                      <td>Rp. {{$total}}</td>
-                      <td>
-                        @if ($trxumum->status == 0)
-                            <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom" title="Pembelian belum bayar">Belum Bayar</span></h5>
-                        @elseif ($trxumum->status == 1)
-                          <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="Pembelian sudah bayar">Sudah Bayar</span></h5>
-                        @elseif ($trxumum->status == 2)
-                          <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Pembelian batal bayar">Batal Bayar</span></h5>
-                        @endif
-                      </td>
-                      <td>
-                        <div class="btn-group" style="width: 100%">
-                          <a type="button" class="btn btn-sm btn-primary toastrDefaultError" data-toggle="tooltip" data-placement="bottom" title="Detail pembelian"><i class="fas fa-list"></i> Detail</a>
-                          <a type="button" class="btn btn-sm btn-danger toastrDefaultError" data-toggle="tooltip" data-placement="bottom" title="Batalkan pembelian"><i class="fas fa-trash"></i> Batal</a>
-                        </div>
-                      </td>
-                    </tr>
-                  @endforeach
-                @endif
+                <?php $no = 1 ?>
+                @foreach ($trxumum as $trxPasien)
+                  <tr>
+                    <td>{{$no}}</td>
+                    <td>
+                      <ul class="nav nav-pills flex-column">
+                        <li class="nav-item">
+                          No Trx: <b>{{$trxPasien->trx_id}}</b>
+                        </li>
+                    </td>
+                    @php
+                      $total  = number_format($trxPasien->total, 0, ',', '.');
+                    @endphp
+                    <td>Rp. {{$total}}</td>
+                    <td>
+                      @if ($trxPasien->status == 2)
+                        <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Batal bayar">Batal Bayar</span></h5>
+                      @elseif ($trxPasien->status == 0)
+                        <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom" title="Belum bayar">Belum bayar</span></h5>
+                      @elseif ($trxPasien->status == 1)
+                        <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="Sudah bayar">Sudah Bayar</span></h5>
+                      @endif
+                    </td>
+                    <td>
+                      <div class="btn-group" style="width: 100%">
+                        <a href="{{ route('kasir.prosesBayarUmum',$trxPasien->trx_id) }}" type="button" class="btn btn-sm btn-primary {{ $trxPasien->status == '2' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Proses Pembayaran"><i class="fas fa-stethoscope"></i>Bayar</a>
+                        <a href="#" type="button" class="btn btn-sm btn-success {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}} {{ $trxPasien->status == '3' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Input Resep Pasien"><i class="fas fa-pills"></i> Rincian</a>
+                    </td>
+                  </tr>
+                  <?php $no++ ?>
+                @endforeach
               </tbody>
               <tfoot>
                 <tr>
@@ -148,9 +152,9 @@
             </table>
           </div>
       </div>
-      
     </div>
   </section>
+
 @endsection
 
 @section('js')

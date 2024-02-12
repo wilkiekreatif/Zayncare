@@ -35,57 +35,7 @@
               </div>
             </div>
           </div>
-          <div class="card card-info">
-            <div class="card-header">
-              <div class="d-flex justify-content-between align-items-center">
-                  <h3 class="card-title">
-                    <i class="fa fa-user-injured"></i>
-                    Data Pasien
-                  </h3>
-              </div>
-            </div>
-            <form action="{{ route('kasir.simpanBayar',$trxPasien->trx_id) }}" method="post">
-              @csrf
-            <!-- /.card-header -->
-            <div class="card-body">
-              <div class="row">
-                <div class="col-sm-4">
-                  <div class="form-group">
-                    <label class="col-form-label" for="norm">Nomor Rekam Medis</label>
-                    <input readonly class="form-control" name="norm" id="norm" maxlength="60" value="{{$trxPasien->mPasien->no_rm}}">
-                  </div>
-                  <div class="form-group">
-                    <label class="col-form-label" for="trx_id">Id Transaksi</label>
-                    <input readonly class="form-control" name="trx_id" id="trx_id" maxlength="60" value="{{$trxPasien->trx_id}}">
-                  </div>
-                </div>
-                <div class="col-sm-4">
-                  <div class="form-group">
-                    <label class="col-form-label" for="pasiennama">Nama Pasien</label>
-                    <input readonly class="form-control" name="pasiennama" id="pasiennama" maxlength="60" value="{{$trxPasien->mPasien->pasien_nama}}">
-                  </div>
-                  <div class="form-group">
-                    @php
-                      $tanggallahir = date('d-m-Y', strtotime($trxPasien->mPasien->tgllahir));
-                      $usia = date_diff(date_create($trxPasien->mPasien->tgllahir),date_create(\Carbon\Carbon::now()))->y;
-                    @endphp
-                    <label class="col-form-label" for="usia">Usia</label>
-                    <input readonly class="form-control" name="usia" id="usia" maxlength="60" value="{{$usia}} Tahun">
-                  </div>
-                </div>
-                <div class="col-sm-4">
-                  <div class="form-group">
-                    <label class="col-form-label" for="poliklinik">Poliklinik</label>
-                    <input readonly class="form-control" name="poliklinik" id="poliklinik" maxlength="60" value="Poliklinik {{$trxPasien->mPoli->poli_nama}}">
-                  </div>
-                  <div class="form-group">
-                    <label class="col-form-label" for="kelastarif">Kelas Tarif</label>
-                    <input readonly class="form-control" name="kelastarif" id="kelastarif" maxlength="60" value="Margin {{$trxPasien->kelastarif}}">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
 
@@ -95,15 +45,15 @@
             <div class="card-header d-flex p-0">
               <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> Rincian Tagihan Pasien</h3>
             </div><!-- /.card-header -->
+           
+           
             <div class="card-body">
               <table class="table table-hover table-sm">
                 <thead>
                 <tr>
                   <th>No</th>
-                  {{-- <th>Tanggal</th> --}}
-                  <th>Tindakan</th>
-                  <th>Tarif</th>
-                  <th>Jumlah</th>
+                  <th>Tanggal Transaksi</th>
+                  <th>ID Transaksi</th>
                   <th>Total</th>
                 </tr>
               </thead>
@@ -111,86 +61,45 @@
                 @php
                     $no=1;
                 @endphp
-                @foreach ($trxTindakans as $tindakan)
+                @foreach ($trxObatAlkesU as $ObatPasien)
                 @php
-                    $total = number_format($tindakan->total,0,',','.');
+                    $total = number_format($ObatPasien->total,0,',','.');
                 @endphp
+                 <form action="{{ route('kasir.simpanPembayaranUmum',$ObatPasien->trx_id) }}" method="post">
+                  @csrf
+                  <input hidden class="form-control" name="tanggal_transaksi" id="tanggal_transaksi" maxlength="60" value="{{$ObatPasien->created_at}}">
+                  <input hidden class="form-control" name="id_transaksi" id="trx_id" maxlength="60" value="{{$ObatPasien->trx_id}}">
+                <input hidden class="form-control" name="total_transaksi" id="total_transaksi" maxlength="60" value="{{$ObatPasien->total}}">
                 <tr>
                   <td>{{ $no++}}</td>
-                  <td>{{ $tindakan->mTindakan->tindakan_nama }}</td>
-                  <td>{{ $tindakan->tarif }}</td>
-                  <td>{{ $tindakan->qty }}</td>
+                  <td>{{ $ObatPasien->created_at }}</td>
+                  <td>{{ $ObatPasien->trx_id }}</td>
                   <td>Rp. {{ $total }}</td>
                 </tr>   
                 @endforeach
               </tbody>
                 <tr style="font-weight: bold ; font-size: 1rem">
-                  @php
+                  {{-- @php
                     $totalTindakans = number_format($totalTindakan,0,',','.');
-                  @endphp
-                  <td colspan="4">Total</td>
-                  <td>Rp. {{ $totalTindakans }}</td>
+                  @endphp --}}
+                  <td colspan="2">Total</td>
+                  <td>Rp. {{ $total }}</td>
                 </tr>
-                <input style="border: none; font-weight: bold" type="number" name="totalTindakan" value="{{ $totalTindakan }}" hidden>
-              <thead>
-                <tr>
-                  <th>No</th>
-                  {{-- <th>Tanggal</th> --}}
-                  <th>Obat dan Alkes</th>
-                  <th>Tarif</th>
-                  <th>Jumlah</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                @php
-                    $no=1;
-                @endphp
-                @foreach ($trxObatAlkes as $tObatAlkes)
-                @php
-                    $tObatAl = number_format($tObatAlkes->total,0,',','.');
-                @endphp
-                <tr>
-                  <td>{{ $no++}}</td>
-                  <td>{{ $tObatAlkes->mObatAlkes->obatalkes_nama }}</td>
-                  <td>{{ $tObatAlkes->tarif }}</td>
-                  <td>{{ $tObatAlkes->qty }}</td>
-                  <td>Rp. {{ $tObatAl }}</td>
-                </tr>   
-                @endforeach
-              </tbody>
-              <tfoot>
-                <tr style="font-weight: bold ; font-size: 1rem">
-                  @php
-                  $totalObtAlks = number_format($totalObatAlkes,0,',','.');
-                  @endphp
-                  <td colspan="4">Total</td>
-                  <td name='totalObatAlkes'>Rp. {{ $totalObtAlks }}</td>
-                </tr>
-                <input style="border: none; font-weight: bold" type="number" name="totalObatAlkes" value="{{ $totalObatAlkes }}" hidden>
-                <hr>
-                <tr style="font-weight: bold ; font-size: 1rem">
-                  @php
-                  $totalByr = number_format($totalBayar,0,',','.');
-                  @endphp
-                  <td colspan="4">Total Pembayaran</td>
-                  <td name='totalPembayaran'>Rp. {{ $totalByr }}</td>
-                  <input style="border: none; font-weight: bold" type="number" name="totalPembayaran" value="{{ $totalBayar }}" hidden>
-                </tr>
-              </tfoot>
+                {{-- <input style="border: none; font-weight: bold" type="number" name="totalTindakan" value="{{ $totalTindakan }}" hidden> --}}
+             
+              
               </table>
               <!-- /.tab-content -->
               <div class="text-left mt-2">
                 <button type="submit" onclick="return confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-success"> <i class="fas fa-save"> </i> SIMPAN</button>
                 <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i> Cancel</button>
-                <a href="{{ route('kasir.printKwitansi',$trxPasien->trx_id) }}" class="btn btn-warning"><i class="fas fa-print"></i> PRINT KWITANSI</a>
               </div>
             </div><!-- /.card-body -->
           
 
           </div>
         </div>
-        
+      </form>
         <div class="col-4">
           <div class="card card-info card-outline">
             <div class="card-header d-flex p-0">
@@ -202,7 +111,7 @@
                  <label for="">Dibayar Oleh Pasien</label>
                 <div class="input-group-prepend" style="width: 100%">
                   <span class="input-group-text text-sm">Rp.</span>
-                  <input style="font-weight: bold" name="totalBayar" id="totalBayar" type="number" class="form-control" value="{{ $totalByr }}" readonly>
+                  <input style="font-weight: bold" name="totalBayar" id="totalBayar" type="number" class="form-control" value="{{ $total }}" readonly>
                 </div>
               </div>
               <div class="form-group">

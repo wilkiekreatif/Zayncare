@@ -78,7 +78,7 @@ Route::controller(poliController::class)->group(function(){
     Route::put('poliklinik/{trx_id}/deleteobat','deleteobat')->name('poliklinik.deleteobat');
     Route::get('poliklinik/periksa/{id}','periksa')->name('poliklinik.periksa'); 
     Route::post('poliklinik/simpan/anamnesa/{id}','anamnesa')->name('poliklinik.anamnesa');
-    Route::get('harga_tindakan/{id}','getHarga_t');
+    // Route::get('harga_tindakan/{id}','getHarga_t');
     Route::put('poliklinik/hapustindakan/{id}','deletetindakan')->name('poliklinik.deletetindakan');
     Route::post('poliklinik/updateAlergi/{id}','updateAlergi')->name('poliklinik.updateAlergi');
 });
@@ -87,7 +87,10 @@ Route::controller(kasirController::class)->group(function(){
     Route::get('kasir','index')->name('kasir.index');
     Route::get('kasir/prosesbayar/{id}','prosesBayar')->name('kasir.prosesBayar');
     Route::post('kasir/simpanpembayaran/{id}','simpanPembayaran')->name('kasir.simpanBayar');
-    Route::get('kasir/pembayaranPasien/{totalBayar}/{uangDiterima}','HitungKembalian')->name('kasir.hitungKembalian');
+    Route::get('kasir/pembayaran_umum','pembayranUmum')->name('kasir.pembayranUmum');
+    Route::get('kasir/pembayaran_umum/{id}','prosesBayarUmum')->name('kasir.prosesBayarUmum');
+    Route::post('kasir/simpanpembayaranumum/{id}','simpanPembayaranUmum')->name('kasir.simpanPembayaranUmum');
+    Route::get('kasir/print_kwitansi/{id}','printKwitansi')->name('kasir.printKwitansi');
 });
 
 Route::get('/construction', function () {
@@ -97,6 +100,7 @@ Route::get('/construction', function () {
 Route::controller(apotekController::class)->group(function(){
     Route::get('apotek','index')->name('apotek.index');
     Route::get('apotek/penjualan','pu')->name('apotek.pu');
+    Route::put('apotek/{trx_id}/deleteobatalkes','deleteobatalkes')->name('apotek.deleteobatalkes');
     Route::get('apotek/penjualanUmum','jualumum')->name('apotek.jualumum');
     Route::get('apotek/{id}/verifresep','verifresep')->name('apotek.verifresep');
     Route::get('apotek/{id}/resepvalidate','resepvalidate')->name('apotek.resepvalidate');

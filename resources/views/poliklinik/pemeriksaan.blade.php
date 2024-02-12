@@ -101,7 +101,7 @@
               <ul class="nav nav-pills ml-auto p-2">
                 <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab"><b>Tindakan</b></a></li>
                 <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab"><b>Anamnesa</b></a></li>
-                <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab"><b>Keterangan</b></a></li>
+                <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab"><b>Keterangan Pasien</b></a></li>
               </ul>
             </div><!-- /.card-header -->
             <div class="card-body">
@@ -154,7 +154,7 @@
                     <td>Rp. {{ $total }}</td>
                     <td>
                       <form method="POST" action="{{ route('poliklinik.deletetindakan', ['trx_id' => $trxPasien->trx_id, 'id' => $tindakan->id]) }}" onsubmit="return confirm('Apakah anda yakin akan membatalkan pasien ini?');">
-                        @method('PUT') <!-- Menambahkan metode spoofing untuk PUT -->
+                        @method('PUT')
                         @csrf
                           <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Batalkan tindakan">
                             <i class="fas fa-trash"></i> Batal
@@ -204,7 +204,7 @@
       "debug": false,
       "newestOnTop": false,
       "progressBar": true,
-      "positionClass": "toast-top-right",
+      "positionClass": "toast-bottom-right",
       "showDuration": "300",
       "hideDuration": "1000",
       "timeOut": "5000",
@@ -213,6 +213,7 @@
       "hideEasing": "linear",
     }
   </script>
+
   @if ($errors->any())
     <script>
       $(document).ready(function() {
@@ -220,7 +221,6 @@
             toastr.error('{{ $error }}', 'Kesalahan!',{timeOut:30000});
         @endforeach
       });
-      // toastr.error("{{Session::get('error')}}","Error!",{timeOut:10000});
     </script>
   @endif 
 
@@ -231,7 +231,6 @@
             toastr.error('{{ $error }}', 'Kesalahan!',{timeOut:30000});
         @endforeach
       });
-      // toastr.error("{{Session::get('error')}}","Error!",{timeOut:10000});
     </script>
   @endif
   @if (Session::has('success'))

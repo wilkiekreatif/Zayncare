@@ -19,7 +19,7 @@ class poliController extends Controller
      */
     public function index()
     {
-        $trxPasien  = trxPasien::with('mPasien')->with('mPoli')->orderBy('status','ASC')->get();
+        $trxPasien  = trxPasien::with('mPasien')->with('mPoli')->whereNotIn('status',['4','5'])->orderBy('status','ASC')->get();
         $tindakan   = mTindakan::where('is_active','1')->get();
         return view('poliklinik.index',[
             'trxPasiens'=> $trxPasien,
@@ -265,9 +265,13 @@ class poliController extends Controller
         return redirect()->back()->with('success','Item obat alkes telah berhasil ditambahkan!');
     }
 
-    public function deleteobat(Request $request, string $trx_id)
+    public function deleteobat(Request $request)
     {
-        // dd($request->id, $trx_id);
+        // $jmldata = trxObatalkes::where('trx_id',$request->trx_id)->count();
+        
+        // if($jmldata == 1){
+        //     return redirect()->back()->with('error', 'tabel ini tidak boleh kosong. anda harus input item obat yang sesuai baru anda bisa menghapus data pada tabel ini.');
+        // }
         $trxobatalkesId = $request->id;
         $trxobatalkes   = trxObatalkes::find($trxobatalkesId);
 
@@ -275,6 +279,7 @@ class poliController extends Controller
         if(!$trxobatalkes){
             return redirect()->back()->with('error', 'Data tidak ditemukan. coba anda lakukan refresh halaman ini.');
         }else{
+            // dd($trxobatalkes);
             $trxobatalkes->delete();
             return redirect()->back()->with('success', 'Item obat berhasil dihapus.');
         }

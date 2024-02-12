@@ -36,7 +36,7 @@
             <div class="card-header">
               <div class="d-flex justify-content-between align-items-center">
                   <h3 class="card-title">
-                    {{-- <a href="{{ route('poliklinik.doneresep',$trxPasien->trx_id)}}" onclick="return  confirm('Apakah anda yakin?')" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="bottom" title="klik tombol ini untuk merubah status periksa pasien menjadi SUDAH PERIKSA"> <i class="fas fa-save"> </i> Selesai Input Resep</a> --}}
+                    <a href="{{ route('poliklinik.doneresep',$trxPasien->trx_id)}}" onclick="return  confirm('Apakah anda yakin?')" class="btn btn-success btn-md" data-toggle="tooltip" data-placement="bottom" title="klik tombol ini untuk merubah status periksa pasien menjadi SUDAH PERIKSA"> <i class="fas fa-save"> </i> Selesai Input Resep</a>
                   </h3>
                   <div>
                     <a href="{{ route('poliklinik.index')}}" class="btn btn-primary btn-sm"> <i class="fas fa-arrow-left"> </i> Kembali</a>
@@ -153,13 +153,13 @@
                     <div class="row">
                       <div class="col-sm-3">
                         <div class="form-group">
-                          <label for="signa">Signa <a style="color:red">*</a></label>
+                          <label for="signa">Signa</label>
                           <input id="signa" name="signa" type="text" class="form-control {{ $errors->has('signa') ? 'is-invalid' : '' }}" placeholder="Signa..." maxlength="10" value="{{old('signa')}}">
                         </div>
                       </div>
                       <div class="col-sm-9">
                         <div class="form-group">
-                          <label for="etiket">Etiket <a style="color:red">*</a></label>
+                          <label for="etiket">Etiket</label>
                           <input id="etiket" name="etiket" type="text" class="form-control {{ $errors->has('etiket') ? 'is-invalid' : '' }}" placeholder="etiket..." maxlength="60" value="{{old('etiket')}}">
                         </div>
                       </div>
@@ -173,16 +173,7 @@
                 </div>
                 </form>
               </div>
-              <div class="card card-default">
-                <div class="card-header">
-                  <div class="d-flex justify-content-between align-items-center">
-                      <h3 class="card-title">
-                        <a href="{{ route('poliklinik.doneresep',$trxPasien->trx_id)}}" onclick="return  confirm('Apakah anda yakin?')" class="btn btn-success btn-md" data-toggle="tooltip" data-placement="bottom" title="klik tombol ini untuk merubah status periksa pasien menjadi SUDAH PERIKSA"> <i class="fas fa-save"> </i> Selesai Input Resep</a>
-                      </h3>
-                  </div>
-                </div>
-              </div>
-              {{--  --}}
+              
             </div>
             <div class="col-sm-6">
               <div class="card card-info card-outline">
@@ -237,7 +228,7 @@
                             <form method="POST" action="{{ route('poliklinik.deleteobat', ['trx_id' => $trxPasien->trx_id, 'id' => $trxobatalkes->id]) }}" onsubmit="return confirm('Apakah anda yakin akan membatalkan pasien ini?');">
                               @method('PUT') <!-- Menambahkan metode spoofing untuk PUT -->
                               @csrf
-                                <button type="submit" class="btn btn-sm btn-danger {{ $trxPasien->status == '1' ? '' : 'disabled'}}" data-toggle="tooltip" data-placement="bottom" title="Batalkan Obat">
+                                <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Batalkan Obat">
                                   <i class="fas fa-trash"></i> Batal
                                 </button>
                             </form>

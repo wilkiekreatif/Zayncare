@@ -36,7 +36,7 @@
   </div>
     <div class="card-footer">
         <div class="text-right">
-          <button type="submit" onclick="return confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-success"> <i class="fas fa-plus"> </i></button>
+          <button type="submit" class="btn btn-success"> <i class="fas fa-plus"> </i></button>
           <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i></button>
         </div>
     </div>
@@ -59,10 +59,9 @@
           <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
           <th style="background-color: rgb(120, 186, 196)">TANGGAL</th>
           <th style="background-color: rgb(120, 186, 196)">DETAK JANTUNG</th>
-          <th style="background-color: rgb(120, 186, 196)">TENSI 1</th>
-          <th style="background-color: rgb(120, 186, 196)">TENSI 2</th>
-          <th style="background-color: rgb(120, 186, 196)">BERAT BADAN</th>
+          <th style="background-color: rgb(120, 186, 196)">TENSI</th>
           <th style="background-color: rgb(120, 186, 196)">SUHU</th>
+          <th style="background-color: rgb(120, 186, 196)">BERAT BADAN</th>
         </tr>
       </thead>
       <tbody>
@@ -73,11 +72,10 @@
         <tr>
           <td>{{ $no++ }}</td>
           <td>{{ $anm->created_at }}</td>
-          <td>{{ $anm->detakjantung }}</td>
-          <td>{{ $anm->tensi1 }}</td>
-          <td>{{ $anm->tensi2 }}</td>
-          <td>{{ $anm->suhu }}</td>
-          <td>{{ $anm->beratbadan }}</td>
+          <td><b>{{ $anm->detakjantung }}</b> /Menit</td>
+          <td><b>{{ $anm->tensi1 }}</b>/<b>{{ $anm->tensi2 }}</b></td>
+          <td><b>{{ $anm->suhu }}</b> <sup>o</sup>C</td>
+          <td><b>{{ $anm->beratbadan }}</b> kg</td>
           <td>
             {{-- <form method="POST" action="{{ route('poliklinik.deletetindakan', ['trx_id' => $trxPasien->trx_id, 'id' => $tindakan->id]) }}" onsubmit="return confirm('Apakah anda yakin akan membatalkan pasien ini?');">
               @method('PUT') <!-- Menambahkan metode spoofing untuk PUT -->

@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title','Pembayaran Pasien')
+@section('title','Pembayaran Pasien Poliklinik')
 
 @section('css')
 <!-- DataTables -->
@@ -49,7 +49,7 @@
           <!-- small box -->
           <div class="small-box bg-success">
             <div class="inner">
-              <h3>{{$totalData = $trxPasiens->where('status_bayar','2')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
+              <h3>{{$totalData = $trxPasiens->where('status','4')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
               <p>Pasien Sudah Bayar</p>
             </div>
             <div class="icon">
@@ -61,8 +61,20 @@
           <!-- small box -->
           <div class="small-box bg-danger">
             <div class="inner">
-              <h3>{{$totalData = $trxPasiens->where('status_bayar','1')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
+              <h3>{{$totalData = $trxPasiens->where('status','1')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
               <p>Pasien Belum Bayar</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-user-injured"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h3><sup style="font-size: 20px">Rp. </sup>{{$totalData = $trxPasiens->where('status','1')->count();}}</h3>
+              <p>Omset hari ini</p>
             </div>
             <div class="icon">
               <i class="fas fa-user-injured"></i>
@@ -208,13 +220,15 @@
                     <td>
                       @if ($trxPasien->status == 99)
                         <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Pasien batal periksa">Batal Periksa</span></h5>
-                      @elseif ($trxPasien->status_bayar == 1)
-                        <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom">Belum bayar</span></h5>
-                      @elseif ($trxPasien->status_bayar == 2)
-                        <h5><span class="badge badge-secondary" data-toggle="tooltip" data-placement="bottom">Sudah Bayar</span></h5>
-                      @elseif ($trxPasien->status_bayar == 3)
-                        <h5><span class="badge badge-primary" data-toggle="tooltip" data-placement="bottom">Sudah Verifikasi</span></h5>
-                      @elseif ($trxPasien->status_bayar == 5)
+                      @elseif ($trxPasien->status == 1)
+                        <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom" title="Anda hanya perlu menginput tindakan dan anamnesa dan status pasien otomatis berubah menjadi: SEDANG PERIKSA">Antrian</span></h5>
+                      @elseif ($trxPasien->status == 2)
+                        <h5><span class="badge badge-secondary" data-toggle="tooltip" data-placement="bottom" title="Anda hanya perlu menginput resep dan status pasien otomatis berubah menjadi: SUDAH PERIKSA">Sedang Periksa</span></h5>
+                      @elseif ($trxPasien->status == 3)
+                        <h5><span class="badge badge-primary" data-toggle="tooltip" data-placement="bottom" title="Anda hanya perlu mengarahkan pasien untuk ke kasir dan apabila pasien telah berhasil melakukan pembayaran maka status pasien otomatis berubah menjadi: SUDAH BAYAR">Sudah Periksa</span></h5>
+                      @elseif ($trxPasien->status == 4)
+                        <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="KASIR hanya perlu klik tombol PULANGKAN di kolom ACTION apabila pasien tidak ada resep, namun apabila ada resep silahkan anda arahkan pasien tersebut ke apotek untuk dilakukan transaksi penyerahan resep.">Sudah Bayar</span></h5>
+                      @elseif ($trxPasien->status == 5)
                         <h5><span class="badge badge-info">Sudah Pulang</span></h5>
                       @endif
                     </td>

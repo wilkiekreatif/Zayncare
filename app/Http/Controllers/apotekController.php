@@ -159,6 +159,25 @@ class apotekController extends Controller
             'omsetmonth'=> $omsetmonth,
         ]);
     }
+    public function deleteobatalkes(Request $request)
+    {
+        $jmldata = trxObatalkes::where('trx_id',$request->trx_id)->count();
+        
+        if($jmldata == 1){
+            return redirect()->back()->with('error', 'tabel ini tidak boleh kosong. anda harus input item obat yang sesuai baru anda bisa menghapus data pada tabel ini.');
+        }
+        $trxobatalkesId = $request->id;
+        $trxobatalkes   = trxObatalkes::find($trxobatalkesId);
+
+        // dd($trxobatalkes);
+        if(!$trxobatalkes){
+            return redirect()->back()->with('error', 'Data tidak ditemukan. coba anda lakukan refresh halaman ini.');
+        }else{
+            // dd($trxobatalkes);
+            $trxobatalkes->delete();
+            return redirect()->back()->with('success', 'Item obat berhasil dihapus.');
+        }
+    }
 
     
 }

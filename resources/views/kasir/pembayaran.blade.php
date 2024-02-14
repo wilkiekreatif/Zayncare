@@ -183,6 +183,7 @@
               <div class="text-left mt-2">
                 <button type="submit" onclick="return confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-success"> <i class="fas fa-save"> </i> SIMPAN</button>
                 <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i> Cancel</button>
+                <a href="{{ route('kasir.printKwitansi',$trxPasien->trx_id) }}" class="btn btn-warning"><i class="fas fa-print"></i> PRINT KWITANSI</a>
               </div>
             </div><!-- /.card-body -->
           

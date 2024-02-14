@@ -93,81 +93,37 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-7">
-          <div class="card card-info card-outline">
-            <div class="card-header d-flex p-0">
-              <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> form Input Pemeriksaan Pasien</h3>
-              <ul class="nav nav-pills ml-auto p-2">
-                <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab"><b>Tindakan</b></a></li>
-                <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab"><b>Anamnesa</b></a></li>
-                <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab"><b>Keterangan Pasien</b></a></li>
-              </ul>
-            </div><!-- /.card-header -->
-            <div class="card-body">
-              <div class="tab-content">
-                <div class="tab-pane active" id="tab_1">
-                  @include('poliklinik.tindakan')
-                </div>
-                <!-- /.tab-pane -->
-                <div class="tab-pane" id="tab_2">
-                  @include('poliklinik.anamnesa')
-                </div>
-
-                <div class="tab-pane" id="tab_3">
-                  @include('poliklinik.keterangan')
-                </div>
-                <!-- /.tab-pane -->
-              </div>
-              <!-- /.tab-content -->
-            </div><!-- /.card-body -->
-          </div>
-        </div>
-        <div class="col-md-5">
-          <div class="card card-info card-outline">
-            <div class="card-header d-flex p-0">
-              <h3 class="card-title p-3"><i class="fa fa-user-injured"></i>Tindakan Pasien</h3>
-            </div><!-- /.card-header -->
-            <div class="card-body">
-              <table class="table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
-                    <th style="background-color: rgb(120, 186, 196)">TINDAKAN</th>
-                    <th style="background-color: rgb(120, 186, 196)">JUMLAH</th>
-                    <th style="background-color: rgb(120, 186, 196)">TOTAL TARIF</th>
-                    <th style="background-color: rgb(120, 186, 196)">OPSI</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @php
-                      $no = 1;
-                  @endphp
-                  @foreach ($trxTindakans as $tindakan)
-                  @php
-                      $total = number_format($tindakan->total,0,',','.');
-                  @endphp
-                  <tr>
-                    <td>{{ $no++ }}</td>
-                    <td>{{ $tindakan->mtindakan->tindakan_nama }}</td>
-                    <td>{{ $tindakan->qty }}</td>
-                    <td>Rp. {{ $total }}</td>
-                    <td>
-                      <form method="POST" action="{{ route('poliklinik.deletetindakan', ['trx_id' => $trxPasien->trx_id, 'id' => $tindakan->id]) }}" onsubmit="return confirm('Apakah anda yakin akan membatalkan pasien ini?');">
-                        @method('PUT')
-                        @csrf
-                          <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Batalkan tindakan">
-                            <i class="fas fa-trash"></i> Batal
-                          </button>
-                      </form>
-                  </td>
-                  </tr>
-                  @endforeach
-                </tbody>
-              </table>
+      <div class="card card-info card-outline">
+        <div class="card-header d-flex p-0">
+          <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> form Input Pemeriksaan Pasien</h3>
+          <ul class="nav nav-pills ml-auto p-2">
+            <li class="nav-item"><a class="nav-link {{ request()->query('tab') == 'tindakan' ? 'active' : '' }}" href="#tab_1" data-toggle="tab"><b>Tindakan</b></a></li>
+            <li class="nav-item"><a class="nav-link {{ request()->query('tab') == 'anamnesa' ? 'active' : '' }}" href="#tab_2" data-toggle="tab"><b>Anamnesa</b></a></li>
+            <li class="nav-item"><a class="nav-link {{ request()->query('tab') == 'diagnosa' ? 'active' : '' }}" href="#tab_3" data-toggle="tab"><b>Diagnosa</b></a></li>
+            <li class="nav-item"><a class="nav-link {{ request()->query('tab') == 'keterangan' ? 'active' : '' }}" href="#tab_4" data-toggle="tab"><b>Keterangan</b></a></li>
+          </ul>
+        </div><!-- /.card-header -->
+        <div class="card-body">
+          <div class="tab-content">
+            <div class="tab-pane {{ request()->query('tab') == 'tindakan' ? 'active' : '' }}" id="tab_1">
+              @include('poliklinik.tindakan')
             </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane {{ request()->query('tab') == 'anamnesa' ? 'active' : '' }}" id="tab_2">
+              @include('poliklinik.anamnesa')
+            </div>
+
+            <div class="tab-pane {{ request()->query('tab') == 'diagnosa' ? 'active' : '' }}" id="tab_3">
+              {{-- @include('poliklinik.keterangan') --}}
+            </div>
+
+            <div class="tab-pane {{ request()->query('tab') == 'keterangan' ? 'active' : '' }}" id="tab_4">
+              @include('poliklinik.keterangan')
+            </div>
+            <!-- /.tab-pane -->
           </div>
-        </div>
+          <!-- /.tab-content -->
+        </div><!-- /.card-body -->
       </div>
     </div>
   </section>

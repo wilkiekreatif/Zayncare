@@ -207,7 +207,7 @@
                             Poliklinik <b>{{$trxPasien->mPoli->poli_nama}}</b>
                           </li>
                           <li class="nav-item">
-                            #Nama dokter pemeriksa
+                            dr. Dian
                           </li>
                         </ul>
                       </div>

@@ -1,0 +1,34 @@
+@keyframes zoomBackground {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: url("../src/wallpaper.jpg") no-repeat center center fixed;
+    background-size: cover;
+    animation: zoomBackground 20s infinite;
+    transition: transform 0.5s ease-in-out;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+}

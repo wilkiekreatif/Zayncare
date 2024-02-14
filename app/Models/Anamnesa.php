@@ -10,12 +10,14 @@ class Anamnesa extends Model
     use HasFactory;
     protected $table = 'trx_anamnesapasiens';
     protected $fillable = [
+        'pasien_id',
         'trx_id',
         'detakjantung',
         'tensi1',
         'tensi2',
         'suhu',
         'beratbadan',
+        'tinggibadan',
         'user_id'
     ];
 

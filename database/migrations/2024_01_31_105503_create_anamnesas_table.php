@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('trx_anamnesapasiens', function (Blueprint $table) {
             $table->id();
-            $table->string('trx_id')->references('trx_id')->on('trx_pasiens');
-            $table->integer('detakjantung');
-            $table->integer('tensi1');
-            $table->integer('tensi2');
-            $table->integer('suhu');
-            $table->integer('beratbadan');
+            $table->foreignId('pasien_id')->constrained('m_pasiens');
+            $table->string('trx_id')->references('trx_id')->on('trx_pasiens')->nullable();
+            $table->integer('detakjantung')->nullable();
+            $table->integer('tensi1')->nullable();
+            $table->integer('tensi2')->nullable();
+            $table->integer('suhu')->nullable();
+            $table->integer('tinggibadan')->nullable();
+            $table->integer('beratbadan')->nullable();
             $table->foreignId('user_id')->constrained('users')->default(1);
             $table->timestamps();
         });

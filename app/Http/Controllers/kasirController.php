@@ -125,4 +125,25 @@ class kasirController extends Controller
         return redirect('kasir/pembayaran_umum')->with('success','Data transaksi berhasil disimpan');;
     }
 
+    public function printKwitansi($id){
+        $pasien         = trxPasien::with('mPasien')->where('trx_id',$id)->first();
+        $tindakan       = mTindakan::where('is_active','1')->get();
+        $tindakanPasien = trxTindakanpasien::with('mTindakan')->where('trx_id',$id)->get();
+        $trxObatAlkes   = trxObatalkes::with('mObatalkes')->where('trx_id',$id)->where('status','2')->get();
+        $totalTindakan = trxTindakanpasien::totalTindakan($id);
+        $totalObatAlkes = trxObatalkes::totalObatAlkes($id);
+        $totalBayar = $totalTindakan + $totalObatAlkes;
+        $tgl_transaksi      = Carbon::now();
+        //dd($tindakanPasien);
+        return view('kasir.kwitansi',[
+            'tindakans'     => $tindakan,
+            'trxTindakans'   => $tindakanPasien,
+            'trxObatAlkes' => $trxObatAlkes,
+            'totalTindakan' => $totalTindakan,
+            'totalObatAlkes' => $totalObatAlkes,
+            'totalBayar' => $totalBayar,
+            'tanggalTrx' => $tgl_transaksi
+        ])->with('trxPasien',$pasien);
+    }
+
 }

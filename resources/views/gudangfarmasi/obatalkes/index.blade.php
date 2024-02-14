@@ -38,6 +38,7 @@
                     Tabel @yield('title')
                   </h3>
                   <div>
+                    <a href="{{ route('obatalkes.defektabaru') }}" class="btn btn-primary btn-sm"> <i class="fas fa-arrow-right"> </i> Tambah Defekta Baru</a>
                     <a href="{{ route('obatalkes.create') }}" class="btn btn-success btn-sm"> <i class="fas fa-upload"> </i> Tambah @yield('title') Baru</a>
                   </div>
               </div>
@@ -61,19 +62,13 @@
               <tbody>
                 <?php $no=1 ?>
                 @foreach ($obatalkess as $obatalkes)
-                  <tr>
-                    <td @if ($obatalkes->is_active==0)
+                  <tr @if ($obatalkes->is_active==0)
                         style="background-color: rgb(255, 225, 0)"
-                    @endif>{{ $no }}</td>
-                    <td @if ($obatalkes->is_active==0)
-                        style="background-color: rgb(255, 225, 0)"
-                    @endif>{{$obatalkes->obatalkes_id}}</td>
-                    <td @if ($obatalkes->is_active==0)
-                        style="background-color: rgb(255, 225, 0)"
-                    @endif><b>{{$obatalkes->obatalkes_nama}}</b></td>
-                    <td @if ($obatalkes->is_active==0)
-                        style="background-color: rgb(255, 225, 0)"
-                    @endif>
+                      @endif>
+                    <td>{{ $no }}</td>
+                    <td>{{$obatalkes->obatalkes_id}}</td>
+                    <td><b>{{$obatalkes->obatalkes_nama}}</b></td>
+                    <td>
                       <ul class="nav nav-pills flex-column">
                         <li class="nav-item">
                             <i class="fa fa-store-alt"></i> {{$obatalkes->supplier1->supplier_nama}}
@@ -93,19 +88,13 @@
                                                             @endif
                         </li>
                       </ul>
-                    </td @if ($obatalkes->is_active==0)
-                        style="background-color: rgb(255, 225, 0)"
-                    @endif>
-                    <td @if ($obatalkes->is_active==0)
-                        style="background-color: rgb(255, 225, 0)"
-                    @endif>Rp. <b>@php
+                    </td>
+                    <td>Rp. <b>@php
                                   $hargabeli = $obatalkes->hargabeliterakhir;
                                   $hargabeliformated = number_format($hargabeli, 0, ',', '.');
                                   echo $hargabeliformated;
                                 @endphp</b> / {{$obatalkes->satuan}}</td>
-                    <td @if ($obatalkes->is_active==0)
-                        style="background-color: rgb(255, 225, 0)"
-                    @endif>
+                    <td>
                       <div style="width: 50%; float: left;">
                         <ul class="nav nav-pills flex-column">
                           <li class="nav-item">
@@ -162,11 +151,12 @@
                         </ul>
                       </div>
                     </td>
-                    <td @if ($obatalkes->is_active==0)
+                    <td
+                      @if ($obatalkes->is_active==0)
                         style="background-color: rgb(255, 225, 0)"
                       @else
                         style="background-color: rgb(203, 250, 190)"
-                        @endif
+                      @endif
                     ><b>
                       @if (($obatalkes->stok < 1))
                         0
@@ -185,10 +175,7 @@
                       <i class="fa fa-check"></i> Ya
                     @endif
                     </td>
-                    <td  @if ($obatalkes->is_active==0)
-                        style="background-color: rgb(255, 225, 0)"
-                    @endif
-                    style="text-align: center">
+                    <td style="text-align: center">
                     
                     @if ($obatalkes->is_active==0)
                       <i class="fa fa-times"></i> Nonaktif

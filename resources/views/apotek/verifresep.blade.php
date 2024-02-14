@@ -281,7 +281,7 @@
       // console.log(id_obat);
       if (id_obat) {
         $.ajax({
-          url:'/poliklinik/' + id_obat,
+          url:'/poliklinik/' + id_obat+'/tarifobat',
           type: 'GET',
           data: {
             '_token': '{{ csrf_token() }}' //code 261 berasal dari ini

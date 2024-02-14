@@ -51,19 +51,14 @@
         <!-- Notifications Dropdown Menu -->
         <li class="nav-item dropdown">
           <a class="nav-link user-panel" data-toggle="dropdown" href="#">
-            <b>Wildan Auliana <i class="fas fa-angle-down"></i></b> 
+            <b>{{Auth::user()->name}} <i class="fas fa-angle-down"></i></b> 
           </a>
           <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-            {{-- <div class="user-panel mt-2 pb-2 mb-2 d-flex">
-              <div class="image">
-                <img src="{{asset('adminlte')}}/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-              </div>
-            </div> --}}
             <a href="userprofile" class="dropdown-item">
               <i class="fas fa-user mr-1"></i> User Profile
             </a>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
+            <a href="{{route('logout')}}" class="dropdown-item">
               <i class="fas fa-sign-out-alt mr-1"></i> Logout
             </a>
           </div>
@@ -116,7 +111,7 @@
       <div class="float-right d-none d-sm-block">
         <b>We play</b> with creativity | <b>Version</b> 1.0
       </div>
-      <strong>Developed by <a href="https://instagram.com/w.auliaabdillah"><b>  Wilkie Creativa Medika</b></a></strong> 2024
+      <strong>Developed by <a href="https://instagram.com/w.auliaabdillah"><b>  Wilkie Creative Works</b></a></strong> 2023
       . All rights reserved.
     </footer>
 

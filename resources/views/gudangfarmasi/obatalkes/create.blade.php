@@ -162,22 +162,6 @@
   <script src="{{asset('adminlte')}}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
   <script src="{{asset('adminlte')}}/dist/js/backtotop.js"></script>
 
-  {{-- Menampilkan Message menggunakan library Toastr --}}
-  <script>
-    toastr.options = {
-      "closeButton": true,
-      "debug": false,
-      "newestOnTop": false,
-      "progressBar": true,
-      "positionClass": "toast-top-right",
-      "showDuration": "300",
-      "hideDuration": "1000",
-      "timeOut": "5000",
-      "extendedTimeOut": "1000",
-      "showEasing": "swing",
-      "hideEasing": "linear",
-    }
-  </script>
   @if ($errors->any())
     <script>
       $(document).ready(function() {

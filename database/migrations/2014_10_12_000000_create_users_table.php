@@ -15,10 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('username')->unique();
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role')->default('user');
+            $table->enum('sysadmin',['on','off'])->nullable();
+            $table->enum('gudangfarmasi',['on','off'])->nullable();
+            $table->enum('register',['on','off'])->nullable();
+            $table->enum('poliklinik',['on','off'])->nullable();
+            $table->enum('apotek',['on','off'])->nullable();
+            $table->enum('kasir',['on','off'])->nullable();
+            $table->enum('is_active',[0,1,99])->default(1)->comment('0: nonaktif, 1:aktif, 99:deleted');
             $table->rememberToken();
             $table->timestamps();
         });

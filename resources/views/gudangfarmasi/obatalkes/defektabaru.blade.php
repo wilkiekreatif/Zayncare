@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title','Tambah Master Obat Alkes Baru')
+@section('title','Tambah Defekta Baru')
 
 @section('konten')
   <!-- Content Header (Page header) -->
@@ -47,78 +47,37 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <form action="{{ route('obatalkes.store') }}" method="POST">
+              <form action="{{ route('tambahdefekta') }}" method="POST">
                 @csrf
                 <div class="row">
                   <div class="col-sm-6">
                     <div class="form-group">
-                      <label for="jenis">Jenis Obat Alkes <a style="color:red">*</a></label>
-                      <select id="jenis" name="jenis" class="form-control select2bs4 {{ $errors->has('jenis') ? 'is-invalid' : '' }}" style="width: 100%;">
-                        <option disabled selected="selected">-- Pilih salah satu --</option>
-                        <option value="0" {{ old('jenis') == '0' ? 'selected' : '' }}>Obat</option>
-                        <option value="1" {{ old('jenis') == '1' ? 'selected' : '' }}>Alkes</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="obatalkesnama">Nama Obat Alkes <a style="color:red">*</a></label>
-                      <input required id="obatalkesnama" name="obatalkesnama" type="text" class="form-control {{ $errors->has('obatalkesnama') ? 'is-invalid' : '' }}" placeholder="Nama Obat Alkes..." maxlength="30" value="{{old('obatalkesnama')}}">
-                    </div>
-                    <div class="form-group">
-                      <label for="supplier1">Supplier 1 <a style="color:red">*</a></label>
-                      <select id="supplier1" name="supplier1" class="form-control select2bs4 {{ $errors->has('supplier1') ? 'is-invalid' : '' }}" style="width: 100%;" required>
-                        <option disabled selected="selected">-- Pilih salah satu --</option>
-                        @foreach ($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}" {{ old('supplier1') == $supplier->id ? 'selected' : '' }}>{{ $supplier->supplier_nama }}</option>
-                        @endforeach
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="supplier2">Supplier 2</label>
-                      <select id="supplier2" name="supplier2" class="form-control select2bs4" style="width: 100%;">
-                        <option disabled selected="selected">-- Pilih salah satu --</option>
-                        @foreach ($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}" {{ old('supplier2') == $supplier->id ? 'selected' : '' }}>{{ $supplier->supplier_nama }}</option>
-                        @endforeach
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="supplier3">Supplier 3</label>
-                      <select id="supplier3" name="supplier3" class="form-control select2bs4" style="width: 100%;">
-                        <option disabled selected="selected">-- Pilih salah satu --</option>
-                        @foreach ($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}" {{ old('supplier3') == $supplier->id ? 'selected' : '' }}>{{ $supplier->supplier_nama }}</option>
-                        @endforeach
-                      </select>
+                      <label for="id">ID Defekta <a style="color:red">*</a></label>
+                      <input readonly id="id" name="id" type="text" class="form-control" value="{{ $defekta_id }}">
                     </div>
                   </div>
                   <div class="col-sm-6">
                     <div class="form-group">
-                      <label for="satuan">Satuan <a style="color:red">*</a></label>
-                      <input required id="satuan" name="satuan" type="text" class="form-control {{ $errors->has('satuan') ? 'is-invalid' : '' }}" placeholder="Satuan..." maxlength="15" value="{{old('satuan')}}">
+                      <label for="obatalkes_id">Obat Alkes <a style="color:red">*</a></label>
+                      <select id="obatalkes_id" name="obatalkes_id" class="form-control select2bs4 {{ $errors->has('obatalkes_id') ? 'is-invalid' : '' }}" style="width: 100%;">
+                        <option disabled selected="selected">-- Pilih salah satu --</option>
+                        @foreach ($obatalkes as $item)
+                          <option value="{{ $item->id }}" {{ old('obatalkes_id') == $item->id ? 'selected' : '' }} style="background-color: red">{{ $item->obatalkes_nama }} | {{$item->stok}} {{$item->satuan}}</option>
+                        @endforeach
+                      </select>
                     </div>
                     <div class="form-group">
-                      <label for="hargabeli">Perkiraan Harga Beli <a style="color:red">*</a></label>
-                      <input required id="hargabeli" name="hargabeli" type="text" class="form-control {{ $errors->has('hargabeli') ? 'is-invalid' : '' }}" placeholder="hargabeli..." maxlength="15" value="{{old('hargabeli')}}">
+                      <label for="supplier">Supplier<a style="color:red">*</a></label>
+                      <select id="supplier" name="supplier" class="form-control select2bs4 {{ $errors->has('supplier') ? 'is-invalid' : '' }}" style="width: 100%;" required>
+                        <option disabled selected="selected">-- Pilih salah satu --</option>
+                        @foreach ($suppliers as $supplier)
+                          <option value="{{ $supplier->id }}" {{ old('supplier') == $supplier->id ? 'selected' : '' }}>{{ $supplier->supplier_nama }}</option>
+                        @endforeach
+                      </select>
                     </div>
-                    <div class="row">
-                      <div class="col-sm-4">
-                        <div class="form-group">
-                          <label for="margin1">Margin 1 <a style="color:red">*</a></label>
-                          <input required id="margin1" name="margin1" type="number" class="form-control {{ $errors->has('margin1') ? 'is-invalid' : '' }}" placeholder="margin 1..." maxlength="3" value="{{old('margin1')}}">
-                        </div>
-                      </div>
-                      <div class="col-sm-4">
-                        <div class="form-group">
-                          <label for="margin2">Margin 2</label>
-                          <input id="margin2" name="margin2" type="number" class="form-control" placeholder="margin 2..." maxlength="3" value="{{old('margin2')}}">
-                        </div>
-                      </div>
-                      <div class="col-sm-4">
-                        <div class="form-group">
-                          <label for="margin3">Margin 3</label>
-                          <input id="margin3" name="margin3" type="number" class="form-control" placeholder="margin 3..." maxlength="3" value="{{old('margin3')}}">
-                        </div>
-                      </div>
+                    <div class="form-group">
+                      <label for="qty">Qty <a style="color:red">*</a></label>
+                      <input required id="qty" name="qty" type="number" class="form-control {{ $errors->has('qty') ? 'is-invalid' : '' }}" placeholder="Silahkan diisi..." maxlength="15" value="{{old('qty')}}">
                     </div>
                   </div>
                 </div>
@@ -154,22 +113,6 @@
   <script src="{{asset('adminlte')}}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
   <script src="{{asset('adminlte')}}/dist/js/backtotop.js"></script>
 
-  {{-- Menampilkan Message menggunakan library Toastr --}}
-  <script>
-    toastr.options = {
-      "closeButton": true,
-      "debug": false,
-      "newestOnTop": false,
-      "progressBar": true,
-      "positionClass": "toast-top-right",
-      "showDuration": "300",
-      "hideDuration": "1000",
-      "timeOut": "5000",
-      "extendedTimeOut": "1000",
-      "showEasing": "swing",
-      "hideEasing": "linear",
-    }
-  </script>
   @if ($errors->any())
     <script>
       $(document).ready(function() {
@@ -178,6 +121,14 @@
         @endforeach
       });
       // toastr.error("{{Session::get('error')}}","Error!",{timeOut:10000});
+    </script>
+  @endif
+  @if (Session::has('success'))
+    <script>
+      toastr.success("{{Session::get('success')}}","Success!");
+      // toastr.info("{{Session::get('success')}}","Success!");
+      // toastr.warning("{{Session::get('success')}}","Success!");
+      // toastr.error("{{Session::get('success')}}","Success!");
     </script>
   @endif
 @endsection

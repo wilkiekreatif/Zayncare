@@ -11,6 +11,7 @@ use App\Models\trxObatalkes;
 use App\Models\trxPasien;
 use App\Models\trxTindakanpasien;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class poliController extends Controller
 {
@@ -80,7 +81,7 @@ class poliController extends Controller
         $pasien         = trxPasien::with('mPasien')->where('trx_id',$id)->first();
         $tindakan       = mTindakan::where('is_active','1')->get();
         $tindakanPasien = trxTindakanpasien::with('mTindakan')->where('trx_id',$id)->get();
-        $anamnesa = Anamnesa::where('trx_id', $id)->get();
+        $anamnesa       = Anamnesa::where('trx_id', $id)->get();
         // $kode_harga       = KodeHarga::all();
         //dd($tindakanPasien);
         return view('poliklinik.pemeriksaan',[
@@ -92,15 +93,6 @@ class poliController extends Controller
 
     public function anamnesa(Request $request, string $id)
     {
-        // code ispan
-        $request->validate([
-            'detakjantung' => 'required',
-            'tensi1' => 'required',
-            'tensi2' => 'required',
-            'suhu' => 'required',
-            
-        ]);
-        
         $pasien = trxPasien::with('mPasien')->where('trx_id',$id)->first();
         $pasien->status = 2;
         $pasien->save();
@@ -108,16 +100,18 @@ class poliController extends Controller
         $id_t = $request->trx_id;
 
         Anamnesa::create([
-            'trx_id' => $request->trx_id,
-            'detakjantung' => $request->detakjantung,
-            'tensi1' => $request->tensi1,
-            'tensi2' => $request->tensi2,
-            'suhu' => $request->suhu,
-            'beratbadan' => $request->beratbadan,
-            'user_id' => 1
+            'pasien_id'     => $request->id,
+            'trx_id'        => $request->trx_id,
+            'detakjantung'  => $request->detakjantung,
+            'tensi1'        => $request->tensi1,
+            'tensi2'        => $request->tensi2,
+            'suhu'          => $request->suhu,
+            'beratbadan'    => $request->beratbadan,
+            'tinggibadan'   => $request->tinggibadan,
+            'user_id'       => Auth::user()->id,
         ]);
         
-        return redirect()->route('poliklinik.periksa',['id' => $id_t])->with('success','Tindakan berhasil disimpan');
+        return redirect()->route('poliklinik.periksa',['id' => $id_t, 'tab' => 'anamnesa'])->with('success','Hasil anamnesa berhasil disimpan');
     }
 
     public function tindakan(Request $request, string $id)
@@ -146,11 +140,11 @@ class poliController extends Controller
             'satuan'        => $request->satuan,
             'tarif'         => $request->tarif,
             'total'         => $total,
-            'status'         => 1,
-            'user_id'         => 1
+            'status'        => 1,
+            'user_id'       => Auth::user()->id,
         ]);
 
-        return redirect()->route('poliklinik.periksa',['id' => $id_t])->with('success','Tindakan berhasil disimpan');
+        return redirect()->route('poliklinik.periksa',['id' => $id_t, 'tab' => 'tindakan'])->with('success','Tindakan berhasil disimpan');
 
         // $tindakan = [
         //     'trx_id'        => $request->trx_id,
@@ -184,7 +178,7 @@ class poliController extends Controller
         $pasien = m_pasien::find($id);
         $pasien->alergi = $req->keterangan;
         $pasien->save();
-        return redirect()->back()->with('success','Data alergi berhasil di ubah');
+        return redirect()->back()->with('success','Keterangan pasien telah berhasil di update!');
     }
 
     public function reseppoli($id)
@@ -232,6 +226,12 @@ class poliController extends Controller
         return response()->json($tarif);
     }
     
+    public function getTariftindakan($id)
+    {
+        $tarif = mTindakan::where('id',$id)->get();
+        return response()->json($tarif);
+    }
+    
     public function tambahobatalkes(Request $request, string $id)
     {
         // dd($request,$id);
@@ -257,7 +257,7 @@ class poliController extends Controller
             'total'             => $total,
             'signa'             => $request->signa,
             'etiket'            => $request->etiket,
-            'user_id'           => 1,
+            'user_id'           => Auth::user()->id,
         ];
 
         trxObatalkes::create($tambahobat);

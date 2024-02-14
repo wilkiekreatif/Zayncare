@@ -46,43 +46,164 @@
             <table id="datatable1" class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
-                  <th style="background-color: rgb(120, 186, 196)" width="6%">ID TRANSAKSI</th>
-                  <th style="background-color: rgb(120, 186, 196)">NAMA OBAT ALKES</th>
-                  <th style="background-color: rgb(120, 186, 196)" width="12%">SUPPLIER</th>
-                  <th style="background-color: rgb(120, 186, 196)" width="10%">HARGA BELI</th>
-                  <th style="background-color: rgb(120, 186, 196)">SATUAN</th>
-                  <th style="background-color: rgb(120, 186, 196)">QTY</th>
-                  <th style="background-color: rgb(120, 186, 196)">NO FAKTUR</th>
-                  <th style="background-color: rgb(120, 186, 196)">DISKON</th>
-                  <th style="background-color: rgb(120, 186, 196)">PPN</th>
-                  <th style="background-color: rgb(120, 186, 196)">TOTAL</th>
-                  <th style="background-color: rgb(120, 186, 196)">TGL INPUT DEFEKTA</th>
-                  <th style="background-color: rgb(120, 186, 196)">TGL VERIFIKASI</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="1%">No</th>
+                  <th style="background-color: rgb(120, 186, 196)">ID TRANSAKSI</th>
+                  <th style="background-color: rgb(120, 186, 196)"> DATA OBAT/ALKES</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="15%">HARGA BELI</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="15%">QTY</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="15%">TOTAL HARGA</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="15%">DATA FAKTUR</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="15%">TANGGAL</th>
                   <th style="background-color: rgb(120, 186, 196)"width="2%">STATUS</th>
                   <th style="background-color: rgb(120, 186, 196)" width="2%">ACTION</th>
                 </tr>
               </thead>
               <tbody>
-                {{-- <td></td> --}}
+                @if ($defektas->isNotEmpty())
+                  @foreach ($defektas as $defekta)
+                    <tr>
+                      <td>{{ $loop->iteration }}</td>
+                      <td>{{ $defekta->trx_id }}</td>
+                      <td>
+                        <ul class="nav nav-pills flex-column">
+                          <li class="nav-item"><b>{{ $defekta->obatalkes->obatalkes_nama }}</b></li>
+                          <li class="nav-item">{{ $defekta->supplier->supplier_nama }}</li>
+                      </td>
+                      <td>
+                        <ul class="nav nav-pills flex-column">
+                          @php
+                            $hargabeliformatted     = number_format($defekta->hargabeli, 0, ',', '.');
+                            $setelahfakturformatted = number_format($defekta->hargabelisetelahfaktur, 0, ',', '.');
+                            $qtyformatted = number_format($defekta->qty, 0, ',', '.');
+                          @endphp
+                          <li class="nav-item">Sebelum faktur: Rp.<b>{{ $hargabeliformatted}}</b></li>
+                          <li class="nav-item">Setelah faktur: Rp.<b>{{ $setelahfakturformatted > 0 ? $setelahfakturformatted : '-'}}</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul class="nav nav-pills flex-column">
+                          <li class="nav-item">Sebelum faktur: <b>{{ $qtyformatted }}</b> {{ $defekta->obatalkes->satuan }}</li>
+                          <li class="nav-item">Setelah faktur: <b>{{ $defekta->qtysetelahfaktur }}</b> {{ $defekta->obatalkes->satuan }}</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul class="nav nav-pills flex-column">
+                          @php
+                            $sebelumfaktur = number_format($defekta->totalbayar, 0, ',', '.');
+                            $setelahfaktur = number_format($defekta->totalbayarsetelahfaktur, 0, ',', '.');
+                          @endphp
+                          <li class="nav-item">Sebelum faktur: Rp.<b>{{ $sebelumfaktur ?? '-'}}</b></li>
+                          <li class="nav-item">Setelah faktur: Rp.<b>{{ $setelahfaktur ?? '-'}}</b></li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul class="nav nav-pills flex-column">
+                          <li class="nav-item">No Faktur: <b>{{ $defekta->nofaktur ?? '-' }}</b></li>
+                          <li class="nav-item">Diskon: Rp.<b>{{ $defekta->diskon ?? '-' }}</b></li>
+                          <li class="nav-item">Ppn: Rp.<b>{{ $defekta->ppn ?? '-' }}</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul class="nav nav-pills flex-column">
+                          <li class="nav-item">Defekta: <b>{{ \Carbon\Carbon::parse($defekta->created_at)->format('d-m-Y | h:m:s') }}</b></li>
+                          <li class="nav-item">Verifikasi: <b>{{ \Carbon\Carbon::parse($defekta->updated_at)->format('d-m-Y | h:m:s') }}</b></li>
+                        </ul>
+                      </td>
+                      <td>
+                        @if ($defekta->is_active == 0)
+                          <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Defekta batal">Batal Defekta</span></h5>
+                        @elseif ($defekta->is_active == 1)
+                          <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom" title="Menunggu PBF">Menunggu PBF</span></h5>
+                        @elseif ($defekta->is_active== 2)
+                          <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="Defekta selesai">Selesai Defekta</span></h5>
+                        @elseif ($defekta->is_active== 99)
+                          <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Defekta selesai">HAPUS</span></h5>
+                        @endif
+                      </td>
+                      <td>
+                        <div class="btn-group" style="width: 100%">
+                          @if ($defekta->is_active==1)
+                            <a type="button" data-toggle="modal" data-target="#Modal-{{$defekta->id}}" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="bottom" title="Approve Defekta"><i class="fas fa-check"></i> Approve</a>
+                            {{-- modal daftar poliklinik --}}
+                            <div class="modal fade" id="Modal-{{$defekta->id}}" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h5 class="modal-title" id="modal">Approval Defekta <b>{{$defekta->trx_id}}</b></h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                      </div>
+                                      <form action="{{ route('verifikasidefekta', $defekta->id) }}" method="post">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="modal-body">
+                                          <input type="hidden" class="form-control" name="obatalkes_id"  id="obatalkes_id" value="{{$defekta->obatalkes_id}}">
+                                          <div class="form-group">
+                                            <label for="nofaktur">No. Faktur <a style="color:red">*</a></label>
+                                            <input required type="text" class="form-control" name="nofaktur" id="nofaktur" placeholder="Silahkan isi...">
+                                          </div>
+                                          <div class="form-group">
+                                            <label for="qtysetelahfaktur">Qty sesuai faktur <a style="color:red">*</a></label>
+                                            <input required type="number" class="form-control" id="qtysetelahfaktur" name="qtysetelahfaktur" placeholder="Silahkan isi...">
+                                          </div>
+                                            <div class="form-group">
+                                              <label for="hargasetelahfaktur">Harga sesuai faktur <a style="color:red">*</a></label>
+                                              <input required type="number" class="form-control" id="hargasetelahfaktur" name="hargasetelahfaktur" placeholder="Silahkan isi...">
+                                              <div class="form-check" style="padding-top:1%;padding-left:7%">
+                                                <input type="checkbox" class="form-check-input" id="updatetarif" name="updatetarif">
+                                                <label class="form-check-label" for="updatetarif">Ceklis jika harga dasar obat/alkes berubah. </label>
+                                              </div>
+                                            </div>
+                                          <div class="row">
+                                            <div class="col-md-6">
+                                              <div class="form-group">
+                                                <label for="diskon">Diskon (Rp.)</label>
+                                                <input type="number" class="form-control" id="diskon" name="diskon" placeholder="Silahkan isi...">
+                                              </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                              <div class="form-group">
+                                                <label for="ppn">Ppn (Rp.)</label>
+                                                <input type="number" class="form-control" id="ppn" name="ppn" placeholder="Silahkan isi...">
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="submit" class='btn btn-sm btn-primary' onclick="return confirm('Apakah anda yakin? Stok '.{{strtoupper($defekta->obatalkes->obatalkes_nama)}}.' di gudang akan bertambah setelah disimpan.')"> <i class="fa fa-check"> </i>  APPROVE</button>
+                                          <button type="reset" class="btn btn-sm btn-danger"> <i class="fas fa-undo-alt"> </i>  RESET</button>
+                                        </div>
+                                      </form>
+                                  </div>
+                              </div>
+                            </div>
+                            <a href="{{route('bataldefekta',$defekta->id)}}" type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Batalkan Defekta" onclick="return confirm('Apakah anda yakin?')"><i class="fas fa-times"></i> Batal</a>
+                          @elseif ($defekta->is_active==0)
+                            <a href="{{route('aktifkandefekta',$defekta->id)}}" type="button" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="bottom" title="Aktifkan kembali Defekta" onclick="return confirm('Apakah anda yakin?')"><i class="fas fa-check"></i> aktifkan</a>
+                            <a href="{{route('hapusdefekta',$defekta->id)}}" type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Hapus data defekta" onclick="return confirm('Apakah anda yakin?')"><i class="fas fa-trash"></i> Hapus</a>
+                          @elseif ($defekta->is_active==2)
+                            <a href="#" type="button" class="btn btn-sm btn-primary toastrDefaultError" data-toggle="tooltip" data-placement="bottom" title="Cetak Defekta"><i class="fas fa-print"></i> Laporan</a>
+                            {{-- <a href="{{route('hapusdefekta',$defekta->id)}}" type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Hapus data defekta" onclick="return confirm('Apakah anda yakin?')"><i class="fas fa-trash"></i> Hapus</a> --}}
+                          @endif
+                      </div>
+                      </td>
+                    </tr>
+                  @endforeach
+                @endif
               </tbody>
               <tfoot>
                 <tr>
-                  <th width="2%">No</th>
-                  <th width="6%">ID TRANSAKSI</th>
-                  <th >NAMA OBAT ALKES</th>
-                  <th width="12%">SUPPLIER</th>
-                  <th width="10%">HARGA BELI</th>
-                  <th >SATUAN</th>
+                  <th>No</th>
+                  <th>ID TRANSAKSI</th>
+                  <th>DATA OBAT/ALKES</th>
+                  <th>HARGA BELI</th>
                   <th >QTY</th>
-                  <th >NO FAKTUR</th>
-                  <th >DISKON</th>
-                  <th >PPN</th>
-                  <th >TOTAL</th>
-                  <th >TGL INPUT DEFEKTA</th>
-                  <th >TGL VERIFIKASI</th>
-                  <th width="2%">STATUS</th>
-                  <th width="2%">ACTION</th>
+                  <th >TOTAL HARGA</th>
+                  <th >DATA FAKTUR</th>
+                  <th >TANGGAL</th>
+                  <th>STATUS</th>
+                  <th>ACTION</th>
                 </tr>
               </tfoot>
             </table>

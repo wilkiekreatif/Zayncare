@@ -195,34 +195,21 @@
             <div class="card-header d-flex p-0">
               <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> Pembayaran Pasien</h3>
             </div>
-            <form action="">
             <div class="card-body">
-              <div class="input-group">
-                 <label for="">Dibayar Oleh Pasien</label>
-                <div class="input-group-prepend" style="width: 100%">
-                  <span class="input-group-text text-sm">Rp.</span>
-                  <input style="font-weight: bold" name="totalBayar" id="totalBayar" type="number" class="form-control" value="{{ $totalByr }}" readonly>
-                </div>
-              </div>
               <div class="form-group">
-                <div class="row">
-                  <div class="col-8">
-                    <label for="">Uang diterima</label>
-                    <input style="font-weight: bold;" name="uangDiterima" id="uangDiterima" type="number" class="form-control">
-                  </div>
-                  <div class="col-4">
-                    <label for="">PPN 11%</label>
-                    <input name="ppn" id="ppn" type="checkbox" class="form-control">
-                  </div>
-                </div>
+                <label for="totalformat">Uang diterima</label>
+                <input style="font-weight: bold;" name="total" id="total" type="hidden" class="form-control" value="{{$totalBayar}}">
+                <input readonly style="font-weight: bold;" name="totalformat" id="totalformat" type="number" class="form-control" value="{{$totalByr}}">
               </div>
               <div class="form-group">
-                <label for="">Kembalian</label>
-                <input style="font-weight: bold;" type="number" id="hasil" class="form-control" readonly>
+                <label for="uangDiterima">Uang diterima</label>
+                <input name="uangDiterima" id="uangDiterima" type="number" class="form-control" placeholder="Silahkan isi...">
+              </div>
+              <div class="form-group">
+                <label for="hasil">Kembalian</label>
+                <input style="font-weight: bold;" type="number" name="kembalian" id="kembalian" class="form-control" readonly>
               </div>
             </div>
-            {{-- <button onclick="pengurangan()" type="button" class="btn btn-success"> <i class="fas fa-save"> </i> lihat</button> --}}
-          </form>
           </div>
         </div>
 
@@ -287,13 +274,18 @@
   @endif
 
   <script>
-    function pengurangan(){
-      var totalBayar = parseInt(document.getElementById('totalBayar').value);
-      var uangDiterima = parseInt(document.getElementById('uangDiterima').value);
-
-      var hasil = totalBayar - uangDiterima;
-      document.getElementById('hasil').innerHTML = totalBayar + '-' + uangDiterima + '=' + hasil;
-      console.log('hasil');
-    }
+    $(document).ready(function() {
+      $('#uangDiterima').keydown(function(event) {
+      // $('#uangDiterima').on('change',function() {
+        
+        var uangditerima  = $(this).val();
+        // console.log(uangditerima);
+        var totalBayar    = $('#total').val();
+        // console.log(totalBayar);
+        var hasil         = uangditerima - totalBayar;
+        console.log(hasil);
+        $('#kembalian').val(hasil);
+      });
+    });
   </script>
 @endsection

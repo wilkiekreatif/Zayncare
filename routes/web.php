@@ -33,14 +33,8 @@ Route::controller(loginController::class)->group(function(){
     Route::get('/logout','logout')->name('logout');
 });
 
-// Route::group([
-//     'prefix' => 'admin',
-//     'middleware' => ['auth'],
-//     'as' => 'admin.'
-// ], function(){
-    Route::middleware('auth')->group(function(){
+Route::middleware('auth')->group(function(){
 
-    // });
     Route::resource('/dashboard',dashboardController::class);
     
     Route::controller(obatalkesController::class)->group(function(){
@@ -106,7 +100,7 @@ Route::controller(loginController::class)->group(function(){
         Route::get('kasir','index')->name('kasir.index');
         Route::get('kasir/prosesbayar/{id}','prosesBayar')->name('kasir.prosesBayar');
         Route::post('kasir/simpanpembayaran/{id}','simpanPembayaran')->name('kasir.simpanBayar');
-        Route::get('kasir/pembayaran_umum','pembayranUmum')->name('kasir.pembayranUmum');
+        Route::get('kasir/pembayaran_umum','pembayaranUmum')->name('kasir.pembayaranUmum');
         Route::get('kasir/pembayaran_umum/{id}','prosesBayarUmum')->name('kasir.prosesBayarUmum');
         Route::post('kasir/simpanpembayaranumum/{id}','simpanPembayaranUmum')->name('kasir.simpanPembayaranUmum');
         Route::get('kasir/print_kwitansi/{id}','printKwitansi')->name('kasir.printKwitansi');
@@ -132,72 +126,3 @@ Route::controller(loginController::class)->group(function(){
         return view('construction.index');
     });
 });
-
-// <<<<<<< HEAD
-// =======
-// Route::controller(supplierController::class)->group(function(){
-//     Route::get('gudang/supplier','index')->name('supplier.index');
-//     Route::get('gudang/supplier/create','create')->name('supplier.create');
-//     Route::post('gudang/supplier/store','store')->name('supplier.store');
-//     Route::put('gudang/supplier/update/{id}','update')->name('supplier.update');
-//     Route::get('gudang/supplier/{id}/edit','edit')->name('supplier.edit');
-//     Route::get('gudang/supplier/{id}/nonaktif','nonaktif')->name('supplier.nonaktif');
-//     Route::get('gudang/supplier/{id}/aktif','aktif')->name('supplier.aktif');
-//     Route::get('gudang/supplier/{id}/delete','delete')->name('supplier.delete');
-// });
-
-// Route::controller(registerController::class)->group(function(){
-//     Route::get('register','index')->name('register.index');
-//     Route::get('register/create','create')->name('register.create');
-//     Route::post('register/store','store')->name('register.store');
-//     Route::post('register/regist','registpasien')->name('register.registpasien');
-//     Route::get('register/registered','registered')->name('register.registered');
-//     Route::get('register/{id}/pulangkan','pulangkan')->name('register.pulangkan');
-//     Route::get('register/{id}/batalperiksa','batalperiksa')->name('register.batalperiksa');
-// });
-
-// Route::controller(poliController::class)->group(function(){
-//     Route::get('poliklinik','index')->name('poliklinik.index');
-//     // Route::get('poliklinik/{id}/periksa','periksa')->name('poliklinik.periksa');
-//     Route::get('poliklinik/{id}/reseppoli','reseppoli')->name('poliklinik.reseppoli');
-//     // Route::put('poliklinik/{id}/anamnesa','anamnesa')->name('poliklinik.anamnesa');
-//     Route::post('poliklinik/{id}/tindakan','tindakan')->name('poliklinik.tindakan');
-//     Route::put('poliklinik/{id}/bataltindakan','bataltindakan')->name('poliklinik.bataltindakan');
-//     Route::get('poliklinik/{id}/doneresep','doneresep')->name('poliklinik.doneresep');
-//     Route::get('poliklinik/{id}/kembalikan','kembalikan')->name('poliklinik.kembalikan');
-//     Route::get('poliklinik/{id}/pulangkan','pulangkan')->name('poliklinik.pulangkan');
-//     Route::get('poliklinik/{id}/batalperiksa','batalperiksa')->name('poliklinik.batalperiksa');
-//     Route::get('poliklinik/{id}','getTarifobat')->name('poliklinik.getTarifobat');
-//     Route::put('poliklinik/{id}/tambahobatalkes','tambahobatalkes')->name('poliklinik.tambahobatalkes');
-//     Route::put('poliklinik/{trx_id}/deleteobat','deleteobat')->name('poliklinik.deleteobat');
-//     Route::get('poliklinik/periksa/{id}','periksa')->name('poliklinik.periksa'); 
-//     Route::post('poliklinik/simpan/anamnesa/{id}','anamnesa')->name('poliklinik.anamnesa');
-//     // Route::get('harga_tindakan/{id}','getHarga_t');
-//     Route::put('poliklinik/hapustindakan/{id}','deletetindakan')->name('poliklinik.deletetindakan');
-//     Route::post('poliklinik/updateAlergi/{id}','updateAlergi')->name('poliklinik.updateAlergi');
-// });
-
-// Route::controller(kasirController::class)->group(function(){
-//     Route::get('kasir','index')->name('kasir.index');
-//     Route::get('kasir/prosesbayar/{id}','prosesBayar')->name('kasir.prosesBayar');
-//     Route::post('kasir/simpanpembayaran/{id}','simpanPembayaran')->name('kasir.simpanBayar');
-//     Route::get('kasir/pembayaran_umum','pembayranUmum')->name('kasir.pembayranUmum');
-//     Route::get('kasir/pembayaran_umum/{id}','prosesBayarUmum')->name('kasir.prosesBayarUmum');
-//     Route::post('kasir/simpanpembayaranumum/{id}','simpanPembayaranUmum')->name('kasir.simpanPembayaranUmum');
-//     Route::get('kasir/print_kwitansi/{id}','printKwitansi')->name('kasir.printKwitansi');
-// });
-
-// Route::get('/construction', function () {
-//     return view('construction.index');
-// });
-
-// Route::controller(apotekController::class)->group(function(){
-//     Route::get('apotek','index')->name('apotek.index');
-//     Route::get('apotek/penjualan','pu')->name('apotek.pu');
-//     Route::put('apotek/{trx_id}/deleteobatalkes','deleteobatalkes')->name('apotek.deleteobatalkes');
-//     Route::get('apotek/penjualanUmum','jualumum')->name('apotek.jualumum');
-//     Route::get('apotek/{id}/verifresep','verifresep')->name('apotek.verifresep');
-//     Route::get('apotek/{id}/resepvalidate','resepvalidate')->name('apotek.resepvalidate');
-//     Route::get('apotek/penjualan/{id}','sendtokasir')->name('apotek.sendtokasir');
-// });
-// >>>>>>> 8938b4a5edaaa9ae62427811c62356126706d00d

@@ -183,7 +183,7 @@
               <div class="text-left mt-2">
                 <button type="submit" onclick="return confirm('Apakah data tersebut sudah sesuai?')" class="btn btn-success"> <i class="fas fa-save"> </i> SIMPAN</button>
                 <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i> Cancel</button>
-                <a href="{{ route('kasir.printKwitansi',$trxPasien->trx_id) }}" class="btn btn-warning"><i class="fas fa-print"></i> PRINT KWITANSI</a>
+                {{-- <a href="{{ route('kasir.printKwitansi',$trxPasien->trx_id) }}" class="btn btn-warning"><i class="fas fa-print"></i> PRINT KWITANSI</a> --}}
               </div>
             </div><!-- /.card-body -->
           
@@ -276,16 +276,26 @@
 
   <script>
     $(document).ready(function() {
-      $('#uangDiterima').keydown(function(event) {
-      // $('#uangDiterima').on('change',function() {
-        
-        var uangditerima  = $(this).val();
-        // console.log(uangditerima);
-        var totalBayar    = $('#total').val();
-        // console.log(totalBayar);
-        var hasil         = uangditerima - totalBayar;
-        console.log(hasil);
-        $('#kembalian').val(hasil);
+      $('#uangDiterima').on('input', function() {
+
+        var uangditerima = parseFloat($(this).val());
+        // if (uangditerima === null || uangditerima.trim() === '') {
+        //   $('#kembalian').empty();
+        // }else{
+          var totalBayar = parseFloat($('#total').val());
+          // console.log(totalBayar);
+          var hasil         = uangditerima - totalBayar;
+          
+          if (!isNaN(uangditerima) && !isNaN(totalBayar)) {
+            var hasil = uangditerima - totalBayar;
+            console.log(hasil);
+            $('#kembalian').val(hasil);
+          } else {
+            // Handle invalid input (e.g., display an error message)
+            // console.log('Invalid input');
+            $('#kembalian').val('');
+          }
+        // }
       });
     });
   </script>

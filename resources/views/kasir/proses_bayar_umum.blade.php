@@ -30,7 +30,7 @@
                   <h3 class="card-title">
                   </h3>
                   <div>
-                    <a href="{{ route('kasir.index')}}" class="btn btn-primary btn-sm"> <i class="fas fa-arrow-left"> </i> Kembali</a>
+                    <a href="{{ route('kasir.pembayaranUmum')}}" class="btn btn-primary btn-sm"> <i class="fas fa-arrow-left"> </i> Kembali</a>
                   </div>
               </div>
             </div>

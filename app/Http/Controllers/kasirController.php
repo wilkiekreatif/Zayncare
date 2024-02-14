@@ -70,7 +70,7 @@ class kasirController extends Controller
         return view('kasir.pembayaran', compact('kembalian'));
     }
 
-    public function pembayranUmum(){
+    public function pembayaranUmum(){
         $trxUmum = trxUmum::all();
 
         $today      = Carbon::now();

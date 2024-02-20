@@ -7,6 +7,7 @@ use App\Models\m_poli;
 use App\Models\trxPasien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class registerController extends Controller
@@ -95,7 +96,7 @@ class registerController extends Controller
             'asuransi1'     => $request->penjamin1,
             'asuransi2'     => $request->penjamin2,
             'asuransi3'     => $request->penjamin3,
-            'user_id'       => 1,
+            'user_id'       => Auth::user()->id,
         ];
         // dd($newPasien);
         m_pasien::create($newPasien);
@@ -161,7 +162,7 @@ class registerController extends Controller
             'poli_id'   => $request->poliklinik,
             'kelastarif'=> $request->kelastarif,
             'status'    => '1',
-            'user_id'   => 1,
+            'user_id'   => Auth::user()->id,
         ];
 
         trxPasien::create($newTrx);

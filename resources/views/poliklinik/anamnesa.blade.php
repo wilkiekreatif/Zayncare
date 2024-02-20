@@ -15,7 +15,7 @@
           @csrf
           {{-- @method('PUT') --}}
           <input type="hidden" name="trx_id" id="trx_id" value="{{$trxPasien->trx_id}}">
-          <input type="hidden" name="id" id="id" value="{{$trxPasien->id}}">
+          <input type="hidden" name="id" id="id" value="{{$trxPasien->mPasien->id}}">
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">

@@ -184,7 +184,7 @@
                         @endif
                       </div><hr>
                       <div class="btn-group" style="width: 100%">
-                        <a href="#" type="button" class="btn btn-sm btn-default {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Periksa Pasien"><i class="fas fa-print"></i> Tracer</a>
+                        <a href="{{route('tracer',$trxPasien->trx_id)}}" target="_blank" type="button" class="btn btn-sm btn-default {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Periksa Pasien"><i class="fas fa-print"></i> Tracer</a>
                         <a href="#" type="button" class="btn btn-sm btn-primary toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Input Resep Pasien"><i class="fas fa-file"></i> Riwayat</a>
                       </div>
                     </td>

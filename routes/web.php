@@ -2,12 +2,15 @@
 
 use App\Http\Controllers\apotekController;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\infoController;
 use App\Http\Controllers\kasirController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\obatalkesController;
 use App\Http\Controllers\poliController;
 use App\Http\Controllers\registerController;
+use App\Http\Controllers\reportController;
 use App\Http\Controllers\supplierController;
+use App\Http\Controllers\tindakanController;
 use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +29,8 @@ use Illuminate\Support\Facades\Route;
 //     return view('login.index');
 // });
 
-Route::resource('/',loginController::class);
+// Route::resource('/',loginController::class);
+
 Route::controller(loginController::class)->group(function(){
     Route::get('/','index')->name('login');
     Route::post('/login-process','loginproses')->name('login.proses');
@@ -36,7 +40,7 @@ Route::controller(loginController::class)->group(function(){
 Route::middleware('auth')->group(function(){
 
     Route::resource('/dashboard',dashboardController::class);
-    
+
     Route::controller(obatalkesController::class)->group(function(){
         Route::get('gudang/obatalkes','index')->name('obatalkes.index');
         Route::get('gudang/obatalkes/defekta','defekta')->name('obatalkes.defekta');
@@ -56,6 +60,7 @@ Route::middleware('auth')->group(function(){
         Route::get('gudang/obatalkes/{id}/aktif','aktif')->name('obatalkes.aktif');
         Route::get('gudang/obatalkes/{id}/delete','delete')->name('obatalkes.delete');
     });
+
     Route::controller(supplierController::class)->group(function(){
         Route::get('gudang/supplier','index')->name('supplier.index');
         Route::get('gudang/supplier/create','create')->name('supplier.create');
@@ -66,7 +71,7 @@ Route::middleware('auth')->group(function(){
         Route::get('gudang/supplier/{id}/aktif','aktif')->name('supplier.aktif');
         Route::get('gudang/supplier/{id}/delete','delete')->name('supplier.delete');
     });
-    
+
     Route::controller(registerController::class)->group(function(){
         Route::get('register','index')->name('register.index');
         Route::get('register/create','create')->name('register.create');
@@ -76,7 +81,7 @@ Route::middleware('auth')->group(function(){
         Route::get('register/{id}/pulangkan','pulangkan')->name('register.pulangkan');
         Route::get('register/{id}/batalperiksa','batalperiksa')->name('register.batalperiksa');
     });
-    
+
     Route::controller(poliController::class)->group(function(){
         Route::get('poliklinik','index')->name('poliklinik.index');
         Route::get('poliklinik/{id}/reseppoli','reseppoli')->name('poliklinik.reseppoli');
@@ -95,7 +100,7 @@ Route::middleware('auth')->group(function(){
         Route::put('poliklinik/hapustindakan/{id}','deletetindakan')->name('poliklinik.deletetindakan');
         Route::post('poliklinik/updateAlergi/{id}','updateAlergi')->name('poliklinik.updateAlergi');
     });
-    
+
     Route::controller(kasirController::class)->group(function(){
         Route::get('kasir','index')->name('kasir.index');
         Route::get('kasir/prosesbayar/{id}','prosesBayar')->name('kasir.prosesBayar');
@@ -105,23 +110,47 @@ Route::middleware('auth')->group(function(){
         Route::post('kasir/simpanpembayaranumum/{id}','simpanPembayaranUmum')->name('kasir.simpanPembayaranUmum');
         Route::get('kasir/print_kwitansi/{id}','printKwitansi')->name('kasir.printKwitansi');
     });
-    
+
     Route::controller(apotekController::class)->group(function(){
         Route::get('apotek','index')->name('apotek.index');
         Route::get('apotek/penjualan','pu')->name('apotek.pu');
         Route::put('apotek/{trx_id}/deleteobatalkes','deleteobatalkes')->name('apotek.deleteobatalkes');
         Route::get('apotek/penjualanUmum','jualumum')->name('apotek.jualumum');
         Route::get('apotek/{id}/verifresep','verifresep')->name('apotek.verifresep');
+        Route::get('apotek/{id}/serahresep','serahresep')->name('apotek.serahresep');
+        Route::get('apotek/{id}/serahresepumum','serahresepumum')->name('apotek.serahresepumum');
         Route::get('apotek/{id}/resepvalidate','resepvalidate')->name('apotek.resepvalidate');
         Route::get('apotek/penjualan/{id}','sendtokasir')->name('apotek.sendtokasir');
     });
-    
+
     Route::controller(userController::class)->group(function(){
         Route::get('sysadmin/master/users','index')->name('users.index');
-        Route::get('sysadmin/master/createusers','create')->name('users.create');
-        Route::post('sysadmin/master/createusers','store')->name('users.store');
+        Route::get('sysadmin/master/users/create','create')->name('users.create');
+        Route::post('sysadmin/master/users/create','store')->name('users.store');
+        Route::get('sysadmin/master/users/nonaktif/{id}','nonaktif')->name('users.nonaktif');
+        Route::get('sysadmin/master/users/aktifkan/{id}','aktifkan')->name('users.aktifkan');
+        Route::get('sysadmin/master/users/hapus/{id}','hapus')->name('users.hapus');
     });
-    
+
+    Route::controller(tindakanController::class)->group(function(){
+        Route::get('sysadmin/master/tindakan','index')->name('tindakan.index');
+        Route::get('sysadmin/master/tindakan/create','create')->name('tindakan.create');
+        Route::post('sysadmin/master/tindakan/store','store')->name('tindakan.store');
+        Route::get('sysadmin/master/tindakan/nonaktif/{id}','nonaktif')->name('tindakan.nonaktif');
+        Route::get('sysadmin/master/tindakan/aktifkan/{id}','aktifkan')->name('tindakan.aktifkan');
+        Route::get('sysadmin/master/tindakan/hapus/{id}','hapus')->name('tindakan.hapus');
+    });
+
+    Route::controller(infoController::class)->group(function(){
+        Route::get('sysadmin/config/preferences','index')->name('preferences.index');
+        Route::post('sysadmin/config/preferences','update')->name('preferences.update');
+    });
+
+    Route::controller(reportController::class)->group(function(){
+        Route::get('report/tracer/{id}','tracer')->name('tracer');
+        Route::post('sysadmin/config/preferences','update')->name('preferences.update');
+    });
+
     Route::get('/construction', function () {
         return view('construction.index');
     });

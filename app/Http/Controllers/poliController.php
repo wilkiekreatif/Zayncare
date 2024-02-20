@@ -10,6 +10,7 @@ use App\Models\mTindakan;
 use App\Models\trxObatalkes;
 use App\Models\trxPasien;
 use App\Models\trxTindakanpasien;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,9 +21,24 @@ class poliController extends Controller
      */
     public function index()
     {
+        $today      = Carbon::now();
+        $year       = Carbon::now()->year;
+        $month      = Carbon::now()->month;
+
         $trxPasien  = trxPasien::with('mPasien')->with('mPoli')->whereNotIn('status',['4','5'])->orderBy('status','ASC')->get();
         $tindakan   = mTindakan::where('is_active','1')->get();
+        
+        $trxtoday   = trxPasien::distinct()
+                        ->whereDate('created_at',$today)
+                        ->whereRaw("SUBSTRING(trx_id, 1, 2) != 'PU'")
+                        ->count('trx_id');
+                        
+        $trxmonth   = trxPasien::distinct()->whereYear('created_at',$year)->whereMonth('created_at',$month)->whereRaw("SUBSTRING(trx_id, 1, 2) != 'PU'")
+                        ->count('trx_id');
+
         return view('poliklinik.index',[
+            'trxtoday'  => $trxtoday,
+            'trxmonth'  => $trxmonth,
             'trxPasiens'=> $trxPasien,
             'tindakans'  => $tindakan,
         ]);

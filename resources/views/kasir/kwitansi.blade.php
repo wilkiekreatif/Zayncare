@@ -18,9 +18,11 @@
     <center>
         <table style='width:550px; font-size:8pt; font-family:calibri; border-collapse: collapse;' border='0'>
             <td width='70%' align='left' style='padding-right:80px; vertical-align:top'>
-                <span style='font-size:12pt'><b>Zayncare Clinic</b></span></br>
-                Alamat : Jl baru Jadi No 20020 </br>
-                Telp : 0594094545
+                <span style='font-size:14pt'><b>{{$info->klinik_nama}}</b></span></br>
+                <span style='font-size:12pt'><b>{{$info->klinik_subnama}}</b></span></br>
+                {{$info->sip}}</br>
+                {{$info->alamat}}</br>
+                {{$info->notelp1.' '. $info->notelp2}}
             </td>
             <td style='vertical-align:top' width='30%' align='left'>
                 <b><span style='font-size:12pt'>Nota Transaksi</span></b></br>
@@ -28,6 +30,7 @@
                 Tanggal dan waktu : {{ $tanggalTrx }} </br>
             </td>
         </table>
+        <hr>
         <table style='width:550px; font-size:8pt; font-family:calibri; border-collapse: collapse;' border='0'>
             
             <td width='70%' align='left' style='padding-right:80px; vertical-align:top'>
@@ -105,8 +108,7 @@
         <table style='width:700; font-size:7pt; margin-right: 100px' cellspacing='2'>
             <tr>
                 <td align='center'>Diterima Oleh,</br></br><u>Pasien</u></td>
-                {{-- <td style='border:1px solid black; padding:5px; text-align:left; width:30%'></td> --}}
-                <td align='center'>TTD,</br></br><u>Kasir</u></td>
+                <td align='center'>Kasir,</br></br><u>{{Auth::user()->name}}</u></td>
             </tr>
         </table>
     </center>

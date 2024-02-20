@@ -37,7 +37,7 @@
           <!-- small box -->
           <div class="small-box bg-info">
             <div class="inner">
-              <h3>{{$totalData = $trxPasiens->where('status', '!=', ['99','4','5'])->count(); }} <sup style="font-size: 20px">Pasien</sup></h3>
+              <h3>{{$trxtoday }} <sup style="font-size: 20px">Pasien</sup></h3>
               <p>Pasien hari ini</p>
             </div>
             <div class="icon">
@@ -49,8 +49,8 @@
           <!-- small box -->
           <div class="small-box bg-warning">
             <div class="inner">
-              <h3>{{$totalData = $trxPasiens->where('poli_id','1')->count();}} <sup style="font-size: 20px">Pasien</sup></h3>
-              <p>Pasien Poli Umum</p>
+              <h3>{{$trxmonth }} <sup style="font-size: 20px">Pasien</sup></h3>
+              <p>Pasien bulan ini</p>
             </div>
             <div class="icon">
               <i class="fas fa-user-injured"></i>
@@ -234,7 +234,7 @@
                     </td>
                     <td>
                       <div class="btn-group" style="width: 100%">
-                        <a href="{{route('poliklinik.periksa',$trxPasien->trx_id)}}" type="button" class="btn btn-sm btn-primary {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Periksa Pasien"><i class="fas fa-stethoscope"></i> Periksa</a>
+                        <a href="{{route('poliklinik.periksa',[$trxPasien->trx_id,'tab' => 'tindakan'])}}" type="button" class="btn btn-sm btn-primary {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Periksa Pasien"><i class="fas fa-stethoscope"></i> Periksa</a>
                         <a href="{{route('poliklinik.reseppoli',$trxPasien->trx_id)}}" type="button" class="btn btn-sm btn-success {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}} {{ $trxPasien->status == '3' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Input Resep Pasien"><i class="fas fa-pills"></i> Resep</a>
                         @if ( $trxPasien->status == 4)
                           <a href="{{route('poliklinik.pulangkan',$trxPasien->trx_id)}}" onclick="return confirm('Apakah anda yakin akan memulangkan pasien ini?')" type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Pulangkan pasien"><i class="fas fa-home"></i> Pulangkan</a>

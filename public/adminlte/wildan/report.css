@@ -1,0 +1,44 @@
+body {
+    font-family: tahoma;
+    font-size: 9pt;
+}
+
+.header {
+    text-align: center;
+    /* background-color: aqua; */
+    margin-bottom: -5px;
+}
+
+.header h1 {
+    margin-bottom: -15px;
+}
+.header h2 {
+    margin-bottom: -10px;
+    padding: 0;
+}
+
+.header h5 {
+    /* background-color: aqua; */
+    margin-bottom: -4px;
+    padding: 0;
+}
+
+.tracer-body {
+    text-align: center;
+}
+
+.title {
+    margin-bottom: 10px;
+}
+.title1 {
+    margin-top: -5px;
+}
+
+.td {
+    align-items: left;
+}
+.footer {
+    margin-top: 15px;
+    margin-bottom: -5px;
+    font-style: italic;
+}

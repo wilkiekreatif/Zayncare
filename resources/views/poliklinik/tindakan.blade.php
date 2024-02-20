@@ -97,46 +97,4 @@
 </div>
 
 {{-- Sript auto dropdown --}}
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script>
-    $(document).ready(function() {
-    $('#tindakan').on('change', function() {
-        var kode_tindakan = $(this).val();
-        // console.log(kode_tindakan);
-        if(kode_tindakan) {
-            $.ajax({
-                url:'/poliklinik/'+ kode_tindakan,
-                type: 'GET',
-                data: {
-                    '_token': '{{ csrf_token() }}'
-                },
-                dataType:'json',
-                success: function(data){
-                    // console.log(data);
-                    if(data){
-      
-                    var kelastarif = {{ $trxPasien->kelastarif }};
-                    if(kelastarif === 1){
-                      var margin = data[0].margin1;
-                    }else if(kelastarif === 2){
-                      var margin = data[0].margin2;
-                    }else if(kelastarif === 3){
-                      var margin = data[0].margin3;
-                    }                       
-                    
-                    var hargajual = (data[0].tarifdasar * margin/100) + data[0].tarifdasar;
-                    $('#tarif').val(hargajual);
-                    }else{
-                        $('#harga').empty();
-                    }
-                }
-            });    
-        }else{
-            $('#harga').empty();
-        }
-    });
-});
-
-
-
-</script>
+{{-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> --}}

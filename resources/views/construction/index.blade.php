@@ -4,8 +4,6 @@
 
 {{-- CSS -------------------------------------------------------------------------------------------------------------------- --}}
 @section('css')
-  {{-- auto refresh --}}
-  <meta http-equiv="refresh" content="60">
   <!-- DataTables -->
   <link rel="stylesheet" href="{{asset('adminlte')}}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="{{asset('adminlte')}}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -43,7 +41,7 @@
 
           <p>
             We could not show the page you were looking for.
-            Meanwhile, you may <a href="{{ url('dashboard')}}">return to dashboard</a> or other pages in the left menu.
+            Meanwhile, you may <a href="{{ route('dashboard.index')}}">return to dashboard</a> or other pages in the left menu.
           </p>
         </div>
         <!-- /.error-content -->

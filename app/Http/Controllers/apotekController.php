@@ -8,6 +8,7 @@ use App\Models\trxUmum;
 use App\Models\trxPasienResep;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class apotekController extends Controller
@@ -17,6 +18,10 @@ class apotekController extends Controller
      */
     public function index()
     {
+        $today      = Carbon::now();
+        $year       = Carbon::now()->year;
+        $month      = Carbon::now()->month;
+
         $distinctTrxResep = trxPasienResep::select([
                                                     'trx_id',
                                                     'nik',
@@ -35,11 +40,40 @@ class apotekController extends Controller
                                                     'poli_nama',
                                                     'alergi',
                                                     'statusPasien',
-                                                    'statusResep'
-                                                ])->distinct()->where('no_rm','!=', Null)->orderBy('statusResep')->get();
-        // dd($distinctTrxResep);
+                                                    'statusResep',
+                                                    'created_at'
+                                                ])->distinct()->where('no_rm','!=', Null)->whereDate('created_at',$today)->orderBy('statusResep')->get();
+        
 
-        return view('apotek.index',['trxReseps' => $distinctTrxResep]);
+        $trxtoday   = trxPasienResep::distinct()
+                        ->whereDate('created_at',$today)
+                        ->whereRaw("SUBSTRING(trx_id, 1, 2) != 'PU'")
+                        ->count('trx_id');
+                        
+        $trxmonth   = trxPasienResep::distinct()->whereYear('created_at',$year)->whereMonth('created_at',$month)->whereRaw("SUBSTRING(trx_id, 1, 2) != 'PU'")
+                        ->count('trx_id');
+                        // ->get();
+        // dd($trxmonth);
+        
+        $omsettoday = trxObatalkes::whereDate('created_at',$today)
+                        ->whereRaw("SUBSTRING(trx_id, 1, 2) != 'PU'")
+                        ->sum('total');
+                        
+        $omsetmonth   = trxObatalkes::whereYear('created_at',$year)
+                        ->whereMonth('created_at',$month)
+                        ->whereRaw("SUBSTRING(trx_id, 1, 2) != 'PU'")
+                        ->sum('total');
+
+        $omsettoday1 = number_format($omsettoday,0,',','.');
+        $omsetmonth1 = number_format($omsetmonth,0,',','.');
+                        
+        return view('apotek.index',[
+            'trxReseps' => $distinctTrxResep,
+            'trxtoday'  => $trxtoday,
+            'trxmonth'  => $trxmonth,
+            'omsettoday'=> $omsettoday1,
+            'omsetmonth'=> $omsetmonth1,
+        ]);
     }
 
     public function verifresep(string $id)
@@ -117,12 +151,12 @@ class apotekController extends Controller
             'trx_id'    => $id,
             'total'     => $total,
             'status'    => '0',
-            'user_id'   => 1,
+            'user_id'   => Auth::user()->id,
         ];
 
         trxUmum::create($trxUmum);
 
-        return redirect()->route('apotek.index')->with('success','Resep telah berhasil dikirim ke Kasir. silahkan arah pasien ke kasir untuk dilakukan pembayaran!');
+        return redirect()->route('apotek.pu')->with('success','Resep telah berhasil dikirim ke Kasir. silahkan arah pasien ke kasir untuk dilakukan pembayaran!');
     }
 
     public function pu()
@@ -179,6 +213,49 @@ class apotekController extends Controller
         }
     }
 
-    
+    public function serahresep(string $id){
+        $reseps = trxObatalkes::where('trx_id',$id)->where('status','2')->get();
+        // pengurangan stok gudang
+        foreach($reseps as $item){
+            $qty = $item->qty;
+            $stok= m_obatalkes::where('id',$item->obatalkes_id)->first();
+            
+            $updatestok = $stok->stok - $qty;
+            
+            // simpan data pengurangan ke master gudang
+            $stok->stok = $updatestok;
+            $stok->save();
+
+            // simpan status penyerahan obat
+            $item->status = '3';
+            $item->save();
+
+        }
+        return redirect()->back()->with('success', 'Resep telah diserahkan dan stok gudang telah berkurang.');
+    }
+    public function serahresepumum(string $id){
+        $reseps = trxObatalkes::where('trx_id',$id)->where('status','1')->get();
+        // pengurangan stok gudang
+        foreach($reseps as $item){
+            $qty = $item->qty;
+            $stok= m_obatalkes::where('id',$item->obatalkes_id)->first();
+            
+            $updatestok = $stok->stok - $qty;
+            
+            // simpan data pengurangan ke master gudang
+            $stok->stok = $updatestok;
+            $stok->save();
+
+            // simpan status penyerahan obat
+            $item->status = '3';
+            $item->save();
+
+        }
+        $updateTrxumum = trxUmum::where('trx_id',$id)->where('status','1')->first();
+        // dd($updateTrxumum);
+        $updateTrxumum->status = '3';
+        $updateTrxumum->save();
+        return redirect()->back()->with('success', 'Resep telah diserahkan dan stok gudang telah berkurang.');
+    }
 }
 

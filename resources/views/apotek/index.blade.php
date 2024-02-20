@@ -37,11 +37,11 @@
           <!-- small box -->
           <div class="small-box bg-info">
             <div class="inner">
-              {{-- <h3>{{$totalData = $trxReseps::whereDate('created_at',date('d'))->count(); }} <sup style="font-size: 20px">Resep</sup></h3> --}}
+              <h3>{{$trxtoday}} <sup style="font-size: 20px">Resep</sup></h3>
               <p>Resep hari ini</p>
             </div>
             <div class="icon">
-              <i class="fas fa-user-injured"></i>
+              <i class="fas fa-file"></i>
             </div>
           </div>
         </div>
@@ -49,11 +49,11 @@
           <!-- small box -->
           <div class="small-box bg-warning">
             <div class="inner">
-              {{-- <h3>{{$totalData = $trxPasiens->where('poli_id','1')->count();}} <sup style="font-size: 20px">Resep</sup></h3> --}}
+              <h3>{{$trxmonth}} <sup style="font-size: 20px">Resep</sup></h3>
               <p>Resep bulan ini</p>
             </div>
             <div class="icon">
-              <i class="fas fa-user-injured"></i>
+              <i class="fas fa-file"></i>
             </div>
           </div>
         </div>
@@ -61,11 +61,11 @@
           <!-- small box -->
           <div class="small-box bg-success">
             <div class="inner">
-              {{-- <h3>{{$totalData = $trxPasiens->where('poli_id','2')->count();}} <sup style="font-size: 20px">Transaksi</sup></h3> --}}
-              <p>Pembelian Umum</p>
+              <h3><sup style="font-size: 20px">Rp. </sup>{{$omsettoday}}</h3>
+              <p>Omset hari ini</p>
             </div>
             <div class="icon">
-              <i class="fas fa-user-injured"></i>
+              <i class="fas fa-file"></i>
             </div>
           </div>
         </div>
@@ -73,11 +73,11 @@
           <!-- small box -->
           <div class="small-box bg-danger">
             <div class="inner">
-              {{-- <h3>{{$totalData = $trxPasiens->where('poli_id','3')->count();}} <sup style="font-size: 20px">Resep</sup></h3> --}}
-              <p>Total Resep Hari ini</p>
+              <h3><sup style="font-size: 20px">Rp. </sup>{{$omsetmonth}}</h3>
+              <p>Omset bulan ini</p>
             </div>
             <div class="icon">
-              <i class="fas fa-user-injured"></i>
+              <i class="fas fa-file"></i>
             </div>
           </div>
         </div>
@@ -224,11 +224,69 @@
                         <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="Resep pasien ini sudah dibayar">Sudah Bayar</span></h5>
                       @elseif ($trxResep->statusResep == 2)
                         <h5><span class="badge badge-info" data-toggle="tooltip" data-placement="bottom" title="Resep pasien ini sudah diverifikasi dan tinggal dibayar k kasir">Sudah Verifikasi</span></h5>
+                      @elseif ($trxResep->statusResep == 3)
+                        <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="Resep pasien ini sudah diverifikasi dan tinggal dibayar k kasir">Sudah diserahkan</span></h5>
                       @endif
                     </td>
                     <td>
                       <div class="btn-group" style="width: 100%">
-                        <a href="{{route('apotek.verifresep',$trxResep->trx_id)}}" type="button" class="btn btn-sm btn-success {{ $trxResep->statusResep == '1' ? 'disabled' : ''}} {{ $trxResep->statusResep == '2' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Verifikasi Resep Pasien"><i class="fas fa-pills"></i> Verifikasi</a>
+                        <a href="{{route('apotek.verifresep',$trxResep->trx_id)}}" type="button" class="btn btn-sm btn-success {{ $trxResep->statusResep == '1' ? 'disabled' : ''}} {{ $trxResep->statusResep == '2' ? 'disabled' : ''}} {{ $trxResep->statusResep == '3' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Verifikasi Resep Pasien"><i class="fas fa-pills"></i> Verifikasi</a>
+                        <a href="{{route('apotek.serahresep',$trxResep->trx_id)}}" type="button" class="btn btn-sm btn-primary {{ $trxResep->statusResep == '1' ? 'disabled' : ''}} {{ $trxResep->statusResep == '0' ? 'disabled' : ''}} {{ $trxResep->statusResep == '3' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Penyerahan Resep ke Pasien"><i class="fas fa-check"></i> Penyerahan Resep</a>
+                        {{-- <a type="button" data-toggle="modal" data-target="#Modal-{{$trxResep->trx_id}}" class="btn btn-sm btn-primary {{ $trxResep->statusResep == '1' ? 'disabled' : ''}} {{ $trxResep->statusResep == '0' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Penyerahan Resep ke Pasien"><i class="fas fa-check"></i> Penyerahan Resep</a>
+
+                        <div class="modal fade" id="Modal-{{$trxResep->trx_id}}" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                  <div class="modal-header">
+                                      <h5 class="modal-title" id="modal">Penyerahan Resep <b>{{$trxResep->trx_id}}</b></h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                  </div>
+                                  <form action="#" method="post">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="modal-body">
+                                      <input type="hidden" class="form-control" name="obatalkes_id"  id="obatalkes_id" value="{{$trxResep->trx_id}}">
+                                      <div class="form-group">
+                                        <label for="nofaktur">Penerima<a style="color:red">*</a></label>
+                                        <input required type="text" class="form-control" name="nofaktur" id="nofaktur" placeholder="Silahkan isi...">
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="qtysetelahfaktur">Qty sesuai faktur <a style="color:red">*</a></label>
+                                        <input required type="number" class="form-control" id="qtysetelahfaktur" name="qtysetelahfaktur" placeholder="Silahkan isi...">
+                                      </div>
+                                        <div class="form-group">
+                                          <label for="hargasetelahfaktur">Harga sesuai faktur <a style="color:red">*</a></label>
+                                          <input required type="number" class="form-control" id="hargasetelahfaktur" name="hargasetelahfaktur" placeholder="Silahkan isi...">
+                                          <div class="form-check" style="padding-top:1%;padding-left:7%">
+                                            <input type="checkbox" class="form-check-input" id="updatetarif" name="updatetarif">
+                                            <label class="form-check-label" for="updatetarif">Ceklis jika harga dasar obat/alkes berubah. </label>
+                                          </div>
+                                        </div>
+                                      <div class="row">
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label for="diskon">Diskon (Rp.)</label>
+                                            <input type="number" class="form-control" id="diskon" name="diskon" placeholder="Silahkan isi...">
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                            <label for="ppn">Ppn (Rp.)</label>
+                                            <input type="number" class="form-control" id="ppn" name="ppn" placeholder="Silahkan isi...">
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="submit" class='btn btn-sm btn-primary' onclick="return confirm('Apakah anda yakin?')" data-toggle="tooltip" data-placement="bottom" title="Klik setelah resep diserahkan ke pasien untuk mengurangi stok gudang."> <i class="fa fa-check"> </i>  SIMPAN</button>
+                                      <button type="reset" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Reset form penyerahan resep"> <i class="fas fa-undo-alt"></i></button>
+                                    </div>
+                                  </form>
+                              </div>
+                          </div>
+                        </div> --}}
                       </div>
                     </td>
                   </tr>

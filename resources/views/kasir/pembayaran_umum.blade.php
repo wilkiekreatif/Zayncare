@@ -104,6 +104,7 @@
                   <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
                   <th style="background-color: rgb(120, 186, 196)" >ID TRANSAKSI</th>
                   <th style="background-color: rgb(120, 186, 196)" >TOTAL</th>
+                  <th style="background-color: rgb(120, 186, 196)" >TGL TRANSAKSI</th>
                   <th style="background-color: rgb(120, 186, 196)" >STATUS</th>
                   <th style="background-color: rgb(120, 186, 196)" width="2%">ACTION</th>
                 </tr>
@@ -122,7 +123,11 @@
                     @php
                       $total  = number_format($trxPasien->total, 0, ',', '.');
                     @endphp
-                    <td>Rp. {{$total}}</td>
+                    <td>Rp. <b>{{$total}}</b></td>
+                    @php
+                      $tgltrx = date('d-m-Y h:m:s', strtotime($trxPasien->created_at));
+                    @endphp
+                    <td>{{$tgltrx}}</td>
                     <td>
                       @if ($trxPasien->status == 2)
                         <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Batal bayar">Batal Bayar</span></h5>
@@ -130,12 +135,14 @@
                         <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom" title="Belum bayar">Belum bayar</span></h5>
                       @elseif ($trxPasien->status == 1)
                         <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="Sudah bayar">Sudah Bayar</span></h5>
+                      @elseif ($trxPasien->status == 3)
+                        <h5><span class="badge badge-primary" data-toggle="tooltip" data-placement="bottom" title="Sudah bayar">Sudah dilakukan penyerahan</span></h5>
                       @endif
                     </td>
                     <td>
                       <div class="btn-group" style="width: 100%">
-                        <a href="{{ route('kasir.prosesBayarUmum',$trxPasien->trx_id) }}" type="button" class="btn btn-sm btn-primary {{ $trxPasien->status == '2' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Proses Pembayaran"><i class="fas fa-stethoscope"></i>Bayar</a>
-                        <a href="#" type="button" class="btn btn-sm btn-success {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}} {{ $trxPasien->status == '3' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Input Resep Pasien"><i class="fas fa-pills"></i> Rincian</a>
+                        <a href="{{ route('kasir.prosesBayarUmum',$trxPasien->trx_id) }}" type="button" class="btn btn-sm btn-primary {{ $trxPasien->status == '2' ? 'disabled' : ''}}  {{ $trxPasien->status == '3' ? 'disabled' : ''}} {{ $trxPasien->status == '1' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Proses Pembayaran"><i class="fas fa-money-bill-wave"></i>Bayar</a>
+                        <a href="#" type="button" class="btn btn-sm btn-success toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Print rincian pembelian"><i class="fas fa-print"></i> Rincian</a>
                     </td>
                   </tr>
                   <?php $no++ ?>
@@ -146,6 +153,7 @@
                   <th>No</th>
                   <th>ID TRANSAKSI</th>
                   <th>TOTAL</th>
+                  <th>TGL TRANSAKSI</th>
                   <th>STATUS</th>
                   <th>ACTION</th>
                 </tr>
@@ -206,10 +214,6 @@
         "responsive": true, "lengthChange": true, "autoWidth": false,
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#datatable1_wrapper .col-md-6:eq(0)');
-    });
-    $('.toastrDefaultError').click(function() {
-        toastr.error('Belum berfungsi yaa. Sabar masih proses develop..')
-      });
   </script>
   @if ($errors->any())
     <script>

@@ -236,7 +236,7 @@
                     <td>
                       <div class="btn-group" style="width: 100%;">
                         <a href="{{ route('kasir.prosesBayar',$trxPasien->trx_id) }}" type="button" class="btn btn-sm btn-success {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}}  {{ $trxPasien->status == '4' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Klik untuk pembayaran"><i class="fas fa-money-bill-wave"> </i><br>Bayar</a>
-                        <a href="#" type="button" class="btn btn-sm btn-warning toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}} {{ $trxPasien->status == '3' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Print rincian pasien"><i class="fas fa-print"></i> Rincian</a>
+                        <a onclick="tracer()" type="button" class="btn btn-sm btn-warning toastrDefaultError {{ $trxPasien->status == '99' ? 'disabled' : ''}} {{ $trxPasien->status == '5' ? 'disabled' : ''}} {{ $trxPasien->status == '3' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Print rincian pasien"><i class="fas fa-print"></i> Rincian</a>
                         <a onclick="print()" type="button" class="btn btn-sm btn-primary toastrDefaultError {{ $trxPasien->status <> '4' ? 'disabled' : ''}}" data-toggle="tooltip" data-placement="bottom" title="Print kwitansi pembayaran"><i class="fas fa-print"></i> Kwitansi</a>
                       </div>
                     </td>
@@ -265,12 +265,19 @@
 
 @section('js')
 
+@if (!$trxPasiens->isEmpty())
   <script>
     function print(){
       var url = "{{route('kasir.printKwitansi', $trxPasien->trx_id)}}";
       window.open(url, '_blank');
     }
+    
+    function tracer(){
+      var url = "{{route('tracer', $trxPasien->trx_id)}}";
+      window.open(url, '_blank');
+    }
   </script>
+@endif
   <!-- DataTables  & Plugins -->
   <script src="{{asset('adminlte')}}/plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="{{asset('adminlte')}}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>

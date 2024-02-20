@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('trx_id')->unique();
             $table->float('total');
-            $table->enum('status',[0,1,2])->default(0)->comment('0: belum dibayar, 1: sudah dibayar, 2: batal transaksi');
+            $table->enum('status',[0,1,2,3,99])->default(0)->comment('0: belum dibayar, 1: sudah dibayar, 2: batal transaksi, 3: sudah diserahkan ke pasien, 99:dihapus');
             $table->foreignId('user_id')->constrained('users')->default(1);
             $table->timestamps();
         });

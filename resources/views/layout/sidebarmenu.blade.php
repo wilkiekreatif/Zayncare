@@ -38,19 +38,19 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ route('obatalkes.index')}}" class="nav-link @if(Request::is('sysadmin/dokter')) active @endif">
+                  <a href="{{url('/admin/construction')}}" class="nav-link @if(Request::is('sysadmin/master/dokter')) active @endif">
                     <i class="fa fa-user-md nav-icon"></i>
                     <p>Master Dokter</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{route('obatalkes.defekta')}}" class="nav-link  @if(Request::is('sysadmin/tindakan')) active @endif">
+                  <a href="{{route('tindakan.index')}}" class="nav-link  @if(Request::is('sysadmin/master/tindakan')) active @endif">
                     <i class="fa fa-stethoscope nav-icon"></i>
                     <p>Master Tindakan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{url('/admin/construction')}}" class="nav-link  @if(Request::is('sysadmin/poliklinik')) active @endif">
+                  <a href="{{url('/construction')}}" class="nav-link  @if(Request::is('sysadmin/poliklinik')) active @endif">
                     <i class="fa fa-hospital nav-icon"></i>
                     <p>Master Poliklinik</p>
                   </a>
@@ -67,7 +67,13 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="#" class="nav-link @if(Request::is('sysadmin/enveditor')) active @endif">
+                  <a href="{{url('/sysadmin/config/preferences')}}" class="nav-link @if(Request::is('sysadmin/config/preferences')) active @endif">
+                    <i class="fa fa-server nav-icon"></i>
+                    <p>Preferences</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{url('/construction')}}" class="nav-link @if(Request::is('sysadmin/enveditor')) active @endif">
                     <i class="fa fa-server nav-icon"></i>
                     <p>ENV Editor</p>
                   </a>

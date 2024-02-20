@@ -22,7 +22,17 @@ class obatalkesController extends Controller
                                     ->with('supplier3')
                                     ->where('is_active','!=', '99')
                                     ->get();
-        return view('gudangfarmasi.obatalkes.index',[ 'obatalkess' => $obatalkess]);
+        $obat       = $obatalkess->where('obatalkes_jenis','0')->count();
+        $alkes      = $obatalkess->where('obatalkes_jenis','1')->count();
+        $nonaktif   = $obatalkess->where('is_active','0')->count();
+        $limitstok  = m_obatalkes::where('stok','<=', '10')->where('is_active','!=', '99')->count();
+        return view('gudangfarmasi.obatalkes.index',[
+            'obatalkess' => $obatalkess,
+            'limitstok' => $limitstok,
+            'obat' => $obat,
+            'alkes' => $alkes,
+            'nonaktif' => $nonaktif,
+        ]);
     }
     public function stok()
     {

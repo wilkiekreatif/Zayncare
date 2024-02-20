@@ -43,17 +43,18 @@
         <div class="col-sm-8">
           <div class="card card-info card-outline">
             <div class="card-header d-flex p-0">
-              <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> Rincian Tagihan Pasien</h3>
+              <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> Rincian Transaksi</h3>
             </div><!-- /.card-header -->
            
-           
+          
             <div class="card-body">
               <table class="table table-hover table-sm">
                 <thead>
                 <tr>
                   <th>No</th>
-                  <th>Tanggal Transaksi</th>
-                  <th>ID Transaksi</th>
+                  <th>Item</th>
+                  <th>Harga</th>
+                  <th>Qty</th>
                   <th>Total</th>
                 </tr>
               </thead>
@@ -64,30 +65,26 @@
                 @foreach ($trxObatAlkesU as $ObatPasien)
                 @php
                     $total = number_format($ObatPasien->total,0,',','.');
+                    $tarif = number_format($ObatPasien->tarif,0,',','.');
                 @endphp
-                 <form action="{{ route('kasir.simpanPembayaranUmum',$ObatPasien->trx_id) }}" method="post">
+                <form action="{{ route('kasir.simpanPembayaranUmum',$ObatPasien->trx_id) }}" method="post">
                   @csrf
                   <input hidden class="form-control" name="tanggal_transaksi" id="tanggal_transaksi" maxlength="60" value="{{$ObatPasien->created_at}}">
                   <input hidden class="form-control" name="id_transaksi" id="trx_id" maxlength="60" value="{{$ObatPasien->trx_id}}">
                 <input hidden class="form-control" name="total_transaksi" id="total_transaksi" maxlength="60" value="{{$ObatPasien->total}}">
                 <tr>
                   <td>{{ $no++}}</td>
-                  <td>{{ $ObatPasien->created_at }}</td>
-                  <td>{{ $ObatPasien->trx_id }}</td>
+                  <td>{{ $ObatPasien->mObatalkes->obatalkes_nama }}</td>
+                  <td>Rp. {{ $tarif }}</td>
+                  <td>{{ $ObatPasien->qty }} {{$ObatPasien->mObatalkes->satuan}}</td>
                   <td>Rp. {{ $total }}</td>
                 </tr>   
                 @endforeach
               </tbody>
                 <tr style="font-weight: bold ; font-size: 1rem">
-                  {{-- @php
-                    $totalTindakans = number_format($totalTindakan,0,',','.');
-                  @endphp --}}
-                  <td colspan="2">Total</td>
+                  <td colspan="2">Total</td><td></td><td></td>
                   <td>Rp. {{ $total }}</td>
                 </tr>
-                {{-- <input style="border: none; font-weight: bold" type="number" name="totalTindakan" value="{{ $totalTindakan }}" hidden> --}}
-             
-              
               </table>
               <!-- /.tab-content -->
               <div class="text-left mt-2">
@@ -95,40 +92,28 @@
                 <button type="reset" class="btn btn-danger"> <i class="fas fa-undo-alt"> </i> Cancel</button>
               </div>
             </div><!-- /.card-body -->
-          
-
           </div>
         </div>
       </form>
         <div class="col-4">
           <div class="card card-info card-outline">
             <div class="card-header d-flex p-0">
-              <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> Pembayaran Pasien</h3>
+              <h3 class="card-title p-3"><i class="fa fa-user-injured"></i> Pembayaran Transaksi</h3>
             </div>
             <form action="">
             <div class="card-body">
-              <div class="input-group">
-                 <label for="">Dibayar Oleh Pasien</label>
-                <div class="input-group-prepend" style="width: 100%">
-                  <span class="input-group-text text-sm">Rp.</span>
-                  <input style="font-weight: bold" name="totalBayar" id="totalBayar" type="number" class="form-control" value="{{ $total }}" readonly>
-                </div>
-              </div>
               <div class="form-group">
-                <div class="row">
-                  <div class="col-8">
-                    <label for="">Uang diterima</label>
-                    <input style="font-weight: bold;" name="uangDiterima" id="uangDiterima" type="number" class="form-control">
-                  </div>
-                  <div class="col-4">
-                    <label for="">PPN 11%</label>
-                    <input name="ppn" id="ppn" type="checkbox" class="form-control">
-                  </div>
-                </div>
+                <label for="totalformat">Uang diterima</label>
+                <input style="font-weight: bold;" name="total" id="total" type="hidden" class="form-control" value="{{$ObatPasien->total}}">
+                <input readonly style="font-weight: bold;" name="totalformat" id="totalformat" type="number" class="form-control" value="{{$total}}">
               </div>
               <div class="form-group">
-                <label for="">Kembalian</label>
-                <input style="font-weight: bold;" type="number" id="hasil" class="form-control" readonly>
+                <label for="uangDiterima">Uang diterima</label>
+                <input name="uangDiterima" id="uangDiterima" type="number" class="form-control" placeholder="Silahkan isi...">
+              </div>
+              <div class="form-group">
+                <label for="hasil">Kembalian</label>
+                <input style="font-weight: bold;" type="number" name="kembalian" id="kembalian" class="form-control" readonly>
               </div>
             </div>
             {{-- <button onclick="pengurangan()" type="button" class="btn btn-success"> <i class="fas fa-save"> </i> lihat</button> --}}
@@ -197,13 +182,28 @@
   @endif
 
   <script>
-    function pengurangan(){
-      var totalBayar = parseInt(document.getElementById('totalBayar').value);
-      var uangDiterima = parseInt(document.getElementById('uangDiterima').value);
+    $(document).ready(function() {
+      $('#uangDiterima').on('input', function() {
 
-      var hasil = totalBayar - uangDiterima;
-      document.getElementById('hasil').innerHTML = totalBayar + '-' + uangDiterima + '=' + hasil;
-      console.log('hasil');
-    }
+        var uangditerima = parseFloat($(this).val());
+        // if (uangditerima === null || uangditerima.trim() === '') {
+        //   $('#kembalian').empty();
+        // }else{
+          var totalBayar = parseFloat($('#total').val());
+          // console.log(totalBayar);
+          var hasil         = uangditerima - totalBayar;
+          
+          if (!isNaN(uangditerima) && !isNaN(totalBayar)) {
+            var hasil = uangditerima - totalBayar;
+            console.log(hasil);
+            $('#kembalian').val(hasil);
+          } else {
+            // Handle invalid input (e.g., display an error message)
+            // console.log('Invalid input');
+            $('#kembalian').val('');
+          }
+        // }
+      });
+    });
   </script>
 @endsection

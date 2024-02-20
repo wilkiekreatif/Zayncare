@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\infoKlinik;
 use App\Models\mTindakan;
 use App\Models\trx_kasir_umum;
 use App\Models\trxKasir;
@@ -11,12 +12,34 @@ use App\Models\trxTindakanpasien;
 use App\Models\trxUmum;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class kasirController extends Controller
 {
     public function index(){
-        $trxPasiens = trxPasien::orderby('status','ASC')->get();
-        return view('kasir.index', compact('trxPasiens'));
+        $today      = Carbon::now();
+        // dd($today);
+        $year       = Carbon::now()->year;
+        $month      = Carbon::now()->month;
+
+        $trxPasiens = trxPasien::whereDate('created_at', $today)->orderby('status','ASC')->get();
+
+        // dd($trxPasiens);
+
+        $trxtoday   = trxPasien::whereDate('created_at',$today)
+                        // ->where('status','!=','2')
+                        ->count();
+
+        $trxmonth   = trxPasien::whereYear('created_at',$year)
+                        ->whereMonth('created_at',$month)
+                        // ->where('status','!=','2')
+                        ->count();
+        
+        return view('kasir.index', [
+            'trxPasiens'    => $trxPasiens,
+            'trxtoday'      => $trxtoday,
+            'trxmonth'      => $trxmonth,
+        ]);
     }
     
     public function prosesBayar(Request $req, $id){
@@ -51,7 +74,7 @@ class kasirController extends Controller
             'total_tindakan'    => $req->totalTindakan,
             'total_obat_alkes'  => $req->totalObatAlkes,
             'total_transaksi'   => $req->totalPembayaran,
-            'user_id'           => 1 
+            'user_id'           => Auth::user()->id, 
         ]);
 
         $pasien = trxPasien::with('mPasien')->where('trx_id',$id)->first();
@@ -59,7 +82,6 @@ class kasirController extends Controller
         $pasien->save();
 
         return redirect()->route('kasir.index')->with('success','Transaksi telah berhasil disimpan. silahkan print tanda terima apabila dibutuhkan.');
-
     }
 
     public function hitungKembalian(Request $req){
@@ -71,29 +93,38 @@ class kasirController extends Controller
     }
 
     public function pembayaranUmum(){
-        $trxUmum = trxUmum::all();
-
+        
         $today      = Carbon::now();
         $year       = Carbon::now()->year;
         $month      = Carbon::now()->month;
+        
+        $trxUmum = trxUmum::whereDate('created_at',$today)
+                        ->where('status','!=','2')->get();
+        // dd($trxUmum);
 
         $trxtoday   = trxUmum::whereDate('created_at',$today)
                         ->where('status','!=','2')
                         ->count();
 
-        $trxmonth   = trxUmum::whereYear('created_at',$year)
+        $trxmonth   = trxUmum::where('status','!=','2')
+                        ->whereYear('created_at',$year)
                         ->whereMonth('created_at',$month)
-                        ->where('status','!=','2')
                         ->count();
         
-        $omsettoday = trxUmum::whereDate('created_at',$today)
-                        ->where('status','!=','2')
+        $omsettoday = trxUmum::
+                        where('status', '1')
+                        ->orwhere('status', '3')
+                        ->whereDate('created_at',$today)
+                        ->sum('total');
+                        // ->get();
+        // dd($omsettoday);
+
+        $omsetmonth   = trxUmum::where('status','1')
+                        ->orwhere('status','3')
+                        ->whereYear('created_at',$year)
+                        ->whereMonth('created_at',$month)
                         ->sum('total');
 
-        $omsetmonth   = trxUmum::whereYear('created_at',$year)
-                        ->whereMonth('created_at',$month)
-                        ->where('status','!=','2')
-                        ->sum('total');
         return view('kasir.pembayaran_umum',[
             'trxumum'  => $trxUmum,
             'trxtoday'  => $trxtoday,
@@ -104,45 +135,45 @@ class kasirController extends Controller
     }
 
     public function prosesbayarUmum($id){
-        $trxObatAlkesU = trxUmum::where('trx_id',$id)->get();
+        $trxObatAlkesU = trxObatalkes::with('mObatalkes')->where('trx_id',$id)->get();
         // $trxObatAlkesU   = trxUmum::with('mObatalkes')->where('trx_id',$id)->get();
         return view('kasir.proses_bayar_umum', compact('trxObatAlkesU'));
     }
 
     public function simpanPembayaranUmum($id, Request $req) {
         trx_kasir_umum::create([
-            'id_transaksi' => $req->id_transaksi,
+            'id_transaksi'      => $req->id_transaksi,
             'tanggal_transaksi' => $req->tanggal_transaksi,
-            'total_transaksi' => $req->total_transaksi,
-            'user_id'           => 1 
+            'total_transaksi'   => $req->total_transaksi,
+            'user_id'           => Auth::user()->id, 
         ]);
 
-        $pasien = trxUmum::where('trx_id',$id)->update(['status' => '1']);
-        // $pasien->status = 1;
-        // $pasien->save();
-        
+        trxObatalkes::where('trx_id',$id)->update(['status' => '1']);
+        trxUmum::where('trx_id',$id)->update(['status' => '1']);
 
         return redirect('kasir/pembayaran_umum')->with('success','Data transaksi berhasil disimpan');;
     }
 
     public function printKwitansi($id){
+        $info           = infoKlinik::where('id',1)->first();
         $pasien         = trxPasien::with('mPasien')->where('trx_id',$id)->first();
         $tindakan       = mTindakan::where('is_active','1')->get();
         $tindakanPasien = trxTindakanpasien::with('mTindakan')->where('trx_id',$id)->get();
         $trxObatAlkes   = trxObatalkes::with('mObatalkes')->where('trx_id',$id)->where('status','2')->get();
-        $totalTindakan = trxTindakanpasien::totalTindakan($id);
+        $totalTindakan  = trxTindakanpasien::totalTindakan($id);
         $totalObatAlkes = trxObatalkes::totalObatAlkes($id);
-        $totalBayar = $totalTindakan + $totalObatAlkes;
-        $tgl_transaksi      = Carbon::now();
+        $totalBayar     = $totalTindakan + $totalObatAlkes;
+        $tgl_transaksi  = Carbon::now();
         //dd($tindakanPasien);
         return view('kasir.kwitansi',[
+            'info'          => $info,
             'tindakans'     => $tindakan,
-            'trxTindakans'   => $tindakanPasien,
-            'trxObatAlkes' => $trxObatAlkes,
+            'trxTindakans'  => $tindakanPasien,
+            'trxObatAlkes'  => $trxObatAlkes,
             'totalTindakan' => $totalTindakan,
-            'totalObatAlkes' => $totalObatAlkes,
-            'totalBayar' => $totalBayar,
-            'tanggalTrx' => $tgl_transaksi
+            'totalObatAlkes'=> $totalObatAlkes,
+            'totalBayar'    => $totalBayar,
+            'tanggalTrx'    => $tgl_transaksi
         ])->with('trxPasien',$pasien);
     }
 

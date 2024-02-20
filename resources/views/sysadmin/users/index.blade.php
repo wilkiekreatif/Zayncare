@@ -3,11 +3,10 @@
 @section('title','Users')
 
 @section('css')
-<!-- DataTables -->
-<link rel="stylesheet" href="{{asset('adminlte')}}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="{{asset('adminlte')}}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-<link rel="stylesheet" href="{{asset('adminlte')}}/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-<meta http-equiv="refresh" content="60">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{asset('adminlte')}}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="{{asset('adminlte')}}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="{{asset('adminlte')}}/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 @endsection
 
 @section('konten')
@@ -63,7 +62,12 @@
               <tbody>
                 @if ($users->isNotEmpty())
                   @foreach ($users as $user)
-                    <tr>
+                    <tr  
+                      @if ($user->is_active == 0)
+                        style="background-color: rgb(253, 255, 150)" data-toggle="tooltip" data-placement="bottom" title="User nonaktif"
+                      @endif
+                    
+                    >
                       <td style="text-align: center">{{$loop->iteration}}</td>
                       <td>{{$user->username}}</td>
                       <td>{{$user->name}}</td>
@@ -133,11 +137,11 @@
                         <div class="btn-group" style="width: 100%">
                           <a href="" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Edit user {{strtoUpper($user->name)}}" ><i class="fas fa-edit"></i></a>
                           @if ($user->is_active==1)
-                            <a href="" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="Nonaktifkan user {{strtoUpper($user->name)}}" onclick="return confirm('Apakah anda yakin ingin menonaktifkan user {{strtoUpper($user->name)}}?')"><i class="fas fa-times-circle"></i></a>
+                            <a href="{{route('users.nonaktif',$user->id)}}" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="Nonaktifkan user {{strtoUpper($user->name)}}" onclick="return confirm('Apakah anda yakin ingin menonaktifkan user {{strtoUpper($user->name)}}?')"><i class="fas fa-times-circle"></i></a>
                             @else
-                            <a href="" type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Aktifkan user {{strtoUpper($user->name)}}" onclick="return confirm('Apakah anda yakin ingin mengaktifkan user {{strtoUpper($user->name)}}?')"><i class="fas fa-check"></i></a>
+                            <a href="{{route('users.aktifkan',$user->id)}}" type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Aktifkan user {{strtoUpper($user->name)}}" onclick="return confirm('Apakah anda yakin ingin mengaktifkan user {{strtoUpper($user->name)}}?')"><i class="fas fa-check"></i></a>
                           @endif
-                          <a href="" type="button" class="btn btn-danger" data-placement="bottom" onclick="return confirm('Apakah anda yakin ingin menghapus user {{strtoUpper($user->name)}}')" title="Hapus user {{strtoUpper($user->name)}}"><i class="fas fa-trash-alt"></i></a>
+                          <a href="{{route('users.hapus',$user->id)}}" type="button" class="btn btn-danger" data-placement="bottom" onclick="return confirm('Apakah anda yakin ingin menghapus user {{strtoUpper($user->name)}}')" title="Hapus user {{strtoUpper($user->name)}}"><i class="fas fa-trash-alt"></i></a>
                         </div>
                       </td>
                     </tr>
@@ -188,9 +192,9 @@
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#datatable1_wrapper .col-md-6:eq(0)');
     });
-    $('.toastrDefaultError').click(function() {
-        toastr.error('Belum berfungsi yaa. Sabar masih proses develop..')
-      });
+    // $('.toastrDefaultError').click(function() {
+    //   toastr.error('Belum berfungsi yaa. Sabar masih proses develop..')
+    // });
 </script>
 @if (Session::has('success'))
     <script>

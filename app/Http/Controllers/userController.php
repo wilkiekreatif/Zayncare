@@ -11,7 +11,7 @@ class userController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::where('is_active','!=','99')->get();
         // dd(Auth::user());
         return view('sysadmin.users.index',['users' => $users]);
     }
@@ -47,34 +47,28 @@ class userController extends Controller
         $data['is_active']     = '1';
         User::create($data);
 
-        return redirect()->route('admin.users.index')->with('success','User dengan nama '.strtoupper($request->nama).' berhasil ditambahkan.');
-
+        return redirect()->route('users.index')->with('success','User dengan nama '.strtoupper($request->nama).' berhasil ditambahkan.');
     }
 
-    public function cekpassword(Request $request)
-    {
-        dd('cek password');
+    public function nonaktif(string $id){
+        $user = User::where('id',$id)->first();
+        $user->is_active = '0';
+        $user->update();
 
-        $user = User::where('email', $request->input('email'))->first();
-
-        if ($user) {
-            // Mendapatkan password dari formulir login
-            $inputPassword = $request->input('password');
-
-            // Mendapatkan password yang di-hash dari database
-            $hashedPassword = $user->password;
-
-            // Membandingkan password
-            if (Hash::check($inputPassword, $hashedPassword)) {
-                // Password cocok
-                return "Password cocok!";
-            } else {
-                // Password tidak cocok
-                return "Password tidak cocok!";
-            }
-        } else {
-            // Pengguna tidak ditemukan
-            return "Pengguna tidak ditemukan!";
-        }
+        return redirect()->back()->with('success','User telah berhasil di nonaktifkan.');
+    }
+    
+    public function aktifkan(string $id){
+        $user = User::where('id',$id)->first();
+        $user->is_active = '1';
+        $user->update();
+        return redirect()->back()->with('success','User telah berhasil di aktifkan.');
+    }
+    
+    public function hapus(string $id){
+        $user = User::where('id',$id)->first();
+        $user->is_active = '99';
+        $user->update();
+        return redirect()->back()->with('success','User telah berhasil di hapus.');
     }
 }

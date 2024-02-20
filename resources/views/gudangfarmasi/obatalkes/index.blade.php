@@ -30,6 +30,56 @@
   </section>
   <section class="content text-sm">
     <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>{{$limitstok}} <sup style="font-size: 15px">Item</sup></h3>
+              <p>Limit Stok</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-pills"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>{{$obat}} <sup style="font-size: 15px">Item</sup></h3>
+              <p>Obat</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-pills"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>{{$alkes}} <sup style="font-size: 15px">Item</sup></h3>
+              <p>Alkes</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-syringe"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h3>{{$nonaktif}} <sup style="font-size: 15px">Item</sup></h3>
+              <p>Item Nonaktif</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-pills"></i>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="card card-default">
           <div class="card-header">
               <div class="d-flex justify-content-between align-items-center">
@@ -64,6 +114,8 @@
                 @foreach ($obatalkess as $obatalkes)
                   <tr @if ($obatalkes->is_active==0)
                         style="background-color: rgb(255, 225, 0)"
+                      @elseif ($obatalkes->stok < 10)
+                        style="background-color: rgb(253, 221, 195)"
                       @endif>
                     <td>{{ $no }}</td>
                     <td>{{$obatalkes->obatalkes_id}}</td>
@@ -154,15 +206,18 @@
                     <td
                       @if ($obatalkes->is_active==0)
                         style="background-color: rgb(255, 225, 0)"
+                      @elseif ($obatalkes->stok <= 10)
+                        style="background-color: rgb(255, 181, 120)"
                       @else
                         style="background-color: rgb(203, 250, 190)"
                       @endif
                     ><b>
-                      @if (($obatalkes->stok < 1))
+                      {{-- @if (($obatalkes->stok < 1))
                         0
-                      @else
+                      @else --}}
                         {{$obatalkes->stok}}
-                      @endif</b> {{$obatalkes->satuan}}</td>
+                      {{-- @endif --}}
+                    </b> {{$obatalkes->satuan}}</td>
                     <td
                       @if ($obatalkes->is_active==0)
                         style="background-color: rgb(255, 225, 0)"

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\m_supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class supplierController extends Controller
 {
@@ -44,7 +45,7 @@ class supplierController extends Controller
             'supplier_nama'     => $request->suppliernama,
             'supplier_alamat'   => $request->supplieralamat,
             'supplier_telp'     => $request->suppliertelp,
-            'user_id'           => 1,
+            'user_id'           => Auth::user()->id,
         ];
 
         m_supplier::create($newSupplier);

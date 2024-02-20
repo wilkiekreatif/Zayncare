@@ -103,6 +103,7 @@
                   <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
                   <th style="background-color: rgb(120, 186, 196)" width="15%">ID TRANSAKSI</th>
                   <th style="background-color: rgb(120, 186, 196)" width="50%">TOTAL</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="50%">TGL TRANSAKSI</th>
                   <th style="background-color: rgb(120, 186, 196)" >STATUS</th>
                   <th style="background-color: rgb(120, 186, 196)" width="2%">ACTION</th>
                 </tr>
@@ -117,6 +118,10 @@
                         $total  = number_format($trxumum->total, 0, ',', '.');
                       @endphp
                       <td>Rp. {{$total}}</td>
+                      @php
+                          $tgltrx = date('d-m-Y h:m:s', strtotime($trxumum->created_at));
+                      @endphp
+                      <td>{{$tgltrx}}</td>
                       <td>
                         @if ($trxumum->status == 0)
                             <h5><span class="badge badge-warning" data-toggle="tooltip" data-placement="bottom" title="Pembelian belum bayar">Belum Bayar</span></h5>
@@ -124,12 +129,18 @@
                           <h5><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="Pembelian sudah bayar">Sudah Bayar</span></h5>
                         @elseif ($trxumum->status == 2)
                           <h5><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Pembelian batal bayar">Batal Bayar</span></h5>
+                        @elseif ($trxumum->status == 3)
+                          <h5><span class="badge badge-primary" data-toggle="tooltip" data-placement="bottom" title="Item pembelian sudah diberikan.">Sudah dilakukan penyerahan obat</span></h5>
                         @endif
                       </td>
                       <td>
                         <div class="btn-group" style="width: 100%">
                           <a type="button" class="btn btn-sm btn-primary toastrDefaultError" data-toggle="tooltip" data-placement="bottom" title="Detail pembelian"><i class="fas fa-list"></i> Detail</a>
-                          <a type="button" class="btn btn-sm btn-danger toastrDefaultError" data-toggle="tooltip" data-placement="bottom" title="Batalkan pembelian"><i class="fas fa-trash"></i> Batal</a>
+                          @if ($trxumum->status == 1)
+                            <a href="{{route('apotek.serahresepumum',$trxumum->trx_id)}}" type="button" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="bottom" title="Klik untuk penyerahan obat dan mengurangi stok gudang."><i class="fas fa-check"></i>Penyerahan</a>
+                          @else
+                            <a href="#" type="button" class="btn btn-sm btn-danger toastrDefaultError" data-toggle="tooltip" data-placement="bottom" title="Batalkan pembelian"><i class="fas fa-trash"></i> Batal</a>
+                          @endif
                         </div>
                       </td>
                     </tr>
@@ -141,6 +152,7 @@
                   <th>No</th>
                   <th>ID TRANSAKSI</th>
                   <th>TOTAL</th>
+                  <th>TGL TRANSAKSI</th>
                   <th>STATUS</th>
                   <th>ACTION</th>
                 </tr>
@@ -202,9 +214,6 @@
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#datatable1_wrapper .col-md-6:eq(0)');
     });
-    $('.toastrDefaultError').click(function() {
-        toastr.error('Belum berfungsi yaa. Sabar masih proses develop..')
-      });
   </script>
   @if ($errors->any())
     <script>
@@ -213,15 +222,11 @@
             toastr.error('{{ $error }}', 'Kesalahan!',{timeOut:10000});
         @endforeach
       });
-      // toastr.error("{{Session::get('error')}}","Error!",{timeOut:10000});
     </script>
   @endif
   @if (Session::has('success'))
     <script>
       toastr.success("{{Session::get('success')}}","Success!");
-      // toastr.info("{{Session::get('success')}}","Success!");
-      // toastr.warning("{{Session::get('success')}}","Success!");
-      // toastr.error("{{Session::get('success')}}","Success!");
     </script>
   @endif
 @endsection

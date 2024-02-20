@@ -160,10 +160,11 @@
       "showEasing": "swing",
       "hideEasing": "linear",
     }
-    // $('.toastrDefaultError').click(function() {
-    //     toastr.error('Belum berfungsi yaa. Sabar masih proses develop..')
-    //   });
+    $('.toastrDefaultError').click(function() {
+      toastr.error('Belum berfungsi yaa. Sabar masih proses develop..')
+    });
   </script>
+  
 
   <!-- jS--------------------------------------------------------------------------------------------------------------------------------- -->
   @yield('js')

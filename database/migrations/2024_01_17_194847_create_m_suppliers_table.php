@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('supplier_alamat')->nullable();
             $table->string('supplier_telp')->nullable();
             $table->enum('is_active',[0,1,99])->default(1)->comment('0: nonaktif, 1:aktif, 99:deleted');
-            $table->foreignId('user_id')->constrained('users')->default('1');
+            $table->foreignId('user_id')->constrained('users')->default('1')->onDelete('cascade');
             $table->timestamps();
         });
 

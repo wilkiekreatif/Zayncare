@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('asuransi1');
             $table->string('asuransi2')->nullable();
             $table->string('asuransi3')->nullable();
-            $table->foreignId('user_id')->constrained('users')->default('1');
+            $table->foreignId('user_id')->constrained('users')->default('1')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -38,7 +38,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{url('/admin/construction')}}" class="nav-link @if(Request::is('sysadmin/master/dokter')) active @endif">
+                  <a href="{{url('/construction')}}" class="nav-link @if(Request::is('sysadmin/master/dokter')) active @endif">
                     <i class="fa fa-user-md nav-icon"></i>
                     <p>Master Dokter</p>
                   </a>
@@ -274,7 +274,7 @@
             <li class="nav-item">
               <a href="{{route('kasir.index')}}" class="nav-link @if(Request::is('kasir')) active @elseif(Request::is('kasir')) active @endif">
                 <i class="nav-icon fas fa-money-bill-wave-alt"></i>
-                <p>Pembayaran Pasien</p>
+                <p>Pembayaran Pasien Hari Ini</p>
               </a>
             </li>
             <li class="nav-item">
@@ -292,55 +292,6 @@
           </ul>
         </li>
       @endif
-
-      {{-- 
-      <li class="nav-header"></li>
-      <li class="nav-item">
-        <a href="{{url('pendaftaran')}}" class="nav-link @if(Request::is('pendaftaran/*')) active @endif @if(Request::is('pendaftaran')) active @endif">
-          <i class="nav-icon fas fa-home"></i>
-          <p>PENDAFTARAN</p>
-        </a>
-      </li>
-      <li class="nav-header"></li>
-      <li class="nav-item">
-        <a href="{{url('azalea')}}" class="nav-link @if(Request::is('azalea')) active @endif">
-          <i class="nav-icon fas fa-bed"></i>
-          <p>AZALEA</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{{url('akasia')}}" class="nav-link @if(Request::is('akasia')) active @endif">
-          <i class="nav-icon fas fa-bed"></i>
-          <p>AKASIA</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{{url('/asoka')}}" class="nav-link @if(Request::is('asoka')) active @endif">
-          <i class="nav-icon fas fa-bed"></i>
-          <p>ASOKA</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{{ url('anthurium') }}" class="nav-link @if(Request::is('anthurium')) active @endif">
-          <i class="nav-icon fas fa-bed"></i>
-          <p>ANTHURIUM</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{{url('/perinatologi')}}" class="nav-link @if(Request::is('perinatologi/*')) active @endif">
-          <i class="nav-icon fas fa-bed"></i>
-          <p>PERINATOLOGI</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{{url('/intensifdewasa')}}" class="nav-link @if(Request::is('intensifdewasa/*')) active @endif">
-          <i class="nav-icon fas fa-bed"></i>
-          <p>INTENSIF DEWASA</p>
-        </a>
-      </li> --}}
-
-      {{-- MultiLevel Menu --}}
-      {{-- <li class="nav-header">MULTI LEVEL EXAMPLE</li> --}}
     </ul>
   </nav>
 <!-- /.sidebar-menu -->

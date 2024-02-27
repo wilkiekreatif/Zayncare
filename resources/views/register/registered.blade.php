@@ -45,6 +45,7 @@
               <thead>
                 <tr>
                   <th style="background-color: rgb(120, 186, 196)" width="2%">No</th>
+                  <th style="background-color: rgb(120, 186, 196)" width="2%">ANTRIAN</th>
                   <th style="background-color: rgb(120, 186, 196)" width="11%">ID PASIEN</th>
                   <th style="background-color: rgb(120, 186, 196)" width="50%">NAMA PASIEN</th>
                   <th style="background-color: rgb(120, 186, 196)" width="20%">POLIKLINIK</th>
@@ -57,6 +58,7 @@
                 @foreach ($trxPasiens as $trxPasien)
                   <tr>
                     <td>{{$no}}</td>
+                    <td style="font-size: x-large; text-align: center"><b>{{$trxPasien->antrian}}</b></td>
                     <td>
                       <ul class="nav nav-pills flex-column">
                         <li class="nav-item">
@@ -154,7 +156,7 @@
                             Poliklinik <b>{{$trxPasien->mPoli->poli_nama}}</b>
                           </li>
                           <li class="nav-item">
-                            #Nama dokter pemeriksa
+                            dr. Dian Andriani Suwinda
                           </li>
                         </ul>
                       </div>
@@ -195,6 +197,7 @@
               <tfoot>
                 <tr>
                   <th>No</th>
+                  <th>ANTRIAN</th>
                   <th>ID PASIEN</th>
                   <th>NAMA PASIEN</th>
                   <th>POLIKLINIK</th>
@@ -231,9 +234,6 @@
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#datatable1_wrapper .col-md-6:eq(0)');
     });
-    $('.toastrDefaultError').click(function() {
-        toastr.error('Belum berfungsi yaa. Sabar masih proses develop..')
-      });
   </script>
   @if ($errors->any())
     <script>

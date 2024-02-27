@@ -241,7 +241,7 @@
                     <tr>
                       <th style="background-color: rgb(120, 186, 196)" width="2%">NO</th>
                       <th style="background-color: rgb(120, 186, 196)">DATA OBAT/ALKES</th>
-                      <th style="background-color: rgb(120, 186, 196)" width="2%"> QTY TRX</th>
+                      <th style="background-color: rgb(120, 186, 196)" width="20%"> QTY TRX</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -253,9 +253,9 @@
                   </tbody>
                   <tfooter>
                     <tr>
-                      <th style="background-color: rgb(120, 186, 196)" width="2%">NO</th>
-                      <th style="background-color: rgb(120, 186, 196)">DATA OBAT/ALKES</th>
-                      <th style="background-color: rgb(120, 186, 196)" width="2%"> QTY TRX</th>
+                      <th>NO</th>
+                      <th>DATA OBAT/ALKES</th>
+                      <th> QTY TRX</th>
                     </tr>
                   </tfooter>
                 </table>
@@ -278,7 +278,7 @@
                     <tr>
                       <th style="background-color: rgb(120, 186, 196)" width="2%">NO</th>
                       <th style="background-color: rgb(120, 186, 196)">DATA OBAT/ALKES</th>
-                      <th style="background-color: rgb(120, 186, 196)" width="2%"> QTY TRX</th>
+                      <th style="background-color: rgb(120, 186, 196)" width="20%"> QTY TRX</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -290,9 +290,9 @@
                   </tbody>
                   <tfooter>
                     <tr>
-                      <th style="background-color: rgb(120, 186, 196)" width="2%">NO</th>
-                      <th style="background-color: rgb(120, 186, 196)">DATA OBAT/ALKES</th>
-                      <th style="background-color: rgb(120, 186, 196)" width="2%"> QTY TRX</th>
+                      <th>NO</th>
+                      <th>DATA OBAT/ALKES</th>
+                      <th> QTY TRX</th>
                     </tr>
                   </tfooter>
                 </table>

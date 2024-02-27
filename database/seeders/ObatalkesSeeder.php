@@ -23,7 +23,7 @@ class ObatalkesSeeder extends Seeder
             'margin1'           => '5',
             'margin2'           => '10',
             'margin3'           => '15',
-            'stok'              => '10',
+            'stok'              => '1000',
             'user_id'           => '1',
         ]);
         
@@ -36,7 +36,7 @@ class ObatalkesSeeder extends Seeder
             'margin1'           => '5',
             'margin2'           => '10',
             'margin3'           => '15',
-            'stok'              => '5',
+            'stok'              => '500',
             'user_id'           => '1',
         ]);
         
@@ -49,7 +49,7 @@ class ObatalkesSeeder extends Seeder
             'margin1'           => '5',
             'margin2'           => '10',
             'margin3'           => '15',
-            'stok'              => '5',
+            'stok'              => '500',
             'wajibresep'        => '1',
             'user_id'           => '1',
         ]);

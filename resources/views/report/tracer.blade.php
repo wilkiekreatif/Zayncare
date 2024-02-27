@@ -60,13 +60,19 @@
           <td align="left">dr. <b>Dian Andriani Suwinda</b></td>
         </tr>
       </table>
+      <hr>
+      <div class="antrian">
+        <div class="title"><b>No. Antrian</b></div>
+        <div class="noantrian">{{$pasien->antrian}}</div>
+      </div>
+
       <div class="footer">{{$info->tagline}}</div>
       <hr>
       <div class="title1">zayncare.</div>
     </div>
-    {{-- <script>
+    <script>
       window.print();
-    </script> --}}
+    </script>
   </body>
 
 </html>

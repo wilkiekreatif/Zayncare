@@ -148,7 +148,6 @@ Route::middleware('auth')->group(function(){
 
     Route::controller(reportController::class)->group(function(){
         Route::get('report/tracer/{id}','tracer')->name('tracer');
-        Route::post('sysadmin/config/preferences','update')->name('preferences.update');
     });
 
     Route::get('/construction', function () {

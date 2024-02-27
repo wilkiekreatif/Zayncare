@@ -326,9 +326,6 @@
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#datatable1_wrapper .col-md-6:eq(0)');
     });
-    $('.toastrDefaultError').click(function() {
-        toastr.error('Belum berfungsi yaa. Sabar masih proses develop..')
-      });
   </script>
   @if ($errors->any())
     <script>

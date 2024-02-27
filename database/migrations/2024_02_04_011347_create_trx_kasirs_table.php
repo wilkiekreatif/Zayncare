@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('total_tindakan');
             $table->integer('total_obat_alkes');
             $table->integer('total_transaksi');
-            $table->foreignId('user_id')->constrained('users')->default(1);
+            $table->foreignId('user_id')->constrained('users')->default(1)->onDelete('cascade');
             $table->timestamps();
         });
     }

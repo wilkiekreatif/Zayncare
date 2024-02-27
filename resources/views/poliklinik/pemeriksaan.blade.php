@@ -114,7 +114,7 @@
             </div>
 
             <div class="tab-pane {{ request()->query('tab') == 'diagnosa' ? 'active' : '' }}" id="tab_3">
-              {{-- @include('poliklinik.keterangan') --}}
+              @include('poliklinik.diagnosa')
             </div>
 
             <div class="tab-pane {{ request()->query('tab') == 'keterangan' ? 'active' : '' }}" id="tab_4">

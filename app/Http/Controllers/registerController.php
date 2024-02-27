@@ -155,12 +155,21 @@ class registerController extends Controller
         
         $trx_id     = 'RJ'.$tglskrg.$formattedNumber;
         
-        // dd($request, $trx_id);
+        // membuat no antrian
+        $antriancek = trxPasien::where('poli_id',$request->poliklinik)->whereDate('created_at',$today)->count();
+
+        $antriancek++;
+        $formattedantrian = Str::padLeft($antriancek, 2, '0');
+        $kodepoli = m_poli::where('id',$request->poliklinik)->first();
+        $antrian = $kodepoli->kode_namapoli.'-'.$formattedantrian;
+        // dd($antrian);
+
         $newTrx = [
             'trx_id'    => $trx_id,
             'pasien_id' => $request->id,
             'poli_id'   => $request->poliklinik,
             'kelastarif'=> $request->kelastarif,
+            'antrian'   => $antrian,
             'status'    => '1',
             'user_id'   => Auth::user()->id,
         ];

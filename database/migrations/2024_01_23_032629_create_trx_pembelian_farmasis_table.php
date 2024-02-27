@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('totalbayar');
             $table->string('totalbayarsetelahfaktur')->nullable();
             $table->enum('is_active',[0,1,2,99])->default(1)->comment('0: dibatalkan, 1:belum diterima, 2, Selesai QTY sudah ditambahkan, 99:deleted');
-            $table->foreignId('user_id')->constrained('users')->default('1');
+            $table->foreignId('user_id')->constrained('users')->default('1')->onDelete('cascade');
             $table->timestamps();
         });
     }

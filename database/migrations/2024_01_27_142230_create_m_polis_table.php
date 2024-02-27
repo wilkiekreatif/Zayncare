@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('m_polis', function (Blueprint $table) {
             $table->id();
             $table->string('poli_nama');
+            $table->string('kode_namapoli');
             $table->enum('is_active',[0,1,99])->default(1)->comment('0: nonaktif, 1:aktif, 99:deleted');
-            $table->foreignId('user_id')->constrained('users')->default('1');
+            $table->foreignId('user_id')->constrained('users')->default('1')->onDelete('cascade');
             $table->timestamps();
         });
     }

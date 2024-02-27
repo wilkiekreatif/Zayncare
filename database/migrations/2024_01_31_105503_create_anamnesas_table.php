@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('suhu')->nullable();
             $table->integer('tinggibadan')->nullable();
             $table->integer('beratbadan')->nullable();
-            $table->foreignId('user_id')->constrained('users')->default(1);
+            $table->foreignId('user_id')->constrained('users')->default(1)->onDelete('cascade');
             $table->timestamps();
         });
     }

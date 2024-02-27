@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             poliSeeder::class,
             pasienSeeder::class,
             tindakanSeeder::class,
+            infoSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
 

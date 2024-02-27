@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('notelp');
             $table->string('notelp2')->nullable();
             $table->string('website')->nullable();
-            $table->foreignId('user_id')->constrained('users')->default(1);
+            $table->foreignId('user_id')->constrained('users')->default(1)->onDelete('cascade');
             $table->timestamps();
         });
     }

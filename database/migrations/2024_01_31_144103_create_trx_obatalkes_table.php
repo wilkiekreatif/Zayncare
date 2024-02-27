@@ -25,7 +25,7 @@ return new class extends Migration
             $table->float('tarif');
             $table->float('total');
             $table->enum('status',[0,1,2])->comment('0: belum dibayar, 1: sudah dibayar, 2: sudah di verifikasi');
-            $table->foreignId('user_id')->constrained('users')->default(1);
+            $table->foreignId('user_id')->constrained('users')->default(1)->onDelete('cascade');
             $table->timestamps();
         });
     }

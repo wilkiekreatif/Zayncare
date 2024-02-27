@@ -17,8 +17,9 @@ return new class extends Migration
             $table->foreignId('pasien_id')->constrained('m_pasiens');
             $table->foreignId('poli_id')->constrained('m_polis');
             $table->enum('kelastarif',[1,2,3])->default(1)->comment('1:margin1, 2:margin2, 3:margin3');
+            $table->string('antrian')->comment('No urut antrian berdasarkan hari dan poliklinik');
             $table->enum('status',[1,2,3,4,5,99])->default(1)->comment('99: batal periksa, 1: antrian, 2: sedang periksa, 3: sudah periksa, 4: sudah bayar, 5: sudah pulang');
-            $table->foreignId('user_id')->constrained('users')->default('1');
+            $table->foreignId('user_id')->constrained('users')->default('1')->onDelete('cascade');
             $table->timestamps();
         });
     }

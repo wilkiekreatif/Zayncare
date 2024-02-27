@@ -14,6 +14,7 @@ class trxPasien extends Model
         'pasien_id',
         'poli_id',
         'kelastarif',
+        'antrian',
         'status',
         'user_id'
     ];

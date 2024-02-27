@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('margin2')->nullable();
             $table->integer('margin3')->nullable();
             $table->enum('is_active',[0,1,99])->default(1)->comment('0: nonaktif, 1:aktif, 99:deleted');
-            $table->foreignId('user_id')->constrained('users')->default(1);
+            $table->foreignId('user_id')->constrained('users')->default(1)->onDelete('cascade');
             $table->timestamps();
         });
     }
